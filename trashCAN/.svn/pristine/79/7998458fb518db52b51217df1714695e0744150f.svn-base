@@ -1,0 +1,545 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Text;
+using System.Windows.Forms;
+using System.Drawing.Drawing2D;
+
+namespace eControls
+{
+
+    public enum NubStyle
+    {
+        Elliptical = 0x01,
+        Rectangular = 0x02
+    }
+
+    public delegate void SliderChanged(double SliderValue);
+
+
+
+    [DefaultEvent("OnSliderChanged"),
+  ToolboxBitmapAttribute(typeof(eVerticalSlider), "eVerticleSlider.bmp")]
+   
+
+
+    public partial class eVerticalSlider : UserControl
+    {
+        public eVerticalSlider()
+        {
+            InitializeComponent();
+            SetStyle(ControlStyles.UserPaint, true);
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            SetStyle(ControlStyles.DoubleBuffer, true);
+            this.Size = new Size(_SliderNubWidth + 1, this.Size.Height);
+            RecalculateSliderParams();
+            //TransitionTimer = new Timer();
+            //TransitionTimer.Tick += new EventHandler(TransitionTimer_Tick);
+            //TransitionTimer.Interval = 50;
+            //TransitionTimer.Enabled = true;
+       }
+
+        /*void TransitionTimer_Tick(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }*/
+       
+        #region Events
+         public event SliderChanged OnSliderChanged;
+        #endregion
+
+        #region Internal Variables
+        //Timer TransitionTimer;
+
+        //double _TargetSliderValue = 0;
+        //double _SliderTransitionDelta = 0;
+        //int _TransistionSteps = 0;
+        //int _FullScaleTransitionSteps = 50;
+        double _SliderValue = 0;
+        double _SliderMin = 0;
+        double _SliderMax = 1;
+        double SliderStep;
+        double _SliderFineStepFactor = 10;
+        double SliderTravelDistance;
+
+        int _SliderNubWidth = 16;
+        int _SliderNubHeight = 16;
+
+        const float PathColorAdjustment = .95f;
+
+        const float NubColorAdjustment = .40f;
+        int PreviousY = 0;
+
+        #region Variables for The Rendering
+
+        int SliderUpperTravelStop;
+        int SliderLowerTravelStop;
+        Color _SliderPathColor = Color.FromArgb(211, 211, 211);
+        Color _SliderNubColor = Color.FromArgb(200, 200, 200);
+
+        LinearGradientBrush SliderPathBrush;
+        NubStyle _SliderNubStyle = NubStyle.Elliptical;
+
+
+
+
+        #endregion
+
+        #region Misc Helper Functions
+
+       /* private void RecalculateTransition()
+        {
+            _TransistionSteps = (int)((Math.Abs(_TargetSliderValue - SliderValue) / (_SliderMax - _SliderMin)) * _FullScaleTransitionSteps);
+            _SliderTransitionDelta = (double)((_SliderMax - _SliderMin) / _FullScaleTransitionSteps);
+        }*/
+
+        private void RecalculateSliderParams()
+        {
+
+            CoerceSliderValue();
+            SliderTravelDistance = (double)this.Size.Height - _SliderNubHeight - 1;
+            SliderStep = (_SliderMax - _SliderMin) / SliderTravelDistance;
+
+            SliderUpperTravelStop = this.Height - _SliderNubHeight / 2;
+            SliderLowerTravelStop = _SliderNubHeight / 2;
+            this.Size = new Size(_SliderNubWidth + 1, this.Size.Height);
+
+            float RTemp = (float)((float)_SliderPathColor.R * (float)PathColorAdjustment);
+            float BTemp = (float)((float)_SliderPathColor.B * (float)PathColorAdjustment);
+            float GTemp = (float)((float)_SliderPathColor.G * (float)PathColorAdjustment);
+
+            if (RTemp > 255)
+            {
+                RTemp = 255;
+            }
+            if (GTemp > 255)
+            {
+                GTemp = 255;
+            }
+            if (BTemp > 255)
+            {
+                BTemp = 255;
+            }
+            
+            SliderPathBrush = new LinearGradientBrush(new Point(0, 0), new Point(this.Size.Width, this.Size.Height), _SliderPathColor,
+                            Color.FromArgb((int)RTemp, (int)GTemp, (int)BTemp));
+         
+        }
+
+        int GetNubYPos()
+        {
+            CoerceSliderValue();
+            return this.Height - ((int)(((_SliderValue-_SliderMin)/(_SliderMax-_SliderMin)) * SliderTravelDistance) + SliderLowerTravelStop + (SliderNubHeight / 2)) - 1;
+        }
+        int GetNubCenter()
+        {
+            return ((this.Size.Width / 2) - (_SliderNubWidth / 2));
+        }
+        private void CoerceSliderValue()
+        {
+            if (_SliderMin > _SliderMax)
+            {
+                double t1, t2;
+                t1 = _SliderMin;
+                t2 = _SliderMax;
+                _SliderMax = t1;
+                _SliderMin = t2;
+            }
+
+            if (_SliderValue < _SliderMin)
+            {
+                _SliderValue = _SliderMin;
+            }
+            else if (_SliderValue > _SliderMax)
+            {
+                _SliderValue = _SliderMax;
+            }
+
+        }
+
+        #endregion
+
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Sets/Gets the Color of Slider Nub
+        /// </summary>
+        [Description("Sets/Gets the Color of Slider Nub"),
+         Category("Appearance"),
+        DefaultValue(typeof(Color), "200, 200, 200"),
+         Browsable(true)]
+
+        public Color SliderNubColor
+        {
+            get
+            {
+                return _SliderNubColor;
+            }
+            set
+            {
+                _SliderNubColor = value;
+                RecalculateSliderParams();
+                Invalidate();
+            }
+        }
+
+        /// <summary>
+        /// Sets/Gets the Color of Slider Path
+        /// </summary>
+        [Description("Sets/Gets the Color of Slider Path"),
+         Category("Appearance"),
+        DefaultValue(typeof(Color), "211, 211, 211"),
+         Browsable(true)]
+       
+        public Color SliderPathColor
+        {
+            get
+            {
+                return _SliderPathColor;
+            }
+            set
+            {
+                _SliderPathColor = value;
+                RecalculateSliderParams();
+                Invalidate();
+            }
+        }
+
+        /// <summary>
+        /// Sets/Gets Slider Nub Style
+        /// </summary>
+        [Description("Sets/Gets Slider Nub Style"),
+         Category("Appearance"),
+         DefaultValue(typeof(NubStyle), "NubStyle.Elliptical"),
+         Browsable(true)]
+
+        public NubStyle SliderNubStyle
+        {
+            get
+            {
+                return _SliderNubStyle;
+            }
+            set
+            {
+                _SliderNubStyle = value;
+                RecalculateSliderParams();
+                Invalidate();
+            }
+        }
+
+        /// <summary>
+        /// Sets/Gets Width of Slider nub
+        /// </summary>
+        [Description("Sets/Gets Width of Slider nub"),
+         Category("Appearance"),
+        
+         Browsable(true)]
+        public int SliderNubWidth
+        {
+            get
+            {
+                return _SliderNubWidth;
+            }
+            set
+            {
+                if (value > 0)
+                {
+
+                    _SliderNubWidth = value;
+                }
+                else
+                {
+                    _SliderNubWidth = 1;
+                }
+                RecalculateSliderParams();
+                Invalidate();
+            }
+        }
+
+        /// <summary>
+        /// Sets/Gets Height of Slider nub
+        /// </summary>
+        [Description("Sets/Gets Height of Slider nub"),
+         Category("Appearance"),
+         DefaultValue(16),
+         Browsable(true)]
+        public int SliderNubHeight
+        {
+            get
+            {
+                return _SliderNubHeight;
+            }
+            set
+            {
+                if (value > 0)
+                {
+
+                    _SliderNubHeight = value;
+                }
+                else
+                {
+                    _SliderNubHeight = 1;
+                }
+                RecalculateSliderParams();
+                Invalidate();
+            }
+        }
+
+
+        /// <summary>
+        /// Gets or Sets the Slider Value
+        /// </summary>
+        [Description("Sets/Gets the Current Slider Value"),
+         Category("Values"),
+         DefaultValue(0),
+         Browsable(true)]
+       public Double SliderValue
+        {
+            get
+            {
+                return _SliderValue;
+            }
+            set
+            {
+                _SliderValue = value;
+                PreviousY = GetNubYPos();
+                CoerceSliderValue();
+                if (OnSliderChanged != null)
+                {
+                    OnSliderChanged(_SliderValue);
+                }
+                Invalidate();
+            }
+        }
+
+        /// <summary>
+        /// Gets or Sets the Minimum Slider Value
+        /// </summary>
+        [Description("Sets/Gets the Minimum Slider Value"),
+         Category("Values"),
+         DefaultValue(0),
+         Browsable(true)]
+        public Double MinimumSliderValue
+        {
+            get
+            {
+                return _SliderMin;
+            }
+            set
+            {
+                _SliderMin = value;
+                RecalculateSliderParams();
+                Invalidate();
+            }
+        }
+
+        /// <summary>
+        /// Gets or Sets the Maximum Slider Value
+        /// </summary>
+        [Description("Sets/Gets the Maximum Slider Value"),
+         Category("Values"),
+         DefaultValue(1),
+         Browsable(true)]
+        public Double MaximumSliderValue
+        {
+            get
+            {
+                return _SliderMax;
+            }
+            set
+            {
+                
+                _SliderMax = value;
+                RecalculateSliderParams();
+               Invalidate();
+            }
+        }
+
+        /// <summary>
+        /// Gets or Sets the Maximum Slider Value
+        /// </summary>
+        [Description("Gets/Sets the finenes factor used when the control is manipulated when holding the shift key"),
+         Category("Values"),
+         DefaultValue(10),
+         Browsable(true)]
+        public Double SliderFineStepFactor
+        {
+            get
+            {
+                return _SliderFineStepFactor;
+            }
+            set
+            {
+                if (value > 1)
+                {
+                    _SliderFineStepFactor = value;
+                }
+                else
+                {
+                    _SliderFineStepFactor = 1;
+                }
+                
+                Invalidate();
+            }
+        } 
+
+       #endregion
+
+        #region Implementation
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+ 	         base.OnMouseDown(e);
+/*
+             if (e.Button == MouseButtons.Left)
+             {
+                 if (Control.ModifierKeys == Keys.Control)
+                 {
+                     PreviousY = e.Y;
+                     Invalidate();
+                 }
+                 else
+                 {
+
+                    int BorderWidth = (this.Parent.Size.Width - this.Parent.ClientSize.Width)/2;
+                    int TitlebarHeight = this.Parent.Size.Height - this.Parent.ClientSize.Height - 2 * BorderWidth;
+
+                    Cursor.Position = new Point(this.Location.X + Parent.Location.X + GetNubCenter() + BorderWidth, Parent.Location.Y + this.Location.Y + TitlebarHeight + GetNubYPos());// Parent.Location.Y  + this.Location.Y + this.GetNubYPos());// - (int)(((double)_SliderValue / (double)_SliderMax) * SliderTravelDistance));
+                 
+                     
+                     // PreviousY = e.Y;
+          
+                     int RevPos = (this.Height - e.Y);
+
+                     if (RevPos < SliderLowerTravelStop)
+                     {
+                         _SliderValue = _SliderMin;
+                     }
+                     else if (RevPos > SliderUpperTravelStop)
+                     {
+                         _SliderValue = _SliderMax;
+                     }
+                     else
+                     {
+                         _SliderValue = ((double)(RevPos - SliderLowerTravelStop) / (double)SliderTravelDistance) * (_SliderMax - _SliderMin) + _SliderMin;
+                     }
+
+                     if (OnSliderChanged != null)
+                     {
+                         OnSliderChanged(_SliderValue);
+                     }
+                     Invalidate();                     
+                 }
+               
+                
+             }
+    */
+        }
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+
+            if (e.Button == MouseButtons.Left && Control.ModifierKeys == Keys.Control)
+            {
+                int RevPos = (this.Height - e.Y);
+
+                if ((RevPos >= SliderLowerTravelStop) && (RevPos <= SliderUpperTravelStop)) // Only move if we are in the control
+                {
+                    
+                    if (Control.ModifierKeys == Keys.Shift)
+                    {
+                        double MouseDelta = (double)(e.Y - PreviousY);
+                        PreviousY = e.Y;
+                        _SliderValue -= (SliderStep * MouseDelta) / _SliderFineStepFactor;
+                    }
+                    else
+                    {
+                        _SliderValue = ((double)(RevPos - SliderLowerTravelStop) / (double)SliderTravelDistance) * (_SliderMax - _SliderMin) + _SliderMin;
+                    }
+                    
+                    CoerceSliderValue();
+                    if (OnSliderChanged != null)
+                    {
+                        OnSliderChanged(_SliderValue);
+                    }
+                    Invalidate();
+                }
+             
+            }
+        }
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            
+            e.Graphics.CompositingMode = CompositingMode.SourceOver;
+            e.Graphics.CompositingQuality = CompositingQuality.HighQuality;
+            e.Graphics.InterpolationMode = InterpolationMode.High;
+            int NubCenter = GetNubCenter();
+
+            int NubYPos = GetNubYPos();
+            
+            float RTemp = (float)((float)_SliderNubColor.R * (float)NubColorAdjustment);
+            float BTemp = (float)((float)_SliderNubColor.B * (float)NubColorAdjustment);
+            float GTemp = (float)((float)_SliderNubColor.G * (float)NubColorAdjustment);
+
+            if (RTemp > 255)
+            {
+                RTemp = 255;
+            }
+            if (GTemp > 255)
+            {
+                GTemp = 255;
+            }
+            if (BTemp > 255)
+            {
+                BTemp = 255;
+            }
+            LinearGradientBrush MyBrush = new LinearGradientBrush(new Point(NubCenter - _SliderNubWidth, NubYPos - _SliderNubHeight), new Point(NubCenter + _SliderNubWidth, NubYPos + _SliderNubHeight),
+                                                          _SliderNubColor, Color.FromArgb((int)RTemp, (int)GTemp, (int)BTemp));
+
+
+                       
+            switch(_SliderNubStyle)
+            {
+                default:
+                case NubStyle.Elliptical:
+                    
+                    e.Graphics.FillRectangle(SliderPathBrush, 0, _SliderNubHeight / 2, this.Size.Width, (float)SliderTravelDistance );
+                    e.Graphics.FillEllipse(SliderPathBrush, new Rectangle(0, 0, this.Width, _SliderNubHeight ));
+                    e.Graphics.FillEllipse(SliderPathBrush, new Rectangle(0, (int)(SliderTravelDistance), this.Width, (SliderNubHeight)));
+                    e.Graphics.FillEllipse(MyBrush, new Rectangle(NubCenter, NubYPos, _SliderNubWidth, _SliderNubHeight));
+                    break;
+
+
+                case NubStyle.Rectangular:
+                     e.Graphics.FillRectangle(SliderPathBrush, 0, 0, this.Size.Width, this.Size.Height);
+                     e.Graphics.FillRectangle(MyBrush, new Rectangle(NubCenter, NubYPos, _SliderNubWidth+1, _SliderNubHeight));
+                    break;
+            }
+        }
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            RecalculateSliderParams();
+            Invalidate();
+        }
+        protected override void OnBackColorChanged(EventArgs e)
+        {
+            base.OnBackColorChanged(e);
+            RecalculateSliderParams();
+        }
+        protected override void OnBackgroundImageChanged(EventArgs e)
+        {
+            base.OnBackgroundImageChanged(e);
+            RecalculateSliderParams();
+        }
+     
+        #endregion
+
+    }
+}

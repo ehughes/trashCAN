@@ -1,0 +1,155 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using System.Drawing.Drawing2D;
+
+namespace EPPS
+{
+    public partial class EncoderDisplay : UserControl
+    {
+
+        public EncoderDisplay()
+        {
+            InitializeComponent();
+            //This turns off internal double buffering of all custom GDI+ drawing
+
+            this.SetStyle(ControlStyles.DoubleBuffer, true);
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            this.SetStyle(ControlStyles.UserPaint, true);
+        }
+
+        public enum Segment
+        {
+            Invalid = 0x00,
+            One = 0x01,
+            Two = 0x02,
+            Three = 0x03,
+            Four = 0x04,
+            Five = 0x05,
+            Six = 0x06
+        }
+
+        #region Internal Variables
+
+        float _Radius = 200;
+        Segment _ActiveSegment;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Sets the radius of the display
+        /// </summary>
+        [Description("Sets/Gets the radius of the display"),
+         Category("Appearance"),
+        DefaultValue(200),
+         Browsable(true)]
+
+        public float Radius
+        {
+            get
+            {
+                return _Radius;
+            }
+            set
+            {
+                _Radius = value;
+                Invalidate();
+            }
+        }
+
+        /// <summary>
+        /// Sets the active segment of the display
+        /// </summary>
+        [Description("Sets/Gets the active segment of the display"),
+         Category("Appearance"),
+        DefaultValue(0),
+         Browsable(true)]
+
+        public Segment ActiveSegment
+        {
+            get
+            {
+                return _ActiveSegment;
+            }
+            set
+            {
+                _ActiveSegment = value;
+                Invalidate();
+            }
+        }
+
+
+
+        #endregion
+
+        #region implementation
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            //RecalculateSliderParams();
+            Invalidate();
+        }
+        protected override void OnBackColorChanged(EventArgs e)
+        {
+            base.OnBackColorChanged(e);
+            //RecalculateSliderParams();
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+
+            
+            e.Graphics.CompositingMode = CompositingMode.SourceOver;
+            e.Graphics.CompositingQuality = CompositingQuality.HighQuality;
+            e.Graphics.InterpolationMode = InterpolationMode.High;
+
+            SolidBrush ActiveBrush = new SolidBrush(Color.Green);
+            SolidBrush FrameBrush = new SolidBrush(Color.FromKnownColor(KnownColor.Control));
+            Pen FramePen = new Pen(FrameBrush, 6);
+            Rectangle Frame = new Rectangle(0, 0, (int)_Radius * 2, (int)_Radius * 2);
+
+            if (_ActiveSegment == Segment.Invalid)
+                e.Graphics.FillEllipse(new SolidBrush(Color.Red), Frame);
+
+            else
+            {
+                e.Graphics.FillEllipse(new SolidBrush(Color.DarkGray), Frame);
+                e.Graphics.FillPie(ActiveBrush, Frame, (int)(-150 + 60 * (int)_ActiveSegment), 60);
+            }
+                e.Graphics.DrawLine(FramePen, new Point((int)(_Radius), 0), new Point((int)(_Radius), (int)(2 * _Radius)));
+                e.Graphics.DrawLine(FramePen, new Point((int)(.134 * _Radius), (int)(.5 * _Radius)), new Point((int)(1.866 * _Radius), (int)(1.5 * _Radius)));
+                e.Graphics.DrawLine(FramePen, new Point((int)(.134 * _Radius), (int)(1.5 * _Radius)), new Point((int)(1.866 * _Radius), (int)(.5 * _Radius)));
+                e.Graphics.DrawEllipse(FramePen, Frame);
+                e.Graphics.FillEllipse(FrameBrush, new Rectangle((int)(_Radius / 3), (int)(_Radius / 3), (int)(_Radius * 4 / 3), (int)(_Radius * 4 / 3)));
+
+                //Draw Strings
+                    
+                float tx,ty;
+                
+                for (int i = 1; i <= 6; i++)
+                {
+                    StringFormat format = new StringFormat();
+                    tx = (float)(_Radius + (_Radius*0.5*Math.Cos((-120.0+60.0*(float)(i))*Math.PI/180.0)));
+                    ty = (float)(_Radius + (_Radius * 0.5 * Math.Sin((-120.0 + 60.0 * (float)(i)) * Math.PI / 180.0)) - (float)(this.Width / 12));
+                    Brush stringPen = new SolidBrush(this.ForeColor);
+                    StringFormat strFormat = new StringFormat(StringFormatFlags.NoClip);
+                    strFormat.Alignment = StringAlignment.Center;
+                    Font f = new Font(this.Font.FontFamily, (float)(this.Width / 10), this.Font.Style);
+                    e.Graphics.DrawString(i.ToString() + "", f, stringPen, new PointF(tx, ty), strFormat);
+                    
+                }
+        }
+
+        #endregion
+        }
+    }
+

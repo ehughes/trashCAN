@@ -1,0 +1,509 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using ItrashCAN;
+using Peak.Can.Basic;
+using System.Threading;
+
+namespace PCAN_USB
+{
+    public partial class PCAN_USB : Form, ItrashCANPlugin
+    {
+        bool ConnectionActive = false;
+        byte CurrentPCANChannel = 0;
+        bool KillAllThreads = false;
+        Thread CANTxThread;
+        Thread CANRxThread;
+        int MessagesOut = 0;
+        int MessagesIn = 0;
+
+        String _PluginName = "PCAN-USB";
+
+	
+        String _PluginVersion = "0.99";
+         public String Init()
+        {
+            _IncomingCANMsgQueue = new Queue<CANMsg>(1024);
+            _OutgoingCANMsgQueue = new Queue<CANMsg>(1024);
+            _IncomingPluginMessage = new Queue<string>(1024);
+            _OutgoingPluginMessage = new Queue<string>(1024);
+            _OutgoingPluginMessage.Enqueue("Peak CAN - USB Plugin Initialized....");
+            _Position.X = this.Left;
+            _Position.Y = this.Top;
+            _Position.Height = this.Height;
+            _Position.Width = this.Width;
+            
+            return "OK";
+        }  
+        
+        public PCAN_USB()
+        {
+            InitializeComponent();
+            PopulateBAUDRateComboBox();
+            CheckForAvailableChannels();
+            ConnectionActive = false;
+            ErrorLabel.Text = "";
+        }
+
+        #region Plugin Interface
+
+        Queue<String> _OutgoingPluginMessage = new Queue<string>(64);
+
+        public Queue<String> OutgoingPluginMessage
+        {
+            get { return _OutgoingPluginMessage; }
+        }
+
+        Queue<String> _IncomingPluginMessage = new Queue<string>(64);
+
+        public Queue<String> IncomingPluginMessage
+        {
+            get { return _IncomingPluginMessage; }
+        }
+        
+        public CAN_INTERFACE_TYPE PluginInterfaceType
+        {
+            get { return CAN_INTERFACE_TYPE.READ_WRITE; }
+        }
+
+        public String PluginName
+        {
+            get { return _PluginName; }
+        }
+
+        public String PluginVersion
+        {
+            get { return _PluginVersion; }
+        }
+
+        public Image PluginImage
+        {
+            get { return Properties.Resources.PCAN_USB; }
+        }
+
+        int _MyInstanceID;
+
+        public int PluginInstanceID
+        {
+            get { return _MyInstanceID; }
+            set { _MyInstanceID = value; }
+        }
+
+
+        Rectangle _Position;
+        public Rectangle Position
+        {
+            get
+            {
+                _Position.X = this.Left;
+                _Position.Y = this.Top;
+                _Position.Height = this.Height;
+                _Position.Width = this.Width;
+                return _Position;
+            }
+            set
+            {
+                _Position = value;
+                this.Left = _Position.X;
+                this.Top = _Position.Y;
+                this.Height = _Position.Height;
+                this.Width = _Position.Width;
+            }
+        }
+        public String Terminate()
+        {
+            this.DestroyHandle();
+            KillAllThreads = true;
+            DisconnectFromPCAN();
+        
+            this.Close();
+            return "OK";
+
+        }
+
+        public void ShowPlugin()
+        {
+            this.Show();
+            this.BringToFront();
+            this.WindowState = FormWindowState.Normal;
+
+        }
+
+        public void HidePlugin()
+        {
+            this.Hide();
+        }
+
+        public void MinimizePlugin()
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        public void MaximizePlugin()
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Maximized;
+        }
+
+        UInt16 _CopyNumber;
+        public UInt16 CopyNumber
+        {
+            get { return _CopyNumber; }
+            set { _CopyNumber = value; }
+        }
+        public void SaveData()
+        {
+        }
+        public void RestoreData()
+        {
+        }
+
+        Queue<CANMsg> _IncomingCANMsgQueue = new Queue<CANMsg>(128);
+        Queue<CANMsg> _OutgoingCANMsgQueue = new Queue<CANMsg>(128);
+
+        public Queue<CANMsg> IncomingCANMsgQueue
+        {
+            get { return _IncomingCANMsgQueue; }
+        }
+
+        public Queue<CANMsg> OutgoingCANMsgQueue
+        {
+            get { return _OutgoingCANMsgQueue; }
+
+        }
+
+        bool _RequestTermination = false;
+
+        public bool RequestTermination
+        {
+            get { return _RequestTermination; }
+        }
+
+        #endregion
+
+        #region Helper Functions
+
+        void PopulateBAUDRateComboBox()
+        {
+                BAUDRateCB.Items.Clear();
+                BAUDRateCB.Items.AddRange((string[])Enum.GetNames(typeof(TPCANBaudrate)));
+                BAUDRateCB.SelectedIndex = 2;
+        }
+
+        void CheckForAvailableChannels()
+        {
+            UInt32 iBuffer;
+            TPCANStatus stsResult;
+
+            // Checks for a Plug&Play Handle and, according with the return value, includes it
+            // into the list of available hardware channels.
+            //
+
+            USBChannelCB.Items.Clear();
+
+            for (byte i = PCANBasic.PCAN_USBBUS1; i < PCANBasic.PCAN_USBBUS8; i++)
+            {
+                stsResult = PCANBasic.GetValue(i, TPCANParameter.PCAN_CHANNEL_CONDITION, out iBuffer, sizeof(UInt32));
+                if ((stsResult == TPCANStatus.PCAN_ERROR_OK) && (iBuffer == PCANBasic.PCAN_CHANNEL_AVAILABLE))
+                    USBChannelCB.Items.Add((i - PCANBasic.PCAN_USBBUS1 + 1).ToString());
+            }
+
+            if (USBChannelCB.Items.Count == 0)
+            {
+                USBChannelCB.Items.Add("X");
+                USBChannelCB.Enabled = false;
+            }
+            else
+            {
+                USBChannelCB.Enabled = true;
+                USBChannelCB.SelectedIndex = 0;
+            }
+        }
+
+        void ConnectToPCAN()
+        {
+            try
+            {
+                CurrentPCANChannel = (byte)(Convert.ToByte(USBChannelCB.SelectedItem.ToString()) + PCANBasic.PCAN_USBBUS1 - 1);
+
+                string BaudRate = (string)BAUDRateCB.SelectedItem;
+
+                TPCANBaudrate PCANBaudRate = (TPCANBaudrate)Enum.Parse(typeof(TPCANBaudrate), BaudRate);
+
+
+                PCANBasic.Uninitialize(CurrentPCANChannel);
+                PCANBasic.Reset(CurrentPCANChannel);
+                TPCANStatus stsResult = PCANBasic.Initialize(CurrentPCANChannel, PCANBaudRate);
+
+                if (stsResult == TPCANStatus.PCAN_ERROR_OK)
+                {
+                    _OutgoingPluginMessage.Enqueue("PCAN Initialize on channel " + USBChannelCB.SelectedItem.ToString() + " at baud rate " + (string)BAUDRateCB.SelectedItem + " successful");
+                    _OutgoingCANMsgQueue.Clear();
+                    _IncomingCANMsgQueue.Clear();
+               
+                    ConnectLabel.Text = "Disconnect";
+                    ConnectButton.BackgroundImage = global::PCAN_USB.Properties.Resources.disconnect;
+                    USBChannelCB.Enabled = false;
+                    BAUDRateCB.Enabled = false;
+                    RefreshButton.Enabled = false;
+                    RefreshButton.BackgroundImage = global::PCAN_USB.Properties.Resources.refresh_gray;
+                    MessagesOut = 0;
+                    MessagesIn = 0;
+                    KillAllThreads = false;
+                    CANRxThread = new Thread(new ThreadStart(RxCANMessagesFromAdapter));
+                    CANTxThread = new Thread(new ThreadStart(TxCANMessagesToAdapter));
+                    CANRxThread.Start(); _OutgoingPluginMessage.Enqueue("PCAN Rx Thread Starting");
+                    CANTxThread.Start(); _OutgoingPluginMessage.Enqueue("PCAN Tx Thread Starting");
+                    ConnectionActive = true;
+                }
+                else
+                {
+                    _OutgoingPluginMessage.Enqueue("PCAN Initialize on channel failed: " + stsResult.ToString());
+                }
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show(Ex.Message, "Connection Error");
+                _OutgoingPluginMessage.Enqueue(Ex.Message);
+                ConnectLabel.Text = "Connect";
+                ConnectButton.BackgroundImage = global::PCAN_USB.Properties.Resources.connect;
+                USBChannelCB.Enabled = true;
+                BAUDRateCB.Enabled = true;
+                RefreshButton.Enabled = true;
+                CheckForAvailableChannels();
+                RefreshButton.BackgroundImage = global::PCAN_USB.Properties.Resources.refresh;
+            }
+        }
+
+        void DisconnectFromPCAN()
+        {
+            try
+            {
+                string BaudRate = (string)BAUDRateCB.SelectedItem;
+                KillAllThreads = true;
+
+                if (ConnectionActive == true)
+                {
+                    TPCANBaudrate PCANBaudRate = (TPCANBaudrate)Enum.Parse(typeof(TPCANBaudrate), BaudRate);
+                    TPCANStatus stsResult = PCANBasic.Uninitialize(CurrentPCANChannel);
+
+                    if (stsResult == TPCANStatus.PCAN_ERROR_OK)
+                    {
+                        _OutgoingPluginMessage.Enqueue("PCAN Un-Initialize on channel " + USBChannelCB.SelectedItem.ToString() + " successful");
+                        _OutgoingCANMsgQueue.Clear();
+                        _IncomingCANMsgQueue.Clear();
+                    }
+                }
+
+                ConnectionActive = false;
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show(Ex.Message, "Disconnection Error");
+                _OutgoingPluginMessage.Enqueue(Ex.Message);
+            }
+            finally
+            {
+                CheckForAvailableChannels();
+                ConnectLabel.Text = "Connect";
+                ConnectButton.BackgroundImage = global::PCAN_USB.Properties.Resources.connect;
+                USBChannelCB.Enabled = true;
+                BAUDRateCB.Enabled = true;
+                ConnectionActive = false;
+                RefreshButton.Enabled = true;
+                RefreshButton.BackgroundImage = global::PCAN_USB.Properties.Resources.refresh;
+                KillAllThreads = true;
+            }
+
+        }
+
+        void TxCANMessagesToAdapter()
+        {
+            while (KillAllThreads == false)
+            {
+                Thread.Sleep(10);
+                    while (_IncomingCANMsgQueue.Count > 0 && ConnectionActive == true)
+                    {
+                        TPCANStatus MyStatus = PCANBasic.GetStatus(CurrentPCANChannel);
+
+                        if (MyStatus != TPCANStatus.PCAN_ERROR_XMTFULL || (MyStatus != TPCANStatus.PCAN_ERROR_QXMTFULL) && (MyStatus == TPCANStatus.PCAN_ERROR_OK))
+                        {
+                            CANMsg OutMsg = _IncomingCANMsgQueue.Dequeue();
+                            TPCANMsg PCANOutMsg = new TPCANMsg();
+
+                            PCANOutMsg.LEN = (byte)OutMsg.CANData.Length;
+
+                            PCANOutMsg.DATA = new byte[PCANOutMsg.LEN];
+                            for (int i = 0; i < OutMsg.CANData.Length; i++)
+                            {
+                                PCANOutMsg.DATA[i] = OutMsg.CANData[i];
+                            }
+
+                            if (OutMsg.ExtendedID == true)
+                            {
+                                PCANOutMsg.MSGTYPE = TPCANMessageType.PCAN_MESSAGE_EXTENDED;
+                            }
+                            else
+                            {
+                                PCANOutMsg.MSGTYPE = TPCANMessageType.PCAN_MESSAGE_STANDARD;
+                            }
+
+                            if (OutMsg.RTR == true)
+                            {
+                                PCANOutMsg.MSGTYPE |= TPCANMessageType.PCAN_MESSAGE_RTR;
+                            }
+
+                            PCANOutMsg.ID = OutMsg.CANId;
+
+                            TPCANStatus TxStatus = PCANBasic.Write(CurrentPCANChannel, ref PCANOutMsg);
+
+                            if (TxStatus != TPCANStatus.PCAN_ERROR_OK)
+                            {
+                                Thread.Sleep(2000);
+                                _OutgoingPluginMessage.Enqueue("PCAN error during transmit: " + TxStatus.ToString());
+                            }
+                            else
+                            {
+                                MessagesOut++;
+                            }
+
+
+                        }
+                        else
+                        {
+                         //   break;
+                        }
+                    }
+            }
+
+            _OutgoingPluginMessage.Enqueue("PCAN Tx Thread Exiting");
+        }
+
+        void RxCANMessagesFromAdapter()
+        {
+            TPCANMsg PCANInMsg = new TPCANMsg();
+            TPCANTimestamp TS = new TPCANTimestamp();
+
+            while (KillAllThreads == false)
+            {
+                Thread.Sleep(10);
+                if (ConnectionActive == true)
+                {
+                    while (PCANBasic.Read(CurrentPCANChannel, out PCANInMsg, out TS) == TPCANStatus.PCAN_ERROR_OK)
+                    {
+
+                        CANMsg InMsg = new CANMsg();
+
+                        InMsg.CANData = new byte[PCANInMsg.LEN];
+
+                        for (int i = 0; i < PCANInMsg.LEN; i++)
+                        {
+                            InMsg.CANData[i] = PCANInMsg.DATA[i];
+                        }
+
+                        if ((PCANInMsg.MSGTYPE & TPCANMessageType.PCAN_MESSAGE_EXTENDED) > 0)
+                        {
+                            InMsg.ExtendedID = true;
+                        }
+                        else
+                        {
+                            InMsg.ExtendedID = false;
+                        }
+
+                        if ((PCANInMsg.MSGTYPE & TPCANMessageType.PCAN_MESSAGE_RTR) > 0)
+                        {
+                            InMsg.RTR = true;
+                        }
+                        else
+                        {
+                            InMsg.RTR = false;
+                        }
+
+                        InMsg.CANId = PCANInMsg.ID;
+                        
+                        _OutgoingCANMsgQueue.Enqueue(InMsg);
+                        MessagesIn++;
+                    }
+                }
+            }
+            _OutgoingPluginMessage.Enqueue("PCAN Rx Thread Exiting");
+        }
+        #endregion
+
+        #region GUI Callbacks
+
+        private void RefreshButton_Click(object sender, EventArgs e)
+        {
+            CheckForAvailableChannels();
+        }
+
+        private void ConnectButton_Click(object sender, EventArgs e)
+        {
+            if (ConnectionActive == false)
+            {
+                ConnectToPCAN();
+            }
+            else
+            {
+                DisconnectFromPCAN();
+            }
+        }
+
+        private void FormUpdateTimer_Tick(object sender, EventArgs e)
+        {
+            if (USBChannelCB.Items.Count == 0)
+            {
+                ConnectLabel.Enabled = false;
+                ConnectButton.Enabled = false;
+            }
+            else
+            {
+                ConnectLabel.Enabled = true;
+                ConnectButton.Enabled = true;
+            }
+
+            if (ConnectionActive == true)
+            {
+                TPCANStatus MyStatus = PCANBasic.GetStatus(CurrentPCANChannel);
+                StatusLabel.Text = "Status: Connected " + MessagesIn + "/" + MessagesOut; ;
+                if (MyStatus != TPCANStatus.PCAN_ERROR_OK)
+                {
+                    StringBuilder ErrorString = new StringBuilder(256);
+                    ErrorLabel.Text = "Error";
+                   PCANBasic.GetErrorText(MyStatus, 0x00, ErrorString);
+                   _OutgoingPluginMessage.Enqueue("Error: " + ErrorString.ToString());
+               }
+                else
+                {
+                    ErrorLabel.Text = "";
+                }
+            }
+            else
+            {
+                StatusLabel.Text = "Status: Disconnected";
+                ErrorLabel.Text = "";
+            }
+        }
+
+        private void PCAN_USB_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            _RequestTermination = true;
+
+        }
+
+        #endregion
+
+
+    }
+   
+}
+
+
+

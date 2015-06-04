@@ -1,0 +1,197 @@
+﻿namespace AEODRS_System
+{
+    partial class AEODRS_System
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AEODRS_System));
+            this.PingButton = new System.Windows.Forms.Button();
+            this.SystemDiscoveryGroupBox = new System.Windows.Forms.GroupBox();
+            this.ObjectSelectDropDown = new System.Windows.Forms.ComboBox();
+            this.All_IndiciesCheckBox = new System.Windows.Forms.CheckBox();
+            this.ObjectIndexSelect = new System.Windows.Forms.NumericUpDown();
+            this.HexPrefixLabel = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ObjectIndexLabel = new System.Windows.Forms.Label();
+            this.ObjectTypeLabel = new System.Windows.Forms.Label();
+            this.SystemMessagesTextBox = new System.Windows.Forms.TextBox();
+            this.SystemDiscoveryGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ObjectIndexSelect)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // PingButton
+            // 
+            this.PingButton.Location = new System.Drawing.Point(6, 19);
+            this.PingButton.Name = "PingButton";
+            this.PingButton.Size = new System.Drawing.Size(75, 23);
+            this.PingButton.TabIndex = 1;
+            this.PingButton.Text = "Ping";
+            this.PingButton.UseVisualStyleBackColor = true;
+            this.PingButton.Click += new System.EventHandler(this.PingButton_Click);
+            // 
+            // SystemDiscoveryGroupBox
+            // 
+            this.SystemDiscoveryGroupBox.Controls.Add(this.PingButton);
+            this.SystemDiscoveryGroupBox.Location = new System.Drawing.Point(12, 120);
+            this.SystemDiscoveryGroupBox.Name = "SystemDiscoveryGroupBox";
+            this.SystemDiscoveryGroupBox.Size = new System.Drawing.Size(619, 59);
+            this.SystemDiscoveryGroupBox.TabIndex = 2;
+            this.SystemDiscoveryGroupBox.TabStop = false;
+            this.SystemDiscoveryGroupBox.Text = "System Discovery";
+            // 
+            // ObjectSelectDropDown
+            // 
+            this.ObjectSelectDropDown.FormattingEnabled = true;
+            this.ObjectSelectDropDown.Location = new System.Drawing.Point(9, 41);
+            this.ObjectSelectDropDown.Name = "ObjectSelectDropDown";
+            this.ObjectSelectDropDown.Size = new System.Drawing.Size(231, 21);
+            this.ObjectSelectDropDown.TabIndex = 2;
+            this.ObjectSelectDropDown.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // All_IndiciesCheckBox
+            // 
+            this.All_IndiciesCheckBox.AutoSize = true;
+            this.All_IndiciesCheckBox.Location = new System.Drawing.Point(323, 45);
+            this.All_IndiciesCheckBox.Name = "All_IndiciesCheckBox";
+            this.All_IndiciesCheckBox.Size = new System.Drawing.Size(76, 17);
+            this.All_IndiciesCheckBox.TabIndex = 3;
+            this.All_IndiciesCheckBox.Text = "All Indicies";
+            this.All_IndiciesCheckBox.UseVisualStyleBackColor = true;
+            this.All_IndiciesCheckBox.CheckedChanged += new System.EventHandler(this.All_IndiciesCheckBox_CheckedChanged);
+            // 
+            // ObjectIndexSelect
+            // 
+            this.ObjectIndexSelect.Hexadecimal = true;
+            this.ObjectIndexSelect.Location = new System.Drawing.Point(278, 41);
+            this.ObjectIndexSelect.Maximum = new decimal(new int[] {
+            127,
+            0,
+            0,
+            0});
+            this.ObjectIndexSelect.Name = "ObjectIndexSelect";
+            this.ObjectIndexSelect.Size = new System.Drawing.Size(39, 20);
+            this.ObjectIndexSelect.TabIndex = 4;
+            this.ObjectIndexSelect.Value = new decimal(new int[] {
+            127,
+            0,
+            0,
+            0});
+            // 
+            // HexPrefixLabel
+            // 
+            this.HexPrefixLabel.AutoSize = true;
+            this.HexPrefixLabel.Location = new System.Drawing.Point(261, 44);
+            this.HexPrefixLabel.Name = "HexPrefixLabel";
+            this.HexPrefixLabel.Size = new System.Drawing.Size(18, 13);
+            this.HexPrefixLabel.TabIndex = 5;
+            this.HexPrefixLabel.Text = "0x";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.ObjectIndexLabel);
+            this.groupBox1.Controls.Add(this.ObjectTypeLabel);
+            this.groupBox1.Controls.Add(this.ObjectSelectDropDown);
+            this.groupBox1.Controls.Add(this.All_IndiciesCheckBox);
+            this.groupBox1.Controls.Add(this.ObjectIndexSelect);
+            this.groupBox1.Controls.Add(this.HexPrefixLabel);
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(489, 81);
+            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Object Select";
+            // 
+            // ObjectIndexLabel
+            // 
+            this.ObjectIndexLabel.AutoSize = true;
+            this.ObjectIndexLabel.Location = new System.Drawing.Point(261, 25);
+            this.ObjectIndexLabel.Name = "ObjectIndexLabel";
+            this.ObjectIndexLabel.Size = new System.Drawing.Size(67, 13);
+            this.ObjectIndexLabel.TabIndex = 8;
+            this.ObjectIndexLabel.Text = "Object Index";
+            // 
+            // ObjectTypeLabel
+            // 
+            this.ObjectTypeLabel.AutoSize = true;
+            this.ObjectTypeLabel.Location = new System.Drawing.Point(6, 25);
+            this.ObjectTypeLabel.Name = "ObjectTypeLabel";
+            this.ObjectTypeLabel.Size = new System.Drawing.Size(65, 13);
+            this.ObjectTypeLabel.TabIndex = 7;
+            this.ObjectTypeLabel.Text = "Object Type";
+            // 
+            // SystemMessagesTextBox
+            // 
+            this.SystemMessagesTextBox.BackColor = System.Drawing.Color.Black;
+            this.SystemMessagesTextBox.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SystemMessagesTextBox.ForeColor = System.Drawing.Color.Yellow;
+            this.SystemMessagesTextBox.Location = new System.Drawing.Point(12, 185);
+            this.SystemMessagesTextBox.Multiline = true;
+            this.SystemMessagesTextBox.Name = "SystemMessagesTextBox";
+            this.SystemMessagesTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.SystemMessagesTextBox.Size = new System.Drawing.Size(984, 364);
+            this.SystemMessagesTextBox.TabIndex = 9;
+            this.SystemMessagesTextBox.WordWrap = false;
+            // 
+            // AEODRS_System
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1008, 561);
+            this.Controls.Add(this.SystemMessagesTextBox);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.SystemDiscoveryGroupBox);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximumSize = new System.Drawing.Size(1024, 600);
+            this.MinimumSize = new System.Drawing.Size(1024, 600);
+            this.Name = "AEODRS_System";
+            this.Text = "Plugin Skeleton";
+            this.Load += new System.EventHandler(this.Form1_Load);
+            this.SystemDiscoveryGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ObjectIndexSelect)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Button PingButton;
+        private System.Windows.Forms.GroupBox SystemDiscoveryGroupBox;
+        private System.Windows.Forms.ComboBox ObjectSelectDropDown;
+        private System.Windows.Forms.CheckBox All_IndiciesCheckBox;
+        private System.Windows.Forms.NumericUpDown ObjectIndexSelect;
+        private System.Windows.Forms.Label HexPrefixLabel;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label ObjectIndexLabel;
+        private System.Windows.Forms.Label ObjectTypeLabel;
+        private System.Windows.Forms.TextBox SystemMessagesTextBox;
+    }
+}
+

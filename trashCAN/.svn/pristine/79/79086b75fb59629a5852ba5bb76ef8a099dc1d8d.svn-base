@@ -1,0 +1,223 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using ItrashCAN;
+
+namespace CANMessageSniffer
+{
+    public partial class CANMessageSniffer : Form, ItrashCANPlugin
+    {
+        String _PluginName = "Can Message Sniffer";
+
+        String _PluginVersion = "0.9";
+
+
+        public CANMessageSniffer()
+        {
+            InitializeComponent();
+            ResizeDisplay();
+        }
+
+        #region Plugin Interface
+
+        Queue<String> _OutgoingPluginMessage = new Queue<string>(64);
+
+        public Queue<String> OutgoingPluginMessage
+        {
+            get { return _OutgoingPluginMessage; }
+        }
+   
+        Queue<String> _IncomingPluginMessage = new Queue<string>(64);
+
+        public Queue<String> IncomingPluginMessage
+        {
+            get { return _IncomingPluginMessage;}
+        }
+
+        public CAN_INTERFACE_TYPE PluginInterfaceType
+        {
+            get { return CAN_INTERFACE_TYPE.READ_ONLY; }
+        }
+
+        public String PluginName
+        {
+            get { return "CAN Message Sniffer";}
+        }
+   
+        public String PluginVersion
+        {
+            get { return "0.9"; }
+        }
+
+        public Image PluginImage
+        {
+            get { return Properties.Resources.nose; }
+        }
+
+        int _MyInstanceID;
+
+        public int PluginInstanceID
+        {
+             get{return _MyInstanceID;}
+            set { _MyInstanceID = value; }
+        }
+
+        public String Init()
+            {
+                _IncomingCANMsgQueue = new Queue<CANMsg>(1024);
+                _OutgoingCANMsgQueue = new Queue<CANMsg>(1024);
+                _IncomingPluginMessage = new Queue<string>(1024);
+                _OutgoingPluginMessage = new Queue<string>(1024);
+                _OutgoingPluginMessage.Enqueue("CANSniffer Initialized....");
+                _Position.X = this.Left;
+                _Position.Y = this.Top;
+                _Position.Height = this.Height;
+                _Position.Width = this.Width;
+                return "OK";
+            }
+        Rectangle _Position;
+        public Rectangle Position
+        {
+            get
+            {
+                _Position.X = this.Left;
+                _Position.Y = this.Top;
+                _Position.Height = this.Height;
+                _Position.Width = this.Width;
+                return _Position;
+            }
+            set
+            {
+                _Position = value;
+                this.Left = _Position.X;
+                this.Top = _Position.Y;
+                this.Height = _Position.Height;
+                this.Width = _Position.Width;
+            }
+        }
+        public String Terminate()
+            {
+                this.DestroyHandle();
+                this.Close();
+                return "OK";
+              
+
+                
+            }
+
+        public void ShowPlugin()
+        {
+            this.Show();
+            this.BringToFront();
+            this.WindowState = FormWindowState.Normal;
+           
+        }
+
+        public void HidePlugin()
+        {
+            this.Hide();
+        }
+
+        public void MinimizePlugin()
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        public void MaximizePlugin()
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Maximized;
+        }
+        UInt16 _CopyNumber;
+        public UInt16 CopyNumber
+        {
+            get { return _CopyNumber; }
+            set { _CopyNumber = value; }
+        }
+        public void SaveData()
+        {
+        }
+        public void RestoreData()
+        {
+        }
+
+        Queue<CANMsg> _IncomingCANMsgQueue = new Queue<CANMsg>(1024);
+        Queue<CANMsg> _OutgoingCANMsgQueue = new Queue<CANMsg>(1024);
+
+        public Queue<CANMsg> IncomingCANMsgQueue
+        {
+            get { return _IncomingCANMsgQueue; }
+        }
+
+        public Queue<CANMsg> OutgoingCANMsgQueue
+        {
+            get { return _OutgoingCANMsgQueue; }
+      
+        }
+
+        bool _RequestTermination = false;
+        
+        public bool RequestTermination 
+        {
+            get { return _RequestTermination; }
+        }
+
+        #endregion
+
+        #region Plugin Implementation
+
+        Queue<CANMsg> CANMsgDisplayQueue = new Queue<CANMsg>(64);
+
+        #endregion
+
+        private void CANMessageSniffer_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            _RequestTermination = true;
+            _OutgoingPluginMessage.Enqueue("I want to close");
+        }
+
+        private void SnifferUpdateTimer_Tick(object sender, EventArgs e)
+        {
+            _IncomingPluginMessage.Clear();
+            
+            while(_IncomingCANMsgQueue.Count>0)
+            {
+                CANMsgDisplayQueue.Enqueue(_IncomingCANMsgQueue.Dequeue());
+            }
+
+            while(CANMsgDisplayQueue.Count>64)
+            {
+                CANMsg Junk = CANMsgDisplayQueue.Dequeue();
+            }
+
+            CANMsg[] DisplayMsg = (CANMsg[])CANMsgDisplayQueue.ToArray();
+
+            String Output = "";
+            for (int i = 0; i < DisplayMsg.Length;i++ )
+            {
+                 Output += DisplayMsg[DisplayMsg.Length - i - 1].ToString() + "\r\n";
+            }
+
+            CANMsgTextBox.Text = Output;
+        }
+
+        private void CANMessageSniffer_Resize(object sender, EventArgs e)
+        {
+            ResizeDisplay();
+        }
+
+        void ResizeDisplay()
+        {
+            CANMsgTextBox.Location = new Point(0, 0);
+            CANMsgTextBox.Size = new Size(this.ClientRectangle.Width, this.ClientRectangle.Height);
+        }
+
+    }
+}

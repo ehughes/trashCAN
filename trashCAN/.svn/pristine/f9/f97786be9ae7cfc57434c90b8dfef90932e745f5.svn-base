@@ -1,0 +1,345 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using ItrashCAN;
+
+namespace CM_PWR
+{
+    public enum CM_PWR_ObjectTypes : uint
+    {
+        MPMC = 0,
+        ESA = 1,
+        BC = 2,
+        PDC = 3,
+        SDC = 0xE,
+        ALL_OBJECTS = 0xF
+    }
+
+    public enum CM_PWR_ESA_Type : uint
+    {
+        SOURCE_SINK = 0,
+        SOURCE = 1,
+        SINK = 2,
+        SOURCE_SINK_DYNAMIC_ONLY
+    }
+
+    public enum CM_PWR_ESA_State : uint
+    {
+        NOT_PRESENT= 0,
+        DISABLED = 1,
+        ENABLED = 2,
+        FAULT =3
+    }
+    public enum CM_PWR_Index : uint
+    {
+            ALL_INDICIES= 0x7F
+    }
+
+    public enum CM_PWR_MessageType : uint
+    {
+        PING = 0,
+        PONG = 1,
+        DEBUG = 2,
+        DEBUG_PRINTF = 0xF,
+
+        ESA_MSG__QUERY_ENERGY_SOURCE_CONFIGURATION			=		0x10,
+	    ESA_MSG__REPORT_ENERGY_SOURCE_CONFIGURATION_1		=		0x11,
+	    ESA_MSG__REPORT_ENERGY_SOURCE_CONFIGURATION_2		=		0x12,
+	    ESA_MSG__REPORT_ENERGY_SOURCE_CONFIGURATION_3		=		0x13,
+	    ESA_MSG__REPORT_ENERGY_SOURCE_CONFIGURATION_4		=		0x14,
+	    ESA_MSG__QUERY_ENERGY_SOURCE_STATE					=		0x15,
+	    ESA_MSG__REPORT_ENERGY_SOURCE_STATE_1				=		0x16,
+	    ESA_MSG__REPORT_ENERGY_SOURCE_STATE_2				=		0x17,
+
+        PDC_QUERY_POWER_DISTRIBUTION_CHANNEL_CONFIGURATION = 0x30,
+        PDC_REPORT_POWER_DISTRIBUTION_CHANNEL_CONFIGURATION1 = 0x31,
+        PDC_REPORT_POWER_DISTRIBUTION_CHANNEL_CONFIGURATION2 = 0x32,
+        PDC_QUERY_POWER_DISTRIBUTION_CHANNEL_STATE = 0x38,
+        PDC_REPORT_POWER_DISTRIBUTION_CHANNEL_STATE_1 = 0x39,
+        PDC_REPORT_POWER_DISTRIBUTION_CHANNEL_STATE_2 = 0x3A,
+        PDC_SET_POWER_DISTRIBUTION_CHANNEL_STATE = 0x3B,
+        PDC_POWER_DISTRIBUTION_CONFIRMATION = 0x3C
+    }
+
+    public enum CM_PWR_DebugCommands : uint
+    {
+        ENABLE_PRINTF = 1,
+        DISABLE_PRINTF = 0
+    }
+
+    public enum CM_PWR_PDC_ChannelState : uint
+    {
+        DISABLED = 0,
+        ENABLED  = 1,
+        FAULTED = 2,
+
+        COULD_NOT_CONTROL = 0xFF
+    
+    }
+
+    public class PDC_ChannelConfiguration
+    {
+       public float MaximumCurrent;
+       public byte BusIndex;
+       public string DescriptionString;
+    }
+
+    public class PDC_ChannelState
+    {
+        public float ChannelVoltage;
+        public float ChannelCurrent;
+        public byte State;
+    }
+
+    public class ESA_SourceConfiguration
+    {
+	    public float UpperVoltageLimit;
+	    public float LowerVoltageLimit;
+	    public float CurrentLimit;
+	    public float DynamicCurrentLimit;
+	    public string DescriptionString;
+	    public  byte SourceType;
+    };
+
+    public class ESA_SourceState
+    {
+	    public float Voltage;
+	    public float Current;
+	    public float Capacity;
+	    public byte RemainingCapacity;
+	    public byte State;
+    };
+
+
+    public  class CM_PWR_MessageFactory
+    {
+
+        public static CM_PWR_ObjectTypes GetSourceObjectType(CAN_t Msg)
+        {
+            return (CM_PWR_ObjectTypes)(((Msg.ID)>>25) & 0xF);
+        }
+
+        public static uint GetSourceObjectIndex(CAN_t Msg)
+        {
+            return (uint)(((Msg.ID) >> 18) & 0x7F);
+        }
+
+        public static CM_PWR_ObjectTypes GetDestinationObjectType(CAN_t Msg)
+        {
+            return (CM_PWR_ObjectTypes)(((Msg.ID) >> 14) & 0xF);
+        }
+
+        public static uint GetDestinationObjectIndex(CAN_t Msg)
+        {
+            return (uint)(((Msg.ID) >> 7) & 0x7F);
+        }
+
+        public static CM_PWR_MessageType GetMessageType(CAN_t Msg)
+        {
+            return (CM_PWR_MessageType)(Msg.ID & 0x7F);
+        }
+
+        public static uint MakeMsgId(CM_PWR_ObjectTypes SrcObjType,
+                                uint SrcIndex,
+                                CM_PWR_ObjectTypes DstObjType,
+                                uint DstIndex,
+                                CM_PWR_MessageType MsgType
+                                )
+        {
+            return ((uint)SrcObjType << 25) |
+                   ((SrcIndex & 0x7F) << 18) |
+                   ((uint)DstObjType << 14) |
+                   ((DstIndex & 0x7F) << 7) |
+                   ((uint)MsgType);
+
+        }
+        public static CAN_t MakePing(CM_PWR_ObjectTypes SrcObjType,
+                             uint SrcIndex,
+                             CM_PWR_ObjectTypes DstObjType,
+                             uint DstIndex)
+        {
+            CAN_t PingMsg = new CAN_t();
+
+            PingMsg.ExtendedID = true;
+            PingMsg.Data = new byte[0];
+
+
+            PingMsg.ID = MakeMsgId(SrcObjType,
+                                    SrcIndex,
+                                    DstObjType,
+                                    DstIndex,
+                                    (uint)CM_PWR_MessageType.PING);
+            return PingMsg;
+        }
+
+        public static CAN_t MakeEnableDebugPrintf(CM_PWR_ObjectTypes SrcObjType,
+                                                      uint SrcIndex,
+                                                      CM_PWR_ObjectTypes DstObjType,
+                                                      uint DstIndex)
+        {
+            CAN_t PingMsg = new CAN_t();
+
+            PingMsg.ExtendedID = true;
+            PingMsg.Data = new byte[1];
+
+
+            PingMsg.ID = MakeMsgId(SrcObjType,
+                                    SrcIndex,
+                                    DstObjType,
+                                    DstIndex,
+                                    CM_PWR_MessageType.DEBUG);
+                   
+
+            PingMsg.Data[0] = (byte)CM_PWR_DebugCommands.ENABLE_PRINTF;
+
+            return PingMsg;
+        }
+
+        public static CAN_t MakeDisableDebugPrintf(CM_PWR_ObjectTypes SrcObjType,
+                   uint SrcIndex,
+                   CM_PWR_ObjectTypes DstObjType,
+                   uint DstIndex)
+        {
+            CAN_t PingMsg = new CAN_t();
+
+            PingMsg.ExtendedID = true;
+            PingMsg.Data = new byte[1];
+
+
+            PingMsg.ID = MakeMsgId(SrcObjType,
+                                    SrcIndex,
+                                    DstObjType,
+                                    DstIndex,
+                                    CM_PWR_MessageType.DEBUG);
+
+            PingMsg.Data[0] = (byte)CM_PWR_DebugCommands.DISABLE_PRINTF;
+
+            return PingMsg;
+        }
+
+        public static CAN_t MakeQueryPDC_ChannelConfiguration(CM_PWR_ObjectTypes SrcObjType,
+                                                               uint SrcIndex,
+                                                               uint DstIndex)
+                    {
+            CAN_t Msg = new CAN_t();
+
+            Msg.ExtendedID = true;
+            Msg.Data = new byte[0];
+
+
+            Msg.ID = MakeMsgId(SrcObjType,
+                                    SrcIndex,
+                                    CM_PWR_ObjectTypes.PDC,
+                                    DstIndex,
+                                    CM_PWR_MessageType.PDC_QUERY_POWER_DISTRIBUTION_CHANNEL_CONFIGURATION);
+
+            return Msg;
+        }
+
+        public static CAN_t MakeQueryPDC_ChannelState(CM_PWR_ObjectTypes SrcObjType,
+                                                           uint SrcIndex,
+                                                           uint DstIndex)
+        {
+            CAN_t Msg = new CAN_t();
+
+            Msg.ExtendedID = true;
+            Msg.Data = new byte[0];
+            
+            Msg.ID = MakeMsgId(SrcObjType,
+                                    SrcIndex,
+                                    CM_PWR_ObjectTypes.PDC,
+                                    DstIndex,
+                                    CM_PWR_MessageType.PDC_QUERY_POWER_DISTRIBUTION_CHANNEL_STATE);
+
+            return Msg;
+        }
+
+        public static CAN_t MakeQueryESA_Configuration(CM_PWR_ObjectTypes SrcObjType,
+                                                       uint SrcIndex,
+                                                       uint DstIndex)
+        {
+            CAN_t Msg = new CAN_t();
+
+            Msg.ExtendedID = true;
+            Msg.Data = new byte[0];
+
+
+            Msg.ID = MakeMsgId(SrcObjType,
+                                    SrcIndex,
+                                    CM_PWR_ObjectTypes.ESA,
+                                    DstIndex,
+                                    CM_PWR_MessageType.ESA_MSG__QUERY_ENERGY_SOURCE_CONFIGURATION);
+
+            return Msg;
+        }
+
+        public static CAN_t MakeQueryESA_State(CM_PWR_ObjectTypes SrcObjType,
+                                                           uint SrcIndex,
+                                                           uint DstIndex)
+        {
+            CAN_t Msg = new CAN_t();
+
+            Msg.ExtendedID = true;
+            Msg.Data = new byte[0];
+
+            Msg.ID = MakeMsgId(SrcObjType,
+                                    SrcIndex,
+                                    CM_PWR_ObjectTypes.ESA,
+                                    DstIndex,
+                                    CM_PWR_MessageType.ESA_MSG__QUERY_ENERGY_SOURCE_STATE);
+
+            return Msg;
+        }
+
+
+
+        public static CAN_t MakeSetPowerDistributionState(CM_PWR_ObjectTypes SrcObjType,
+                                                           uint SrcIndex,
+                                                           uint DstIndex,
+                                                            CM_PWR_PDC_ChannelState S)
+        {
+            CAN_t Msg = new CAN_t();
+
+            Msg.ExtendedID = true;
+            Msg.Data = new byte[1];
+
+            Msg.ID = MakeMsgId(SrcObjType,
+                                    SrcIndex,
+                                    CM_PWR_ObjectTypes.PDC,
+                                    DstIndex,
+                                    CM_PWR_MessageType.PDC_SET_POWER_DISTRIBUTION_CHANNEL_STATE);
+
+            Msg.Data[0] = (byte)S;
+
+            return Msg;
+        }
+
+        public static string MakeSourceID_String(CAN_t M)
+        {
+
+            string t1;
+            string t2;
+
+            t1 = Enum.GetName(typeof(CM_PWR_ObjectTypes),GetSourceObjectType(M));
+            t2 = GetSourceObjectIndex(M).ToString();
+
+            return "<" + t1 + ":" + t2 + ">";
+
+        }
+
+        public static string MakeDestinationID_String(CAN_t M)
+        {
+
+            string t1;
+            string t2;
+
+            t1 = Enum.GetName(typeof(CM_PWR_ObjectTypes), GetDestinationObjectType(M));
+            t2 = GetDestinationObjectIndex(M).ToString();
+     
+            return "<" + t1 + ":" + t2 + ">";
+        }
+
+    }
+
+}

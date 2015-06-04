@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfPluginStateRecord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PluginStateRecord>
+    <NameWithVersion>PCAN-USB&gt;1.0</NameWithVersion>
+    <PluginInstanceID>1</PluginInstanceID>
+    <State>
+      <WindowSize>
+        <Width>224</Width>
+        <Height>233</Height>
+      </WindowSize>
+      <WindowLocation>
+        <X>1223</X>
+        <Y>124</Y>
+      </WindowLocation>
+      <WindowState>Normal</WindowState>
+      <PluginData>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;PCAN_USB_State xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;SelectedBaudRate&gt;3&lt;/SelectedBaudRate&gt;
+&lt;/PCAN_USB_State&gt;</PluginData>
+    </State>
+  </PluginStateRecord>
+</ArrayOfPluginStateRecord>

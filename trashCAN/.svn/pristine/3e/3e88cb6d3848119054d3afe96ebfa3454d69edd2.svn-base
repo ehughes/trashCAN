@@ -1,0 +1,75 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using ItrashCAN;
+
+namespace J1939_Sniffer
+{
+    public class J1939
+    {
+
+        public static String GetJ1939_String(CAN_t C)
+        {
+            string S;
+
+            S = "<PGN:" + GetPGN(C).ToString() + "> <Source Address: " + GetSA(C) + "> ";
+
+            for (int i = 0; i < C.Data.Length;i++ )
+            {
+                S += C.Data[i].ToString() + " ";
+            }
+
+            return S;
+        }
+
+        public static uint GetPGN(CAN_t C)
+        {
+            uint PGN = 0;
+
+            if (GetPF(C) < 240)
+            {
+                PGN = (GetDP(C) << 16) + (GetPF(C) << 8);
+            }
+            else
+            {
+                PGN = (GetDP(C) << 16) + (GetPF(C) << 8) + GetPS(C);
+            }
+            return 0;
+        }
+
+        public static uint GetSA(CAN_t C)
+        {
+            return (C.ID & 0xFF);
+        }
+
+        public static uint GetPS(CAN_t C)
+        {
+            return ((C.ID >> 8) & 0xFF);
+
+        }
+
+        public static uint GetPF(CAN_t C)
+        {
+            return ((C.ID >> 16) & 0xFF);
+
+        }
+
+        public static uint GetDP(CAN_t C)
+        {
+            return ((C.ID >> 24) & 0x1);
+        }
+
+        public static uint GetEDP(CAN_t C)
+        {
+            return ((C.ID >> 25) & 0x1);
+        }
+
+        public static uint GetP(CAN_t C)
+        {
+            return ((C.ID >> 36) & 0x7);
+        }
+
+
+     }
+}

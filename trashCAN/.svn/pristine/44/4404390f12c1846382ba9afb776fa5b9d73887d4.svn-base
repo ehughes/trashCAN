@@ -1,0 +1,172 @@
+﻿namespace HPS
+{
+    partial class HPSControlSurface
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this.OutputEnableButton = new System.Windows.Forms.Button();
+            this.HPSPort = new System.Windows.Forms.ComboBox();
+            this.AvailablePortLabel = new System.Windows.Forms.Label();
+            this.ConnectButton = new System.Windows.Forms.Button();
+            this.VoltageSetPoint = new System.Windows.Forms.NumericUpDown();
+            this.CurrentSetPoint = new System.Windows.Forms.NumericUpDown();
+            this.VoltageLabek = new System.Windows.Forms.Label();
+            this.CurrentLimitLabel = new System.Windows.Forms.Label();
+            this.FormUpdateTimer = new System.Windows.Forms.Timer(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.VoltageSetPoint)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CurrentSetPoint)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // OutputEnableButton
+            // 
+            this.OutputEnableButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OutputEnableButton.Location = new System.Drawing.Point(12, 121);
+            this.OutputEnableButton.Name = "OutputEnableButton";
+            this.OutputEnableButton.Size = new System.Drawing.Size(258, 73);
+            this.OutputEnableButton.TabIndex = 0;
+            this.OutputEnableButton.Text = "Enable Output";
+            this.OutputEnableButton.UseVisualStyleBackColor = true;
+            this.OutputEnableButton.Click += new System.EventHandler(this.OutputEnableButton_Click);
+            // 
+            // HPSPort
+            // 
+            this.HPSPort.FormattingEnabled = true;
+            this.HPSPort.Location = new System.Drawing.Point(12, 33);
+            this.HPSPort.Name = "HPSPort";
+            this.HPSPort.Size = new System.Drawing.Size(121, 24);
+            this.HPSPort.TabIndex = 1;
+            // 
+            // AvailablePortLabel
+            // 
+            this.AvailablePortLabel.AutoSize = true;
+            this.AvailablePortLabel.Location = new System.Drawing.Point(13, 10);
+            this.AvailablePortLabel.Name = "AvailablePortLabel";
+            this.AvailablePortLabel.Size = new System.Drawing.Size(124, 17);
+            this.AvailablePortLabel.TabIndex = 2;
+            this.AvailablePortLabel.Text = "Power Supply Port";
+            // 
+            // ConnectButton
+            // 
+            this.ConnectButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ConnectButton.Location = new System.Drawing.Point(146, 26);
+            this.ConnectButton.Name = "ConnectButton";
+            this.ConnectButton.Size = new System.Drawing.Size(124, 31);
+            this.ConnectButton.TabIndex = 3;
+            this.ConnectButton.Text = "Connect";
+            this.ConnectButton.UseVisualStyleBackColor = true;
+            this.ConnectButton.Click += new System.EventHandler(this.ConnectButton_Click);
+            // 
+            // VoltageSetPoint
+            // 
+            this.VoltageSetPoint.Location = new System.Drawing.Point(12, 80);
+            this.VoltageSetPoint.Maximum = new decimal(new int[] {
+            800,
+            0,
+            0,
+            0});
+            this.VoltageSetPoint.Name = "VoltageSetPoint";
+            this.VoltageSetPoint.Size = new System.Drawing.Size(120, 22);
+            this.VoltageSetPoint.TabIndex = 4;
+            this.VoltageSetPoint.ValueChanged += new System.EventHandler(this.VoltageSetPoint_ValueChanged);
+            // 
+            // CurrentSetPoint
+            // 
+            this.CurrentSetPoint.Location = new System.Drawing.Point(150, 80);
+            this.CurrentSetPoint.Maximum = new decimal(new int[] {
+            56,
+            0,
+            0,
+            0});
+            this.CurrentSetPoint.Name = "CurrentSetPoint";
+            this.CurrentSetPoint.Size = new System.Drawing.Size(120, 22);
+            this.CurrentSetPoint.TabIndex = 5;
+            this.CurrentSetPoint.ValueChanged += new System.EventHandler(this.CurrentSetPoint_ValueChanged);
+            // 
+            // VoltageLabek
+            // 
+            this.VoltageLabek.AutoSize = true;
+            this.VoltageLabek.Location = new System.Drawing.Point(9, 60);
+            this.VoltageLabek.Name = "VoltageLabek";
+            this.VoltageLabek.Size = new System.Drawing.Size(56, 17);
+            this.VoltageLabek.TabIndex = 6;
+            this.VoltageLabek.Text = "Voltage";
+            // 
+            // CurrentLimitLabel
+            // 
+            this.CurrentLimitLabel.AutoSize = true;
+            this.CurrentLimitLabel.Location = new System.Drawing.Point(147, 60);
+            this.CurrentLimitLabel.Name = "CurrentLimitLabel";
+            this.CurrentLimitLabel.Size = new System.Drawing.Size(88, 17);
+            this.CurrentLimitLabel.TabIndex = 7;
+            this.CurrentLimitLabel.Text = "Current Limit";
+            // 
+            // FormUpdateTimer
+            // 
+            this.FormUpdateTimer.Enabled = true;
+            this.FormUpdateTimer.Interval = 250;
+            this.FormUpdateTimer.Tick += new System.EventHandler(this.FormUpdateTimer_Tick);
+            // 
+            // HPSControlSurface
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(282, 206);
+            this.Controls.Add(this.CurrentLimitLabel);
+            this.Controls.Add(this.VoltageLabek);
+            this.Controls.Add(this.CurrentSetPoint);
+            this.Controls.Add(this.VoltageSetPoint);
+            this.Controls.Add(this.ConnectButton);
+            this.Controls.Add(this.AvailablePortLabel);
+            this.Controls.Add(this.HPSPort);
+            this.Controls.Add(this.OutputEnableButton);
+            this.MaximumSize = new System.Drawing.Size(300, 251);
+            this.MinimumSize = new System.Drawing.Size(300, 251);
+            this.Name = "HPSControlSurface";
+            this.Text = "HPSControlSurface";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.HPSControlSurface_FormClosing);
+            this.Load += new System.EventHandler(this.HPSControlSurface_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.VoltageSetPoint)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CurrentSetPoint)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Button OutputEnableButton;
+        private System.Windows.Forms.ComboBox HPSPort;
+        private System.Windows.Forms.Label AvailablePortLabel;
+        private System.Windows.Forms.Button ConnectButton;
+        private System.Windows.Forms.NumericUpDown VoltageSetPoint;
+        private System.Windows.Forms.NumericUpDown CurrentSetPoint;
+        private System.Windows.Forms.Label VoltageLabek;
+        private System.Windows.Forms.Label CurrentLimitLabel;
+        private System.Windows.Forms.Timer FormUpdateTimer;
+    }
+}

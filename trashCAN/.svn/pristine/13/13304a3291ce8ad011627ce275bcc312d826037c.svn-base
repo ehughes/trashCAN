@@ -1,0 +1,743 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using ItrashCAN;
+using eControls;
+using System.Net.Sockets;
+
+namespace EPPS
+{
+    public partial class EPPS_ControlSurface : Form,ItrashCANPlugin
+    {
+        float LastRPMReading = 0;
+        float LastEncoderRPMReading = 0;
+        byte VCMsgCnt = 0;
+        bool ControlsReady = false;
+        const uint FPGA_CLOCK_FREQUENCY = 80000000;
+        UdpClient MyUDP;
+        decimal SwitchingFrequencyHardLimit = 19000;
+
+        public EPPS_ControlSurface()
+        {
+            MyUDP = new UdpClient();
+
+            InitializeComponent();
+            PopulateAvailableStateComboBox();
+            PopulateCommutationModeComboBoxes();
+            PopulateManualPhaseComboBox();
+            ControlsReady = true;
+            double Freq = ((double)CommutationRateSlider.SliderValue / (Math.Pow(2, 32) - 1)) * (FPGA_CLOCK_FREQUENCY / 2);
+            ManualCommutationRateTB.Text = String.Format("{0:0}", Freq) + " Hz";
+            PWMFreq.Maximum = (decimal)(SwitchingFrequencyHardLimit);
+            PWMFreq.Value = 15000;
+        }
+
+        #region Plugin Interface
+
+        Queue<String> _OutgoingPluginMessage = new Queue<string>(64);
+
+        public Queue<String> OutgoingPluginMessage
+        {
+            get { return _OutgoingPluginMessage; }
+        }
+
+        Queue<String> _IncomingPluginMessage = new Queue<string>(64);
+
+        public Queue<String> IncomingPluginMessage
+        {
+            get { return _IncomingPluginMessage; }
+        }
+
+        public CAN_INTERFACE_TYPE PluginInterfaceType
+        {
+            get { return CAN_INTERFACE_TYPE.READ_WRITE; }
+        }
+
+        public String PluginName
+        {
+            get { return "EPPS Control Surface"; }
+        }
+
+        public String PluginVersion
+        {
+            get { return "0.1"; }
+        }
+
+        public Image PluginImage
+        {
+            get { return EPPS.Properties.Resources.MotorIcon; }
+        }
+
+        int _MyInstanceID;
+
+        public int PluginInstanceID
+        {
+            get { return _MyInstanceID; }
+            set { _MyInstanceID = value; }
+        }
+
+        public String Init()
+        {
+            _IncomingCANMsgQueue = new Queue<CANMsg>(1024);
+            _OutgoingCANMsgQueue = new Queue<CANMsg>(1024);
+            _IncomingPluginMessage = new Queue<string>(1024);
+            _OutgoingPluginMessage = new Queue<string>(1024);
+            _OutgoingPluginMessage.Enqueue("EPPS Control Surface Plugin Initialized....");
+
+            return "OK";
+        }
+
+        public String Terminate()
+        {
+            this.DestroyHandle();
+            this.Close();
+            return "OK";
+
+        }
+
+        public void ShowPlugin()
+        {
+            this.Show();
+            this.BringToFront();
+            this.WindowState = FormWindowState.Normal;
+
+        }
+
+        public void HidePlugin()
+        {
+            this.Hide();
+        }
+
+        public void MinimizePlugin()
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        public void MaximizePlugin()
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Maximized;
+        }
+
+        Queue<CANMsg> _IncomingCANMsgQueue = new Queue<CANMsg>(128);
+        Queue<CANMsg> _OutgoingCANMsgQueue = new Queue<CANMsg>(128);
+
+        public Queue<CANMsg> IncomingCANMsgQueue
+        {
+            get { return _IncomingCANMsgQueue; }
+        }
+
+        public Queue<CANMsg> OutgoingCANMsgQueue
+        {
+            get { return _OutgoingCANMsgQueue; }
+
+        }
+
+        bool _RequestTermination = false;
+
+        public bool RequestTermination
+        {
+            get { return _RequestTermination; }
+        }
+
+        #endregion
+
+        #region GUI Callbacks
+       
+        private void FormUpdateTimer_Tick(object sender, EventArgs e)
+        {
+            lock (_OutgoingCANMsgQueue)
+            {
+                while (_IncomingCANMsgQueue.Count > 0)
+                {
+                    try
+                    {
+
+                        CANMsg InMsg = _IncomingCANMsgQueue.Dequeue();
+
+                        switch ((EPPS.CAN_MESSAGE_ID)InMsg.CANId)
+                        {
+                            case CAN_MESSAGE_ID.CAN_ID_REPONSE_MSG:
+                                EPPSReponseMessage RM = new EPPSReponseMessage(InMsg);
+                                LastRPMReading = (float)RM.MeasuredRPM;
+                                CurrentEPPSStateLabel.Text = "Current EPPS State: " + Enum.GetName(typeof(EPPS_STATES), RM.Current_EPPS_State);
+                                break;
+
+                            case CAN_MESSAGE_ID.CAN_ID_INTERNAL_MSG_2:
+
+                                short IBUS_ADC = (short)(InMsg.CANData[7] + (InMsg.CANData[6] << 8));
+
+                                CurrentLabel.Text = String.Format("{0:0.0}", (IBUS_ADC/10.0)) + " A";
+                                break;
+                           
+                      
+                            case CAN_MESSAGE_ID.CAN_ID_INTERNAL_MSG_3:
+
+                                ushort VBUS_ADC = (ushort)(InMsg.CANData[1] + (InMsg.CANData[0] << 8));
+
+                                VoltageLabel.Text = String.Format("{0:0}", (double)VBUS_ADC/10.0) + "V";
+
+                                ushort STACK_TEMP = (ushort)(InMsg.CANData[3] + (InMsg.CANData[2] << 8));
+                                ushort HEATSINK_TEMP = (ushort)(InMsg.CANData[5] + (InMsg.CANData[4] << 8));
+
+                                StackTempLabel.Text = String.Format("{0:0}", (double)STACK_TEMP/10.0) + "C";
+                                HeatSinkTempLabel.Text = String.Format("{0:0}", (double)HEATSINK_TEMP/10.0) + "C";
+
+                                
+                                break;
+
+                            case CAN_MESSAGE_ID.CAN_ID_INTERNAL_MSG_1:
+
+                                EPPS_InternalMessage1 DigitalIOStates = new EPPS_InternalMessage1(InMsg);
+
+                                LastEncoderRPMReading = DigitalIOStates.MeasuredEncoderRPM;
+                                //CONTROL INPUTS
+                                if (DigitalIOStates.StartPermitActive == true)
+                                {
+                                    StartPermitLED.LedColor = Color.Green;
+                                }
+                                else
+                                {
+                                    StartPermitLED.LedColor = Color.LightGray;
+                                }
+
+                                if (DigitalIOStates.MiscInputActive == true)
+                                {
+                                    MiscInputLED.LedColor = Color.Yellow;
+                                }
+                                else
+                                {
+                                    MiscInputLED.LedColor = Color.LightGray;
+                                }
+
+                                if (DigitalIOStates.OnePPSActive == true)
+                                {
+                                    OnePPS_LED.LedColor = Color.Blue;
+                                }
+                                else
+                                {
+                                    OnePPS_LED.LedColor = Color.LightGray;
+                                }
+                                if (DigitalIOStates.PowerBoardEnabled== true)
+                                {
+                                    PowerBoardEnabledLED.LedColor = Color.Blue;
+                                }
+                                else
+                                {
+                                    PowerBoardEnabledLED.LedColor = Color.LightGray;
+                                }
+
+                                if (DigitalIOStates.PowerBoardFault== false) // Fault is low active
+                                {
+                                    PowerBoardMasterFaultLED.LedColor = Color.Red;
+                                }
+                                else
+                                {
+                                    PowerBoardMasterFaultLED.LedColor = Color.LightGray;
+                                }
+
+                                //ENCODER STATE
+                                if (DigitalIOStates.Encoder_Ph_A == true)
+                                {
+                                    EncPhA.LedColor = Color.Yellow;
+                                }
+                                else
+                                {
+                                    EncPhA.LedColor = Color.LightGray;
+                                }
+
+                                if (DigitalIOStates.Encoder_Ph_B == true)
+                                {
+                                    EncPhB.LedColor = Color.Yellow;
+                                }
+                                else
+                                {
+                                    EncPhB.LedColor = Color.LightGray;
+                                }
+
+                                if (DigitalIOStates.Encoder_Ph_C == true)
+                                {
+                                    EncPhC.LedColor = Color.Yellow;
+                                }
+                                else
+                                {
+                                    EncPhC.LedColor = Color.LightGray;
+                                }
+
+                                if (DigitalIOStates.Encoder_Dir == true)
+                                {
+                                    EncDir.LedColor = Color.Yellow;
+                                }
+                                else
+                                {
+                                    EncDir.LedColor = Color.LightGray;
+                                }
+
+                                encoderDisplay1.ActiveSegment = DisplayEncoderState(DigitalIOStates.EncoderState);
+
+
+                                //display Power power status
+
+                                if (DigitalIOStates.PowerBoardCommunicating == true)
+                                {
+                                    PowerBoardCommsLED.LedColor = Color.GreenYellow;
+                                }
+                                else
+                                {
+                                    PowerBoardCommsLED.LedColor = Color.LightGray;
+                                }
+
+                                if (DigitalIOStates.PhaseA_IGBT_Fault == true)
+                                {
+                                    PhaseA_IGBT_FaultLED.LedColor = Color.Red;
+                                }
+                                else
+                                {
+                                    PhaseA_IGBT_FaultLED.LedColor = Color.LightGray;
+                                }
+
+                                if (DigitalIOStates.PhaseB_IGBT_Fault == true)
+                                {
+                                    PhaseB_IGBT_FaultLED.LedColor = Color.Red;
+                                }
+                                else
+                                {
+                                    PhaseB_IGBT_FaultLED.LedColor = Color.LightGray;
+                                }
+
+                                if (DigitalIOStates.PhaseC_IGBT_Fault == true)
+                                {
+                                    PhaseC_IGBT_FaultLED.LedColor = Color.Red;
+                                }
+                                else
+                                {
+                                    PhaseC_IGBT_FaultLED.LedColor = Color.LightGray;
+                                }
+
+                                if (DigitalIOStates.LowSide_IGBT_Fault == true)
+                                {
+                                    LowSide_IGBT_FaultLED.LedColor = Color.Red;
+                                }
+                                else
+                                {
+                                    LowSide_IGBT_FaultLED.LedColor = Color.LightGray;
+                                }
+
+                                if (DigitalIOStates.PhaseA_UpperPowerGood == true)
+                                {
+                                    PhaseA_IGBT_PowerLED.LedColor = Color.LightGreen;
+                                }
+                                else
+                                {
+                                    PhaseA_IGBT_PowerLED.LedColor = Color.LightGray;
+                                }
+                                
+                                if (DigitalIOStates.PhaseB_UpperPowerGood == true)
+                                {
+                                    PhaseB_IGBT_PowerLED.LedColor = Color.LightGreen;
+                                }
+                                else
+                                {
+                                    PhaseB_IGBT_PowerLED.LedColor = Color.LightGray;
+                                }
+
+                                if (DigitalIOStates.PhaseC_UpperPowerGood == true)
+                                {
+                                    PhaseC_IGBT_PowerLED.LedColor = Color.LightGreen;
+                                }
+                                else
+                                {
+                                    PhaseC_IGBT_PowerLED.LedColor = Color.LightGray;
+                                }
+
+                                if (DigitalIOStates.LowSidePowerGood == true)
+                                {
+                                    LowSideIGBT_PowerLED.LedColor = Color.LightGreen;
+                                }
+                                else
+                                {
+                                    LowSideIGBT_PowerLED.LedColor = Color.LightGray;
+                                }
+
+                                break;
+
+
+
+
+                        }
+
+                        if (InMsg.CANId == (uint)CAN_MESSAGE_ID.CAN_ID_REPONSE_MSG)
+                        {
+                        }
+
+                    }
+                    catch (Exception Ex)
+                    {
+                        lock(_OutgoingPluginMessage)
+                        {
+                            _OutgoingPluginMessage.Enqueue(Ex.Message);
+                        }
+                    }
+                }
+            }
+     
+
+            
+            EPPS_RPM.Value = LastRPMReading;
+            EPPSMessage NOPMsg = new EPPSMessage();
+
+            EPPS_Encoder_RPM.Value = LastEncoderRPMReading;
+
+            NOPMsg.RPM_Command = (ushort)SpeedUD.Value;
+            NOPMsg.SoftwarePowerPlantEnable = GetSoftwareEnable();
+            NOPMsg.EPPS_Command = EPPS_COMMAND.EPPS_NOP;
+            NOPMsg.CommandMessageCounter = VCMsgCnt++;
+            _OutgoingCANMsgQueue.Enqueue(NOPMsg.ToCANMsg());
+
+            try
+            {
+                if (CommutationModeComboBox.SelectedIndex < 0)
+                {
+                    CommutationModeComboBox.SelectedIndex = 0;
+                }
+            }
+            catch
+            {
+               
+            }
+            if (PowerPlantEnableCheckBox.Checked == true)
+            {
+                System.Text.ASCIIEncoding Encoding = new System.Text.ASCIIEncoding();
+                byte[] DataOut = Encoding.GetBytes("MWT-RPM: " + (int)LastRPMReading + " ; ENC-RPM: " + (int)(LastEncoderRPMReading)+
+                                                    " ;PWM_FREQ: " + (int)(PWMFreq.Value) + " ; PWM_SPREAD: " + (int)(PWMSpreadRate.Value) +
+                                                    " ; PWM_DUTY: " + (int)(((double)PWMSetting.Value/100.0)*255.0) + "\r\n");
+                MyUDP.Send(DataOut, DataOut.Length, "255.255.255.255", 10000);
+            }
+        }
+
+        private void PowerPlantEnableCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            EPPSMessage NOPMsg = new EPPSMessage();
+            NOPMsg.RPM_Command = 0;
+            NOPMsg.EPPS_Command = EPPS_COMMAND.EPPS_NOP;
+            NOPMsg.SoftwarePowerPlantEnable = GetSoftwareEnable();
+            NOPMsg.CommandMessageCounter = VCMsgCnt++;
+
+            lock (_OutgoingCANMsgQueue)
+            {
+                _OutgoingCANMsgQueue.Enqueue(NOPMsg.ToCANMsg());
+            }
+        }
+
+        private void EPPS_ControlSurface_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        #endregion
+
+        #region helper functions
+
+        void PopulateAvailableStateComboBox()
+        {
+            AvailableStatesComboBox.Items.Clear();
+            foreach (string State in Enum.GetNames(typeof(EPPS_STATES)))
+            {
+                AvailableStatesComboBox.Items.Add(State);
+            }
+
+            AvailableStatesComboBox.SelectedIndex = 0;
+            
+         }
+
+        void PopulateCommutationModeComboBoxes()
+        {
+                     
+            CommutationModeComboBox.Items.Clear();
+
+            foreach (string s in Enum.GetNames(typeof(FPGA_COMMUTATION_MODE)))
+            {
+                CommutationModeComboBox.Items.Add(s);
+            }
+
+            CommutationModeComboBox.SelectedIndex = 1;
+            
+
+        
+        }
+
+        void PopulateManualPhaseComboBox()
+        {
+            ManualPhaseComboBox.Items.Clear();
+            foreach (string s in Enum.GetNames(typeof(FPGA_MANUAL_PHASE_MODE)))
+            {
+                ManualPhaseComboBox.Items.Add(s);
+            }
+
+            ManualPhaseComboBox.SelectedIndex = 7;
+
+        }
+
+        void SendManualCommutationParameters()
+        {
+            if (ControlsReady == true)
+            {
+                try
+                {
+
+                    EPPS_ManualCommutationSettings Settings = new EPPS_ManualCommutationSettings();
+                    Settings.CommutationDirection = FPGA_COMMUTATION_DIRECTION.FORWARD;
+                    Settings.CommutationMode = (FPGA_COMMUTATION_MODE)Enum.Parse(typeof(FPGA_COMMUTATION_MODE), (string)CommutationModeComboBox.SelectedItem);
+                    Settings.DutyCycle = (byte)(((double)PWMSetting.Value/100.0)*255.0);
+                    Settings.CommutationRate = (uint)(CommutationRateSlider.SliderValue);
+                    Settings.ManualPhase = (FPGA_MANUAL_PHASE_MODE)Enum.Parse(typeof(FPGA_MANUAL_PHASE_MODE), (string)ManualPhaseComboBox.SelectedItem);
+                    lock (_OutgoingCANMsgQueue)
+                    {
+                        _OutgoingCANMsgQueue.Enqueue(Settings.ToCANMsg());
+                    }
+                }
+                catch (Exception Ex)
+                {
+                    MessageBox.Show(Ex.ToString());
+                }
+            }
+        }
+
+        EPPS_OPERATING_STATE GetSoftwareEnable()
+        {
+            if (PowerPlantEnableCheckBox.Checked == true)
+            {
+                return EPPS_OPERATING_STATE.EPPS_OPERATING_STATE_PERMITTED_2;
+            }
+            else
+            {
+                return EPPS_OPERATING_STATE.EPPS_OPERATING_STATE_NOT_PERMITTED;
+            }
+
+        }
+        
+        #endregion
+
+        /*
+        private byte CommutateEncoderDisplay()
+        {
+            if (EncSimValid.Checked)
+            {
+                switch (EncSimStepCounter++)
+                {
+                    case 1:
+                        return 0x05;
+                    case 2:
+                        return 0x01;
+                    case 3:
+                        return 0x03;
+                    case 4:
+                        return 0x02;
+                    case 5:
+                        return 0x06;
+                    case 6:
+                        EncSimStepCounter = 1;
+                        return 0x04;
+                    default:
+                        return 0;
+                }
+            }
+            else
+                return 0;
+        }
+        */
+        private EncoderDisplay.Segment DisplayEncoderState(byte EncoderState)
+        {
+            switch (EncoderState & 0x07)
+            {
+                case 0x05:
+                    return EncoderDisplay.Segment.One;
+                case 0x01:
+                    return EncoderDisplay.Segment.Two;
+                case 0x03:
+                    return EncoderDisplay.Segment.Three;
+                case 0x02:
+                    return EncoderDisplay.Segment.Four;
+                case 0x06:
+                    return EncoderDisplay.Segment.Five;
+                case 0x04:
+                    return EncoderDisplay.Segment.Six;
+                default:
+                    return EncoderDisplay.Segment.Invalid;
+            }
+        }
+
+        private void TransitionStateButton_Click(object sender, EventArgs e)
+        {
+
+            if (AvailableStatesComboBox.SelectedIndex < 0)
+            {
+                MessageBox.Show("Please Select a valid state");
+            }
+            else
+            {
+                EPPSMessage CM = new EPPSMessage();
+                CM.SoftwarePowerPlantEnable = GetSoftwareEnable();
+                SpeedUD.Value = 0;
+                CM.RPM_Command = (ushort)SpeedUD.Value;
+                CM.TorpedoConfiguration = TORPEDO_CONFIGURATION.Undefined;
+                CM.VCState = VC_STATE.VC_Off;
+                CM.CommandMessageCounter = VCMsgCnt++;
+                CM.EPPS_Command = (EPPS_COMMAND)Enum.Parse(typeof(EPPS_COMMAND), (string)AvailableStatesComboBox.SelectedItem);
+                lock (_OutgoingCANMsgQueue)
+                {
+                    _OutgoingCANMsgQueue.Enqueue(CM.ToCANMsg());
+                }
+            }
+        }
+
+        private void PWMSlider_OnSliderChanged(double SliderValue)
+        {
+            SendManualCommutationParameters();
+        }
+
+        private void CommutationRateSlider_OnSliderChanged(double SliderValue)
+        {
+            double Freq = ((double)CommutationRateSlider.SliderValue/ (Math.Pow(2, 32) - 1)) * (FPGA_CLOCK_FREQUENCY / 2);
+            ManualCommutationRateTB.Text = String.Format("{0:0}",  Freq)+ " Hz";
+            SendManualCommutationParameters();
+        }
+
+        private void CommutationDirectionComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SendManualCommutationParameters();
+        }
+
+        private void CommutationModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SendManualCommutationParameters();
+        }
+
+        private void ManualPhaseComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SendManualCommutationParameters();
+        }
+
+        private void encoderDisplay1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SendInternalDataMsgEnable_CheckedChanged(object sender, EventArgs e)
+        {
+            EPPSMessage StartStopInternalMsg = new EPPSMessage();
+            StartStopInternalMsg.RPM_Command = 0;
+            StartStopInternalMsg.EPPS_Command = GetInternalMsgCommand();
+            StartStopInternalMsg.SoftwarePowerPlantEnable = GetSoftwareEnable();
+            StartStopInternalMsg.CommandMessageCounter = VCMsgCnt++;
+            lock (_OutgoingCANMsgQueue)
+            {
+                _OutgoingCANMsgQueue.Enqueue(StartStopInternalMsg.ToCANMsg());
+            }
+        }
+
+        EPPS_COMMAND GetInternalMsgCommand()
+        {
+            if (SendInternalDataMsgEnable.Checked == true)
+            {
+                return EPPS_COMMAND.EPPS_SEND_INTERNAL_DATA;
+            }
+            else
+            {
+                return EPPS_COMMAND.EPPS_STOP_INTERNAL_DATA;
+            }
+
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ZeroADCsButton_Click(object sender, EventArgs e)
+        {
+            lock (_OutgoingCANMsgQueue)
+            {
+                EPPS_ZeroADCs OutMsg = new EPPS_ZeroADCs();
+                _OutgoingCANMsgQueue.Enqueue(OutMsg.ToCANMsg());
+            }
+        }
+
+        private void encoderDisplay1_Load_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PWMFreq_ValueChanged(object sender, EventArgs e)
+        {
+            SetNewPWMParameters();
+        }
+
+        private void PWMSpreadRate_ValueChanged(object sender, EventArgs e)
+        {
+            SetNewPWMParameters();
+        }
+
+        void SetNewPWMParameters()
+        {
+
+            LimitPWM();
+
+            EPPS_ChangePWMSettings NewPWMSettings = new EPPS_ChangePWMSettings();
+            NewPWMSettings.PWMSpreadRate = (ushort)PWMSpreadRate.Value;
+            NewPWMSettings.PWMFrequency = (ushort)(PWMFreq.Value - (PWMSpreadRate.Value/2));
+           
+            _OutgoingCANMsgQueue.Enqueue(NewPWMSettings.ToCANMsg());
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SpeedTB_Scroll(object sender, EventArgs e)
+        {
+            SpeedUD.Value = SpeedTB.Value;
+        }
+
+        private void SpeedUD_ValueChanged(object sender, EventArgs e)
+        {
+            SpeedTB.Value = (ushort)SpeedUD.Value;
+        }
+
+        private void LimitPWM()
+        {
+            if ((PWMSpreadRate.Value + PWMFreq.Value) > SwitchingFrequencyHardLimit)
+            {
+                PWMSpreadRate.Value = SwitchingFrequencyHardLimit - PWMFreq.Value;
+            }
+        }
+
+        private void KillPWMButton_Click(object sender, EventArgs e)
+        {
+            PWMSetting.Value = 0;
+        }
+
+        private void PWMSetting_ValueChanged(object sender, EventArgs e)
+        {
+            SendManualCommutationParameters();
+        }
+        
+    }
+}

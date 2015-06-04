@@ -1,0 +1,140 @@
+﻿namespace J1939_Sniffer
+{
+    partial class J1939_Sniffer
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(J1939_Sniffer));
+            this.MsgCheckTimer = new System.Windows.Forms.Timer(this.components);
+            this.FormUpdateTimer = new System.Windows.Forms.Timer(this.components);
+            this.MsgDisplayTextBox = new System.Windows.Forms.TextBox();
+            this.BreakPointCheckBox = new System.Windows.Forms.CheckBox();
+            this.PauseCheckBox = new System.Windows.Forms.CheckBox();
+            this.PGN_Breakpoint = new System.Windows.Forms.NumericUpDown();
+            this.ClearButton = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.PGN_Breakpoint)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // MsgCheckTimer
+            // 
+            this.MsgCheckTimer.Enabled = true;
+            this.MsgCheckTimer.Tick += new System.EventHandler(this.MsgCheckTimer_Tick);
+            // 
+            // FormUpdateTimer
+            // 
+            this.FormUpdateTimer.Enabled = true;
+            this.FormUpdateTimer.Tick += new System.EventHandler(this.FormUpdateTimer_Tick);
+            // 
+            // MsgDisplayTextBox
+            // 
+            this.MsgDisplayTextBox.BackColor = System.Drawing.Color.Black;
+            this.MsgDisplayTextBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MsgDisplayTextBox.ForeColor = System.Drawing.Color.Yellow;
+            this.MsgDisplayTextBox.Location = new System.Drawing.Point(3, 38);
+            this.MsgDisplayTextBox.Multiline = true;
+            this.MsgDisplayTextBox.Name = "MsgDisplayTextBox";
+            this.MsgDisplayTextBox.Size = new System.Drawing.Size(768, 478);
+            this.MsgDisplayTextBox.TabIndex = 0;
+            // 
+            // BreakPointCheckBox
+            // 
+            this.BreakPointCheckBox.AutoSize = true;
+            this.BreakPointCheckBox.Location = new System.Drawing.Point(13, 13);
+            this.BreakPointCheckBox.Name = "BreakPointCheckBox";
+            this.BreakPointCheckBox.Size = new System.Drawing.Size(113, 17);
+            this.BreakPointCheckBox.TabIndex = 1;
+            this.BreakPointCheckBox.Text = "Enable Breakpoint";
+            this.BreakPointCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // PauseCheckBox
+            // 
+            this.PauseCheckBox.AutoSize = true;
+            this.PauseCheckBox.Location = new System.Drawing.Point(258, 12);
+            this.PauseCheckBox.Name = "PauseCheckBox";
+            this.PauseCheckBox.Size = new System.Drawing.Size(56, 17);
+            this.PauseCheckBox.TabIndex = 2;
+            this.PauseCheckBox.Text = "Pause";
+            this.PauseCheckBox.UseVisualStyleBackColor = true;
+            this.PauseCheckBox.CheckedChanged += new System.EventHandler(this.PauseCheckBox_CheckedChanged);
+            // 
+            // PGN_Breakpoint
+            // 
+            this.PGN_Breakpoint.Location = new System.Drawing.Point(132, 12);
+            this.PGN_Breakpoint.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.PGN_Breakpoint.Name = "PGN_Breakpoint";
+            this.PGN_Breakpoint.Size = new System.Drawing.Size(120, 20);
+            this.PGN_Breakpoint.TabIndex = 3;
+            // 
+            // ClearButton
+            // 
+            this.ClearButton.Location = new System.Drawing.Point(687, 13);
+            this.ClearButton.Name = "ClearButton";
+            this.ClearButton.Size = new System.Drawing.Size(75, 23);
+            this.ClearButton.TabIndex = 4;
+            this.ClearButton.Text = "Clear";
+            this.ClearButton.UseVisualStyleBackColor = true;
+            // 
+            // J1939_Sniffer
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(774, 518);
+            this.Controls.Add(this.ClearButton);
+            this.Controls.Add(this.PGN_Breakpoint);
+            this.Controls.Add(this.PauseCheckBox);
+            this.Controls.Add(this.BreakPointCheckBox);
+            this.Controls.Add(this.MsgDisplayTextBox);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximumSize = new System.Drawing.Size(790, 557);
+            this.MinimumSize = new System.Drawing.Size(790, 557);
+            this.Name = "J1939_Sniffer";
+            this.Text = "J1939 Sniffer";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.J1939_Sniffer_FormClosing);
+            this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.PGN_Breakpoint)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Timer MsgCheckTimer;
+        private System.Windows.Forms.Timer FormUpdateTimer;
+        private System.Windows.Forms.TextBox MsgDisplayTextBox;
+        private System.Windows.Forms.CheckBox BreakPointCheckBox;
+        private System.Windows.Forms.CheckBox PauseCheckBox;
+        private System.Windows.Forms.NumericUpDown PGN_Breakpoint;
+        private System.Windows.Forms.Button ClearButton;
+    }
+}
+

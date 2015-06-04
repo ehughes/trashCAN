@@ -1,0 +1,428 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using ItrashCAN;
+
+using System.Runtime.InteropServices;
+
+namespace AEODRS_System
+{
+    public partial class AEODRS_System : Form , ItrashCANPlugin
+    {
+
+        const string _PluginNameString = "AEODRS_System";
+        const int MessageHistorySize = 64;
+        Queue<CANMsg> MessageHistoryQueue = new Queue<CANMsg>(MessageHistorySize);
+               
+        //CANMsgMsgHistory = new CANMsg[100];
+
+        System.Windows.Forms.Timer MessageGeneratorTimer = new Timer();
+
+        DataGridViewCellStyle ObjectStyleMPMC = new DataGridViewCellStyle();
+        DataGridViewCellStyle ObjectStyleBUS= new DataGridViewCellStyle();
+        DataGridViewCellStyle ObjectStyleESA = new DataGridViewCellStyle();
+        DataGridViewCellStyle ObjectStyleSDC = new DataGridViewCellStyle();
+        DataGridViewCellStyle ObjectStylePDC = new DataGridViewCellStyle();
+        DataGridViewCellStyle ObjectStyleALL = new DataGridViewCellStyle();
+        DataGridViewCellStyle ObjectStyleUnknown = new DataGridViewCellStyle();
+        DataGridViewCellStyle ObjectStyleDefault = new DataGridViewCellStyle();
+
+
+        
+
+        #region Plugin Interface
+
+        Queue<String> _OutgoingPluginMessage = new Queue<string>(64);
+
+        public Queue<String> OutgoingPluginMessage
+        {
+            get { return _OutgoingPluginMessage; }
+        }
+
+        Queue<String> _IncomingPluginMessage = new Queue<string>(64);
+
+        public Queue<String> IncomingPluginMessage
+        {
+            get { return _IncomingPluginMessage; }
+        }
+
+        public CAN_INTERFACE_TYPE PluginInterfaceType
+        {
+            get { return CAN_INTERFACE_TYPE.READ_WRITE; }
+        }
+
+        public String PluginName
+        {
+            get { return _PluginNameString; }
+        }
+
+        public String PluginVersion
+        {
+            get { return "0.1"; }
+        }
+
+        public Image PluginImage
+        {
+            get { return global::AEODRS_System.Properties.Resources.bender; }
+        }
+
+        int _MyInstanceID;
+
+        public int PluginInstanceID
+        {
+            get { return _MyInstanceID; }
+            set { _MyInstanceID = value; }
+        }
+
+        public String Init()
+        {
+            _IncomingCANMsgQueue = new Queue<CANMsg>(1024);
+            _OutgoingCANMsgQueue = new Queue<CANMsg>(1024);
+            _IncomingPluginMessage = new Queue<string>(1024);
+            _OutgoingPluginMessage = new Queue<string>(1024);
+            _OutgoingPluginMessage.Enqueue(_PluginNameString + " Initialized....");
+
+            return "OK";
+        }
+
+
+        PluginState _State = new PluginState();
+
+        public PluginState State
+        {
+            get
+            {
+                _State.WindowLocation = this.Location;
+                _State.WindowSize = this.Size;
+                _State.WindowState = this.WindowState;
+
+                return _State;
+            }
+            set
+            {
+                _State = value;
+
+                if (_State != null)
+                {
+                    this.Size = _State.WindowSize;
+                    this.Location = _State.WindowLocation;
+                    this.WindowState = _State.WindowState;
+                    this.Invalidate();
+                }
+            }
+
+        }
+
+        public String Terminate()
+        {
+            this.DestroyHandle();
+            this.Close();
+            return "OK";
+        }
+
+        public void ShowPlugin()
+        {
+            this.Show();
+            this.BringToFront();
+            this.WindowState = FormWindowState.Normal;
+
+        }
+
+        public void HidePlugin()
+        {
+            this.Hide();
+        }
+
+        Queue<CANMsg> _IncomingCANMsgQueue = new Queue<CANMsg>(1024);
+        Queue<CANMsg> _OutgoingCANMsgQueue = new Queue<CANMsg>(1024);
+
+        public Queue<CANMsg> IncomingCANMsgQueue
+        {
+            get { return _IncomingCANMsgQueue; }
+        }
+
+        public Queue<CANMsg> OutgoingCANMsgQueue
+        {
+            get { return _OutgoingCANMsgQueue; }
+
+        }
+
+        bool _RequestTermination = false;
+
+        public bool RequestTermination
+        {
+            get { return _RequestTermination; }
+        }
+
+        #endregion
+
+        
+        public AEODRS_System()
+        {
+            InitializeComponent();
+            MessageGeneratorTimer.Interval = 10;
+            MessageGeneratorTimer.Tick += MessageGeneratorTimer_Tick;
+            MessageGeneratorTimer.Enabled = true;
+
+            ObjectSelectDropDown.Items.Clear();
+
+            ObjectSelectDropDown.Items.AddRange((string [])Enum.GetNames(typeof(CM_PWR_ObjectTypes)));
+
+            ObjectSelectDropDown.SelectedItem = CM_PWR_ObjectTypes.ALL_OBJECTS.ToString();
+
+
+            ObjectStyleMPMC.BackColor = Color.LightBlue;
+            ObjectStyleBUS.BackColor = Color.LightCoral;
+            ObjectStyleESA.BackColor = Color.LightGreen;
+            ObjectStyleSDC.BackColor = Color.LightYellow;
+            ObjectStylePDC.BackColor = Color.LightSalmon;
+            ObjectStyleALL.BackColor = Color.Lime;
+            ObjectStyleUnknown.BackColor = Color.LightGray;
+            ObjectStyleDefault.BackColor = Color.White;
+
+            ObjectStyleMPMC.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            ObjectStyleBUS.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            ObjectStyleESA.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            ObjectStyleSDC.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            ObjectStylePDC.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            ObjectStyleALL.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            ObjectStyleUnknown.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            ObjectStyleDefault.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            DrawingControl.SetDoubleBuffered(SystemMessagesTextBox);
+            
+        }
+
+        void MessageGeneratorTimer_Tick(object sender, EventArgs e)
+        {
+            lock (_IncomingCANMsgQueue)
+            {
+
+                if (_IncomingCANMsgQueue.Count > 0)
+                {
+                    for (int i = 0; i < _IncomingCANMsgQueue.Count; i++)
+                    {
+                        CANMsg Msg = _IncomingCANMsgQueue.Dequeue();
+
+
+                        while (MessageHistoryQueue.Count > MessageHistorySize)
+                        {
+                            CANMsg Tmp = MessageHistoryQueue.Dequeue();
+                        }
+
+                        MessageHistoryQueue.Enqueue(Msg);
+
+                    }
+
+                    UpdateSystemMessageHistoryGrid();
+                }
+
+
+            }
+
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+   
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void All_IndiciesCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if(All_IndiciesCheckBox.Checked == true)
+            {
+                ObjectIndexSelect.Value =  (Decimal)127;
+            }
+        }
+
+        private void PingButton_Click(object sender, EventArgs e)
+        {
+            CANMsg  PingMsg = CM_PWR_MessageFactory.MakePing(CM_PWR_ObjectTypes.SYSTEM_DEBUG_CONTROLLER,0,
+                                                             (CM_PWR_ObjectTypes)Enum.Parse(typeof(CM_PWR_ObjectTypes),(string)ObjectSelectDropDown.SelectedItem),
+                                                             (uint)ObjectIndexSelect.Value);
+
+            _OutgoingCANMsgQueue.Enqueue(PingMsg);
+            _IncomingCANMsgQueue.Enqueue(PingMsg);
+
+        }
+
+        private void CM_PWR_MessageHistory_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+             
+        }
+    
+    
+        DataGridViewCellStyle GetObjectCellStyle(CM_PWR_ObjectTypes O)
+        {
+            switch(O)
+            {
+                case CM_PWR_ObjectTypes.BUS_CONTROLLER:
+                    return ObjectStyleBUS;
+                    break;
+
+                case CM_PWR_ObjectTypes.MASTER_POWER_MANAGEMENT_CONTROLLER:
+                    return ObjectStyleMPMC;
+                    break;
+
+                case CM_PWR_ObjectTypes.POWER_DISTIRBUTION_CHANNEL:
+                    return ObjectStylePDC;
+                    break;
+
+                case CM_PWR_ObjectTypes.SYSTEM_DEBUG_CONTROLLER:
+                    return ObjectStyleSDC;
+                    break;
+
+                case CM_PWR_ObjectTypes.ALL_OBJECTS:
+                    return ObjectStyleALL;
+                    break;
+
+                default:
+                    return ObjectStyleUnknown;
+                    break;
+
+            }
+
+        }
+    
+        void UpdateSystemMessageHistoryGrid()
+        {
+
+            string tmp ="";
+            string tmp2 = "";
+
+            CANMsg[] MessageHistoryArray = (CANMsg[])MessageHistoryQueue.ToArray();
+
+            Array.Reverse(MessageHistoryArray);
+
+            for (int i = 0; i < MessageHistoryArray.Length; i++)
+            {
+
+                tmp = "[Source] <" + CM_PWR_MessageFactory.GetSourceObjectType(MessageHistoryArray[i]).ToString() + ":" + CM_PWR_MessageFactory.GetSourceObjectIndex(MessageHistoryArray[i]).ToString() + ">";
+
+                if (tmp.Length < 52)
+                    tmp += new String(' ', 52 - tmp.Length);
+
+                 tmp +=   "[Destination] <" + CM_PWR_MessageFactory.GetDestinationObjectType(MessageHistoryArray[i]).ToString() + ":" + CM_PWR_MessageFactory.GetDestinationObjectIndex(MessageHistoryArray[i]).ToString()  + ">" +
+
+                    " (" + CM_PWR_MessageFactory.GetMessageType(MessageHistoryArray[i]).ToString() + ")\r\n";
+
+                 tmp2 += tmp;
+            }
+
+            SystemMessagesTextBox.Text = tmp2;
+
+            /*
+            DrawingControl.SuspendDrawing(CM_PWR_MessageHistoryDataGrid);
+
+            CM_PWR_MessageHistoryDataGrid.Rows.Clear();
+
+            for (int i = 0; i < MessageHistoryArray.Length; i++)
+            {
+
+                DataGridViewRow DR = new DataGridViewRow();
+
+                CM_PWR_MessageHistoryDataGrid.Rows.Add(DR);
+
+
+                DataGridViewCell C = new DataGridViewTextBoxCell();
+
+                C.Value = CM_PWR_MessageFactory.GetSourceObjectType(MessageHistoryArray[i]).ToString();
+                C.Style = GetObjectCellStyle(CM_PWR_MessageFactory.GetSourceObjectType(MessageHistoryArray[i]));
+                DR.Cells["SourceObjectType"] = C;
+                               
+                C = new DataGridViewTextBoxCell();
+                
+                C.Value = CM_PWR_MessageFactory.GetSourceObjectIndex(MessageHistoryArray[i]).ToString();
+                C.Style = ObjectStyleDefault;
+                DR.Cells["SourceIndex"] = C;
+
+                C = new DataGridViewTextBoxCell();
+                C.Value = CM_PWR_MessageFactory.GetDestinationObjectType(MessageHistoryArray[i]).ToString();
+                C.Style = GetObjectCellStyle(CM_PWR_MessageFactory.GetDestinationObjectType(MessageHistoryArray[i]));
+                DR.Cells["DestinationObjectType"] = C;
+
+
+                C = new DataGridViewTextBoxCell();
+                C.Value = CM_PWR_MessageFactory.GetDestinationObjectIndex(MessageHistoryArray[i]).ToString();
+                C.Style = ObjectStyleDefault;
+                DR.Cells["DestinationIndex"] = C;
+
+                C = new DataGridViewTextBoxCell();
+                C.Value = CM_PWR_MessageFactory.GetMessageType(MessageHistoryArray[i]).ToString();
+                C.Style = ObjectStyleDefault;
+                DR.Cells["MessageType"] = C;
+            }
+
+            DrawingControl.ResumeDrawing(CM_PWR_MessageHistoryDataGrid);
+            */
+
+        }
+    
+    
+    }
+
+
+
+    public static class DrawingControl
+    {
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, Int32 wMsg, bool wParam, Int32 lParam);
+
+        private const int WM_SETREDRAW = 11;
+
+        /// <summary>
+        /// Some controls, such as the DataGridView, do not allow setting the DoubleBuffered property.
+        /// It is set as a protected property. This method is a work-around to allow setting it.
+        /// Call this in the constructor just after InitializeComponent().
+        /// </summary>
+        /// <param name="control">The Control on which to set DoubleBuffered to true.</param>
+        public static void SetDoubleBuffered(Control control)
+        {
+            // if not remote desktop session then enable double-buffering optimization
+            if (!System.Windows.Forms.SystemInformation.TerminalServerSession)
+            {
+
+                // set instance non-public property with name "DoubleBuffered" to true
+                typeof(Control).InvokeMember("DoubleBuffered",
+                                             System.Reflection.BindingFlags.SetProperty |
+                                                System.Reflection.BindingFlags.Instance |
+                                                System.Reflection.BindingFlags.NonPublic,
+                                             null,
+                                             control,
+                                             new object[] { true });
+            }
+        }
+
+        /// <summary>
+        /// Suspend drawing updates for the specified control. After the control has been updated
+        /// call DrawingControl.ResumeDrawing(Control control).
+        /// </summary>
+        /// <param name="control">The control to suspend draw updates on.</param>
+        public static void SuspendDrawing(Control control)
+        {
+            SendMessage(control.Handle, WM_SETREDRAW, false, 0);
+        }
+
+        /// <summary>
+        /// Resume drawing updates for the specified control.
+        /// </summary>
+        /// <param name="control">The control to resume draw updates on.</param>
+        public static void ResumeDrawing(Control control)
+        {
+            SendMessage(control.Handle, WM_SETREDRAW, true, 0);
+            control.Refresh();
+        }
+    }
+}

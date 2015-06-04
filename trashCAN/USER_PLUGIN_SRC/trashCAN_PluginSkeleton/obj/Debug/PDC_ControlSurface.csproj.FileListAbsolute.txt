@@ -1,0 +1,11 @@
+D:\ELI\trashCAN\USER_PLUGIN_SRC\AEODRS\PDC_ControlSurface\PDC_ControlSurface\bin\Debug\PDC_ControlSurface.dll.config
+D:\ELI\trashCAN\USER_PLUGIN_SRC\AEODRS\PDC_ControlSurface\PDC_ControlSurface\bin\Debug\PDC_ControlSurface.dll
+D:\ELI\trashCAN\USER_PLUGIN_SRC\AEODRS\PDC_ControlSurface\PDC_ControlSurface\bin\Debug\PDC_ControlSurface.pdb
+D:\ELI\trashCAN\USER_PLUGIN_SRC\AEODRS\PDC_ControlSurface\PDC_ControlSurface\bin\Debug\ItrashCAN.dll
+D:\ELI\trashCAN\USER_PLUGIN_SRC\AEODRS\PDC_ControlSurface\PDC_ControlSurface\bin\Debug\ItrashCAN.pdb
+D:\ELI\trashCAN\USER_PLUGIN_SRC\AEODRS\PDC_ControlSurface\PDC_ControlSurface\obj\Debug\PDC_ControlSurface.csprojResolveAssemblyReference.cache
+D:\ELI\trashCAN\USER_PLUGIN_SRC\AEODRS\PDC_ControlSurface\PDC_ControlSurface\obj\Debug\PDC_ControlSurface.Form1.resources
+D:\ELI\trashCAN\USER_PLUGIN_SRC\AEODRS\PDC_ControlSurface\PDC_ControlSurface\obj\Debug\PDC_ControlSurface.Properties.Resources.resources
+D:\ELI\trashCAN\USER_PLUGIN_SRC\AEODRS\PDC_ControlSurface\PDC_ControlSurface\obj\Debug\PDC_ControlSurface.csproj.GenerateResource.Cache
+D:\ELI\trashCAN\USER_PLUGIN_SRC\AEODRS\PDC_ControlSurface\PDC_ControlSurface\obj\Debug\PDC_ControlSurface.dll
+D:\ELI\trashCAN\USER_PLUGIN_SRC\AEODRS\PDC_ControlSurface\PDC_ControlSurface\obj\Debug\PDC_ControlSurface.pdb

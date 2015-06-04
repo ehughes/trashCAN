@@ -1,0 +1,14 @@
+D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\trashCAN\bin\Debug\trashCAN.exe.config
+D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\trashCAN\bin\Debug\trashCAN.exe
+D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\trashCAN\bin\Debug\trashCAN.pdb
+D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\trashCAN\bin\Debug\ItrashCAN.dll
+D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\trashCAN\bin\Debug\ItrashCAN.pdb
+D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\trashCAN\obj\x86\Debug\trashCAN.csprojResolveAssemblyReference.cache
+D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\trashCAN\obj\x86\Debug\trashCAN.About.resources
+D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\trashCAN\obj\x86\Debug\trashCAN.Properties.Resources.resources
+D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\trashCAN\obj\x86\Debug\trashCAN.trashCANHost.resources
+D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\trashCAN\obj\x86\Debug\trashCAN.InstanceMonitor.resources
+D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\trashCAN\obj\x86\Debug\trashCAN.SysLog.resources
+D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\trashCAN\obj\x86\Debug\trashCAN.csproj.GenerateResource.Cache
+D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\trashCAN\obj\x86\Debug\trashCAN.exe
+D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\trashCAN\obj\x86\Debug\trashCAN.pdb

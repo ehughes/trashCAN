@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfPluginStateRecord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PluginStateRecord>
+    <NameWithVersion>J1939 Sniffer&gt;0.1</NameWithVersion>
+    <PluginInstanceID>0</PluginInstanceID>
+    <State>
+      <WindowSize>
+        <Width>843</Width>
+        <Height>405</Height>
+      </WindowSize>
+      <WindowLocation>
+        <X>643</X>
+        <Y>330</Y>
+      </WindowLocation>
+      <WindowState>Normal</WindowState>
+    </State>
+  </PluginStateRecord>
+  <PluginStateRecord>
+    <NameWithVersion>J1939 Sniffer&gt;0.1</NameWithVersion>
+    <PluginInstanceID>1</PluginInstanceID>
+    <State>
+      <WindowSize>
+        <Width>300</Width>
+        <Height>300</Height>
+      </WindowSize>
+      <WindowLocation>
+        <X>26</X>
+        <Y>26</Y>
+      </WindowLocation>
+      <WindowState>Normal</WindowState>
+    </State>
+  </PluginStateRecord>
+  <PluginStateRecord>
+    <NameWithVersion>J1939 Sniffer&gt;0.1</NameWithVersion>
+    <PluginInstanceID>2</PluginInstanceID>
+    <State>
+      <WindowSize>
+        <Width>300</Width>
+        <Height>300</Height>
+      </WindowSize>
+      <WindowLocation>
+        <X>26</X>
+        <Y>26</Y>
+      </WindowLocation>
+      <WindowState>Normal</WindowState>
+    </State>
+  </PluginStateRecord>
+</ArrayOfPluginStateRecord>

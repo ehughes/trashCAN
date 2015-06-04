@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfPluginStateRecord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PluginStateRecord>
+    <NameWithVersion>trashCAN Plugin Skeleton&gt;0.1</NameWithVersion>
+    <PluginInstanceID>0</PluginInstanceID>
+    <State>
+      <WindowSize>
+        <Width>544</Width>
+        <Height>350</Height>
+      </WindowSize>
+      <WindowLocation>
+        <X>211</X>
+        <Y>298</Y>
+      </WindowLocation>
+      <WindowState>Normal</WindowState>
+    </State>
+  </PluginStateRecord>
+</ArrayOfPluginStateRecord>

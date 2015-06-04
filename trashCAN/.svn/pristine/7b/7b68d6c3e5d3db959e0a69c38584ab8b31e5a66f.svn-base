@@ -1,0 +1,554 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using ItrashCAN;
+using System.Runtime.InteropServices;
+using CM_PWR;
+using System.Xml;
+using System.Xml.Serialization;
+using System.IO;
+
+namespace CM_PWR__BUS
+{
+
+    public partial class CM_PWR__BUS : Form , ItrashCANPlugin
+    {
+
+        const string _PluginNameString = "CM_PWR__BUS";
+       
+        const int PrintfMessageHistorySize = 64;
+        
+        Queue<string> PrintfStorage= new Queue<string>(PrintfMessageHistorySize);
+
+        Dictionary<string, string> PrintfDictionary = new Dictionary<string, string>();
+
+        System.Windows.Forms.Timer MessageGeneratorTimer = new Timer();
+
+        //These are used as holders while the can messages come in
+        Bus_Configuration[] TmpBus_Configuration = new Bus_Configuration[128];
+
+        //Once all the CAN messages come in for the state and configuration, they get dumped here.
+        Bus_State[] Bus_State = new Bus_State[128];
+        Bus_Configuration[] Bus_Configuration = new Bus_Configuration[128];
+
+        //THis holds the plugin state
+        BUS_PluginParametersState MyBUS_PluginParametersState = new BUS_PluginParametersState();
+
+        #region Plugin Interface
+
+        Queue<String> _OutgoingPluginMessage = new Queue<string>(64);
+
+        public Queue<String> OutgoingPluginMessage
+        {
+            get { return _OutgoingPluginMessage; }
+        }
+
+        Queue<String> _IncomingPluginMessage = new Queue<string>(64);
+
+        public Queue<String> IncomingPluginMessage
+        {
+            get { return _IncomingPluginMessage; }
+        }
+
+        public CAN_INTERFACE_TYPE PluginInterfaceType
+        {
+            get { return CAN_INTERFACE_TYPE.READ_WRITE; }
+        }
+
+        public String PluginName
+        {
+            get { return _PluginNameString; }
+        }
+
+        public String PluginVersion
+        {
+            get { return "0.1"; }
+        }
+
+        public Image PluginImage
+        {
+            get { return global::CM_PWR__BUS.Properties.Resources.bender; }
+        }
+
+        int _MyInstanceID;
+
+        public int PluginInstanceID
+        {
+            get { return _MyInstanceID; }
+            set { _MyInstanceID = value; }
+        }
+
+        public String Init()
+        {
+            _IncomingCANMsgQueue = new Queue<CAN_t>(1024);
+            _OutgoingCANMsgQueue = new Queue<CAN_t>(1024);
+            _IncomingPluginMessage = new Queue<string>(1024);
+            _OutgoingPluginMessage = new Queue<string>(1024);
+            _OutgoingPluginMessage.Enqueue(_PluginNameString + " Initialized....");
+
+            return "OK";
+        }
+
+
+        PluginState _State = new PluginState();
+
+        public PluginState State
+        {
+            get
+            {
+                SaveState();
+
+                _State.WindowLocation = this.Location;
+                _State.WindowSize = this.Size;
+                _State.WindowState = this.WindowState;
+
+                XmlSerializer xmlSerializer = new XmlSerializer(MyBUS_PluginParametersState.GetType());
+                StringWriter textWriter = new StringWriter();
+                xmlSerializer.Serialize(textWriter, MyBUS_PluginParametersState);
+                _State.PluginData = textWriter.ToString();
+
+
+                return _State;
+            }
+            set
+            {
+                _State = value;
+
+                if (_State != null)
+                {
+                    this.Size = _State.WindowSize;
+                    this.Location = _State.WindowLocation;
+                    this.WindowState = _State.WindowState;
+                    this.Invalidate();
+
+                    XmlSerializer xmlSerializer = new XmlSerializer(MyBUS_PluginParametersState.GetType());
+                    StringReader textReader = new StringReader(_State.PluginData);
+                    try
+                    {
+                        MyBUS_PluginParametersState = (BUS_PluginParametersState)xmlSerializer.Deserialize(textReader);
+                    }
+                    catch
+                    {
+
+
+                    }
+                    RestoreState();
+
+                }
+            }
+
+        }
+
+        public String Terminate()
+        {
+            this.DestroyHandle();
+            this.Close();
+            return "OK";
+        }
+
+        public void ShowPlugin()
+        {
+            this.Show();
+            this.BringToFront();
+            this.WindowState = FormWindowState.Normal;
+
+        }
+
+        public void HidePlugin()
+        {
+            this.Hide();
+        }
+
+        Queue<CAN_t> _IncomingCANMsgQueue = new Queue<CAN_t>(1024);
+        Queue<CAN_t> _OutgoingCANMsgQueue = new Queue<CAN_t>(1024);
+
+        public Queue<CAN_t> IncomingCANMsgQueue
+        {
+            get { return _IncomingCANMsgQueue; }
+        }
+
+        public Queue<CAN_t> OutgoingCANMsgQueue
+        {
+            get { return _OutgoingCANMsgQueue; }
+
+        }
+
+        bool _RequestTermination = false;
+
+        public bool RequestTermination
+        {
+            get { return _RequestTermination; }
+        }
+
+        #endregion
+
+        
+        public CM_PWR__BUS()
+        {
+            InitializeComponent();
+            MessageGeneratorTimer.Interval = 10;
+            MessageGeneratorTimer.Tick += MessageGeneratorTimer_Tick;
+            MessageGeneratorTimer.Enabled = true;
+
+        }
+
+        void MessageGeneratorTimer_Tick(object sender, EventArgs e)
+        {
+            uint Idx;
+
+            lock (_IncomingCANMsgQueue)
+            {
+
+                if (_IncomingCANMsgQueue.Count > 0)
+                {
+                    for (int i = 0; i < _IncomingCANMsgQueue.Count; i++)
+                    {
+                        CAN_t Msg = _IncomingCANMsgQueue.Dequeue();
+
+                
+                    //
+                    if (     (CM_PWR_MessageFactory.GetSourceObjectType(Msg) == CM_PWR_ObjectTypes.BUS
+                          && (CM_PWR_MessageFactory.GetSourceObjectIndex(Msg) == ObjectIndexSelect.Value || ObjectIndexSelect.Value == (decimal)CM_PWR_Index.ALL_INDICIES)))
+                    {
+                            #region MsgProcess
+                            switch(CM_PWR_MessageFactory.GetMessageType(Msg))
+                            {
+                                default:
+
+                                    break;
+
+                                    case CM_PWR_MessageType.DEBUG_PRINTF:
+
+                                    if (PrintfDictionary.ContainsKey(CM_PWR_MessageFactory.MakeSourceID_String(Msg)) == true)
+                                    {
+
+                                        PrintfDictionary[CM_PWR_MessageFactory.MakeSourceID_String(Msg)] += Encoding.UTF8.GetString(Msg.Data);
+                                    }
+                                    else
+                                    {
+                                        PrintfDictionary.Add(CM_PWR_MessageFactory.MakeSourceID_String(Msg),
+                                                              Encoding.UTF8.GetString(Msg.Data));
+                                    }
+
+                                    string tmp = PrintfDictionary[CM_PWR_MessageFactory.MakeSourceID_String(Msg)];
+
+                                    if(tmp.Contains("\r\n"))
+                                    {
+                                        PrintfDictionary[CM_PWR_MessageFactory.MakeSourceID_String(Msg)] = "";
+
+                                        PrintfStorage.Enqueue(CM_PWR_MessageFactory.MakeSourceID_String(Msg) + " " + tmp);
+                                    }
+
+                                    break;
+
+                                case CM_PWR_MessageType.BUS_MSG__REPORT_BUS_CONFIGURATION_BEGIN:
+
+                                    //Since this the 1st part of the response, create a new tmp object
+                                    Idx = CM_PWR_MessageFactory.GetSourceObjectIndex(Msg);
+
+                                    TmpBus_Configuration[Idx] = new Bus_Configuration();
+
+                                    break;
+
+                                case CM_PWR_MessageType.BUS_MSG__REPORT_BUS_CONFIGURATION_STRING:
+                                    //Only process if there is a tmp object, meaning we got the proper sequence
+
+                                    Idx = CM_PWR_MessageFactory.GetSourceObjectIndex(Msg);
+
+                                    if (TmpBus_Configuration[Idx] != null)
+                                    {
+                                        //Only Register this message if we got the 1st part
+
+                                        TmpBus_Configuration[Idx].Description = System.Text.Encoding.Default.GetString(Msg.Data);
+                                    }
+
+                                    break;
+
+                                case CM_PWR_MessageType.BUS_MSG__REPORT_BUS_CONFIGURATION:
+
+                                        Idx = CM_PWR_MessageFactory.GetSourceObjectIndex(Msg);
+
+
+                                    //Only process if there is a tmp object, meaning we got the proper sequence
+                                    if (TmpBus_Configuration[Idx] != null)
+                                    {
+                                        //Only Register this message if we got the 1st part
+                                        TmpBus_Configuration[Idx].EnergySources.AddRange(Msg.Data);
+                                    }
+
+                                    break;
+
+                                case CM_PWR_MessageType.BUS_MSG__REPORT_BUS_CONFIGURATION_END:
+
+                                    Idx = CM_PWR_MessageFactory.GetSourceObjectIndex(Msg);
+
+
+                                    //Only process if there is a tmp object, meaning we got the proper sequence
+                                    if (TmpBus_Configuration[Idx] != null)
+                                    {
+                                        //This is the last message in the sequence, store it!
+                                        Bus_Configuration[Idx] = TmpBus_Configuration[Idx];
+                                    }
+                                    break;
+
+                                case CM_PWR_MessageType.BUS_MSG__REPORT_BUS_STATE:
+
+                                    //Since this the 1st part of the response, create a new tmp object
+                                    Idx = CM_PWR_MessageFactory.GetSourceObjectIndex(Msg);
+
+                                    if(Msg.Data.Length == 8)
+                                    {
+                                        Bus_State[Idx] = new CM_PWR.Bus_State();
+                                        Bus_State[Idx].Voltage  = System.BitConverter.ToSingle(Msg.Data, 0);
+                                        Bus_State[Idx].Current = System.BitConverter.ToSingle(Msg.Data, 4);
+                                    }
+                                    break;
+
+                               
+                            }
+                            #endregion
+
+                    }
+
+                    }
+
+                }
+
+
+            }
+        }
+
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+   
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void All_IndiciesCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if(All_IndiciesCheckBox.Checked == true)
+            {
+                ObjectIndexSelect.Value =  (Decimal)127;
+            }
+        }
+
+        private void PingButton_Click(object sender, EventArgs e)
+        {
+            CAN_t  PingMsg = CM_PWR_MessageFactory.MakePing(CM_PWR_ObjectTypes.SDC,0,
+                                                             CM_PWR_ObjectTypes.PDC,
+                                                             (uint)ObjectIndexSelect.Value);
+
+            _OutgoingCANMsgQueue.Enqueue(PingMsg);
+            _IncomingCANMsgQueue.Enqueue(PingMsg);
+
+        }
+
+        private void FormUpdateTimers_Tick(object sender, EventArgs e)
+        {
+            while(PrintfStorage.Count > PrintfMessageHistorySize)
+            {
+                string t = PrintfStorage.Dequeue();
+            }
+
+            string Tmp= "";
+
+            string[] Tmp2 = (string[])PrintfStorage.ToArray();
+
+            for(int i=0;i<PrintfStorage.Count;i++)
+            {
+
+                Tmp = Tmp2[i] + Tmp;
+            }
+
+            PrintfTextBox.Text = Tmp;
+
+            UpdateConfigTextBox();
+
+            UpdateStateTextBox();
+
+        }
+
+        private void EnableDebugPrintfButton_Click(object sender, EventArgs e)
+        {
+            CAN_t Msg = CM_PWR_MessageFactory.MakeEnableDebugPrintf(CM_PWR_ObjectTypes.SDC, 0,
+                                                 CM_PWR_ObjectTypes.PDC,
+                                                 (uint)ObjectIndexSelect.Value);
+
+            _OutgoingCANMsgQueue.Enqueue(Msg);
+            _IncomingCANMsgQueue.Enqueue(Msg);
+        }
+
+        private void DisableDebugPrintfButton_Click(object sender, EventArgs e)
+        {
+            CAN_t Msg = CM_PWR_MessageFactory.MakeDisableDebugPrintf(CM_PWR_ObjectTypes.SDC, 0,
+                                                                     CM_PWR_ObjectTypes.PDC,
+                                                                     (uint)ObjectIndexSelect.Value);
+
+            _OutgoingCANMsgQueue.Enqueue(Msg);
+            _IncomingCANMsgQueue.Enqueue(Msg);
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AEODRS_System_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _RequestTermination = true;
+        }
+
+        private void QueryChannelConfigurationButton_Click(object sender, EventArgs e)
+        {
+            QueryConfiguration();
+        }
+
+        private void QueryChannelStateButton_Click(object sender, EventArgs e)
+        {
+            QueryState();
+        }
+
+      
+        public void SaveState()
+        {
+            MyBUS_PluginParametersState.SelectedIndex = (int)ObjectIndexSelect.Value;
+            MyBUS_PluginParametersState.AutoQueryConfig = AutoQueryConfigCB.Checked;
+            MyBUS_PluginParametersState.AutoQueryState = AutoQueryStateCB.Checked;
+        }
+
+        public void RestoreState()
+        {
+            ObjectIndexSelect.Value = MyBUS_PluginParametersState.SelectedIndex ;
+
+            AutoQueryConfigCB.Checked =   MyBUS_PluginParametersState.AutoQueryConfig;
+            AutoQueryStateCB.Checked = MyBUS_PluginParametersState.AutoQueryState;
+        }
+
+
+        public void UpdateConfigTextBox()
+        {
+            string T = "";
+
+           
+            for (int i = 0; i < Bus_Configuration.Length; i++)
+            {
+                if (Bus_Configuration[i] != null)
+                {
+                    string temp = Bus_Configuration[i].Description.Replace('\0', ' ');
+
+                    T = T + temp + " > " + " EnergySources :";
+                    
+                    byte [] ESAs = (byte [])Bus_Configuration[i].EnergySources.ToArray(typeof(byte));
+
+                    if(ESAs!=null)
+                    {
+                        for(int j=0;j<ESAs.Length;j++)
+                        {
+                            T = T + "0x" + ESAs[j].ToString("X2") + " ";
+                        }
+
+                    }
+                    
+                    T = T + "\r\n";
+                }
+            }
+
+            BusConfigurationTextBox.Text = T;
+        }
+
+
+        public void UpdateStateTextBox()
+        {
+            string T = "";
+           
+            for (int i = 0; i < Bus_State.Length; i++)
+            {
+
+                if (Bus_State[i] != null)
+                {
+                    string Description = "BUS" + i;
+
+                    if(Bus_Configuration[i]!= null)
+                        Description =  Bus_Configuration[i].Description.Replace('\0', ' ');
+
+                    T = T + Description + " > " + Bus_State[i].Voltage.ToString("00.00") + "Volts  "
+                         + Bus_State[i].Current.ToString("00.00") + "Amps " + "\r\n"; ;
+
+                 
+                }
+            }
+      
+            BusStateTextBox.Text = T;
+        }
+
+
+        [Serializable()]
+        public class BUS_PluginParametersState
+        {
+
+            public int SelectedIndex = 0;
+            public bool AutoQueryConfig = false;
+            public bool AutoQueryState = false;
+        }
+
+        private void AutoQueryCB_CheckedChanged(object sender, EventArgs e)
+        {
+            if (AutoQueryConfigCB.Checked == true)
+                AutoConfigQueryTimer.Enabled = true;
+            else
+                AutoConfigQueryTimer.Enabled = false;
+        }
+
+        private void AutoConfigQueryTimer_Tick(object sender, EventArgs e)
+        {
+            QueryConfiguration();
+        }
+
+        public void QueryConfiguration()
+        {
+            CAN_t Msg = CM_PWR_MessageFactory.MakeQueryBUS_Configuration(CM_PWR_ObjectTypes.SDC, 0,
+                                                                         (uint)ObjectIndexSelect.Value);
+
+            _OutgoingCANMsgQueue.Enqueue(Msg);
+        }
+
+        public void QueryState()
+        {
+            CAN_t Msg = CM_PWR_MessageFactory.MakeQueryBUS_State(CM_PWR_ObjectTypes.SDC, 0,
+                                                                   (uint)ObjectIndexSelect.Value);
+
+            _OutgoingCANMsgQueue.Enqueue(Msg);
+
+        }
+
+        private void AutoStateQueryCB_CheckedChanged(object sender, EventArgs e)
+        {
+            if (AutoQueryStateCB.Checked == true)
+                AutoStateTimer.Enabled = true;
+            else
+                AutoStateTimer.Enabled = false;
+        }
+
+        private void AutoStateTimer_Tick(object sender, EventArgs e)
+        {
+            QueryState();
+        }
+
+
+    }
+
+
+   
+   
+}

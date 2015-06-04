@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfPluginStateRecord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PluginStateRecord>
+    <NameWithVersion>PCAN-USB&gt;1.0</NameWithVersion>
+    <PluginInstanceID>0</PluginInstanceID>
+    <State>
+      <WindowSize>
+        <Width>224</Width>
+        <Height>233</Height>
+      </WindowSize>
+      <WindowLocation>
+        <X>3071</X>
+        <Y>264</Y>
+      </WindowLocation>
+      <WindowState>Normal</WindowState>
+      <PluginData>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;PCAN_USB_State xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;SelectedBaudRate&gt;2&lt;/SelectedBaudRate&gt;
+  &lt;SelectedChannel&gt;1&lt;/SelectedChannel&gt;
+  &lt;ConnectionActive&gt;0&lt;/ConnectionActive&gt;
+&lt;/PCAN_USB_State&gt;</PluginData>
+    </State>
+  </PluginStateRecord>
+  <PluginStateRecord>
+    <NameWithVersion>CM_PWR__PDC&gt;0.1</NameWithVersion>
+    <PluginInstanceID>1</PluginInstanceID>
+    <State>
+      <WindowSize>
+        <Width>1024</Width>
+        <Height>600</Height>
+      </WindowSize>
+      <WindowLocation>
+        <X>2179</X>
+        <Y>458</Y>
+      </WindowLocation>
+      <WindowState>Normal</WindowState>
+      <PluginData>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;PDC_PluginParametersState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;SelectedIndex&gt;127&lt;/SelectedIndex&gt;
+  &lt;AutoQueryConfig&gt;true&lt;/AutoQueryConfig&gt;
+  &lt;AutoQueryState&gt;true&lt;/AutoQueryState&gt;
+&lt;/PDC_PluginParametersState&gt;</PluginData>
+    </State>
+  </PluginStateRecord>
+  <PluginStateRecord>
+    <NameWithVersion>CM_PWR__ESA&gt;0.1</NameWithVersion>
+    <PluginInstanceID>2</PluginInstanceID>
+    <State>
+      <WindowSize>
+        <Width>1024</Width>
+        <Height>600</Height>
+      </WindowSize>
+      <WindowLocation>
+        <X>2569</X>
+        <Y>658</Y>
+      </WindowLocation>
+      <WindowState>Normal</WindowState>
+      <PluginData>&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;PDC_PluginParametersState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;SelectedIndex&gt;127&lt;/SelectedIndex&gt;
+  &lt;AutoQueryConfig&gt;true&lt;/AutoQueryConfig&gt;
+  &lt;AutoQueryState&gt;true&lt;/AutoQueryState&gt;
+&lt;/PDC_PluginParametersState&gt;</PluginData>
+    </State>
+  </PluginStateRecord>
+  <PluginStateRecord>
+    <NameWithVersion>CAN Message Sniffer&gt;0.9</NameWithVersion>
+    <PluginInstanceID>3</PluginInstanceID>
+    <State>
+      <WindowSize>
+        <Width>478</Width>
+        <Height>316</Height>
+      </WindowSize>
+      <WindowLocation>
+        <X>3291</X>
+        <Y>61</Y>
+      </WindowLocation>
+      <WindowState>Normal</WindowState>
+    </State>
+  </PluginStateRecord>
+</ArrayOfPluginStateRecord>
