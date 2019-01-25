@@ -106,3 +106,15 @@ D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\obj\Debug\CANMessageSniffer
 D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\obj\Debug\CANMessageSniffer.csproj.GenerateResource.Cache
 D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\obj\Debug\CANMessageSniffer.dll
 D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\obj\Debug\CANMessageSniffer.pdb
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\bin\Debug\CANMessageSniffer.dll
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\bin\Debug\CANMessageSniffer.pdb
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\bin\Debug\CANMessageInjector.dll
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\bin\Debug\ItrashCAN.dll
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\bin\Debug\CANMessageInjector.pdb
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\bin\Debug\ItrashCAN.pdb
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\obj\Debug\CANMessageSniffer.csprojResolveAssemblyReference.cache
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\obj\Debug\CANMessageSniffer.CANMessageSniffer.resources
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\obj\Debug\CANMessageSniffer.Properties.Resources.resources
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\obj\Debug\CANMessageSniffer.csproj.GenerateResource.Cache
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\obj\Debug\CANMessageSniffer.dll
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\obj\Debug\CANMessageSniffer.pdb

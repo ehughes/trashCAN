@@ -12,3 +12,17 @@ D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\trashCAN\obj\x86\Debug\trashCAN.SysLog.resour
 D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\trashCAN\obj\x86\Debug\trashCAN.csproj.GenerateResource.Cache
 D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\trashCAN\obj\x86\Debug\trashCAN.exe
 D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\trashCAN\obj\x86\Debug\trashCAN.pdb
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\trashCAN\bin\Debug\TrashCAN.exe.config
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\trashCAN\bin\Debug\TrashCAN.exe
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\trashCAN\bin\Debug\TrashCAN.pdb
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\trashCAN\bin\Debug\ItrashCAN.dll
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\trashCAN\bin\Debug\ItrashCAN.pdb
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\trashCAN\obj\x86\Debug\trashCAN.csprojResolveAssemblyReference.cache
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\trashCAN\obj\x86\Debug\trashCAN.About.resources
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\trashCAN\obj\x86\Debug\trashCAN.Properties.Resources.resources
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\trashCAN\obj\x86\Debug\trashCAN.trashCANHost.resources
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\trashCAN\obj\x86\Debug\trashCAN.InstanceMonitor.resources
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\trashCAN\obj\x86\Debug\trashCAN.SysLog.resources
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\trashCAN\obj\x86\Debug\trashCAN.csproj.GenerateResource.Cache
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\trashCAN\obj\x86\Debug\TrashCAN.exe
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\trashCAN\obj\x86\Debug\TrashCAN.pdb

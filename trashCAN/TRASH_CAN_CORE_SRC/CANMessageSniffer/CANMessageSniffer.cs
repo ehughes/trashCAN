@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using ItrashCAN;
@@ -13,6 +14,12 @@ namespace CANMessageSniffer
         [Serializable()]
     public partial class CANMessageSniffer : Form, ItrashCANPlugin
     {
+
+        Point MyLocation;
+        Size MySize;
+        int msgLockedCount;
+        int msgTotalInCount;
+
         public CANMessageSniffer()
         {
             InitializeComponent();
@@ -42,12 +49,24 @@ namespace CANMessageSniffer
 
         public String PluginName
         {
-            get { return "CAN Message Sniffer";}
+            //get { return "CAN Message Sniffer";}
+            get 
+            { 
+                //return _PluginNameString; 
+                return Assembly.GetExecutingAssembly().GetName().Name.ToString();
+            }
         }
    
         public String PluginVersion
         {
-            get { return "0.9"; }
+            //get { return "0.9"; }
+            get 
+            {
+                //return _PluginVersion; 
+                //return this.ProductVersion;
+                Version ver = Assembly.GetExecutingAssembly().GetName().Version;
+                return ver.Major + "." + ver.Minor + "." + ver.Build;
+            }
         }
 
         public Image PluginImage
@@ -82,8 +101,14 @@ namespace CANMessageSniffer
         {
             get
             {
-                _State.WindowLocation = this.Location;
-                _State.WindowSize = this.Size;
+                //_State.WindowLocation = this.Location;
+                //_State.WindowSize = this.Size;
+                //_State.WindowState = this.WindowState;
+
+                //return _State;
+                
+                _State.WindowLocation = MyLocation;
+                _State.WindowSize = MySize;
                 _State.WindowState = this.WindowState;
 
                 return _State;
@@ -115,6 +140,8 @@ namespace CANMessageSniffer
             this.Show();
             this.BringToFront();
             this.WindowState = FormWindowState.Normal;
+            this.Text = PluginName + " v" + PluginVersion;
+            ClearStatistics();
            
         }
 
@@ -159,29 +186,72 @@ namespace CANMessageSniffer
             _OutgoingPluginMessage.Enqueue("I want to close");
         }
 
+
+        private void ClearStatistics()
+        {
+            msgTotalInCount = 0;
+            msgLockedCount = 0;
+            CANMsgDisplayQueue.Clear();
+            
+        }
+
+        StringBuilder sbOutput = new StringBuilder(32768);
         private void SnifferUpdateTimer_Tick(object sender, EventArgs e)
         {
+
+            bool isUnlocked;
+
             _IncomingPluginMessage.Clear();
             
             while(_IncomingCANMsgQueue.Count>0)
             {
-                CANMsgDisplayQueue.Enqueue(_IncomingCANMsgQueue.Dequeue());
+                //CANMsgDisplayQueue.Enqueue(_IncomingCANMsgQueue.Dequeue());
+                isUnlocked = System.Threading.Monitor.TryEnter(_IncomingCANMsgQueue, 0);
+                if (isUnlocked == true)
+                {
+                    try
+                    {
+                        msgTotalInCount++;
+                        CANMsgDisplayQueue.Enqueue(_IncomingCANMsgQueue.Dequeue());
+
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex.ToString());
+                    }
+                    finally
+                    {
+                        System.Threading.Monitor.Exit(_IncomingCANMsgQueue);
+                    }
+                }
+
+                if  (isUnlocked == false)
+                {
+                    msgLockedCount++;
+                }
             }
 
-            while(CANMsgDisplayQueue.Count>64)
+            while(CANMsgDisplayQueue.Count > 128)
             {
                 CAN_t Junk = CANMsgDisplayQueue.Dequeue();
             }
 
             CAN_t[] DisplayMsg = (CAN_t[])CANMsgDisplayQueue.ToArray();
 
-            String Output = "";
+            sbOutput.Clear();
+            //String Output = "";
             for (int i = 0; i < DisplayMsg.Length;i++ )
             {
-                 Output += DisplayMsg[DisplayMsg.Length - i - 1].ToString() + "\r\n";
+                 //Output += DisplayMsg[DisplayMsg.Length - i - 1].ToString() + "\r\n";
+                sbOutput.AppendLine(DisplayMsg[DisplayMsg.Length - i - 1].ToString());
             }
 
-            CANMsgTextBox.Text = Output;
+            //CANMsgTextBox.Text = Output;
+            CANMsgTextBox.Text = sbOutput.ToString();
+            
+
+            statusMessagesIn.Text = "IN:  " + msgTotalInCount.ToString("#,0");
+            statusLockCount.Text = "LOCK:  " + msgLockedCount.ToString("#,0");
         }
 
         private void CANMessageSniffer_Resize(object sender, EventArgs e)
@@ -191,9 +261,38 @@ namespace CANMessageSniffer
 
         void ResizeDisplay()
         {
-            CANMsgTextBox.Location = new Point(0, 0);
-            CANMsgTextBox.Size = new Size(this.ClientRectangle.Width, this.ClientRectangle.Height);
+            if (this.Size.Width >= this.MinimumSize.Width && this.Size.Height >= this.MinimumSize.Height)
+            {
+                MySize = this.Size;
+            }
+
+            //CANMsgTextBox.Location = new Point(0, 0);
+            //CANMsgTextBox.Size = new Size(this.ClientRectangle.Width, this.ClientRectangle.Height);
         }
+
+        private void CANMessageSniffer_LocationChanged(object sender, EventArgs e)
+        {
+            if ((this.Location.X >= 0) && (this.Location.Y >= 0))
+            {
+                MyLocation = this.Location;
+            }
+        }
+
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ClearStatistics();
+        }
+
+        private void statusMessagesIn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+
+        }
+
 
     }
 }

@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CANMessageSniffer", "CANMessageSniffer\CANMessageSniffer.csproj", "{D2649C2C-5234-42A1-8B3B-CB3911ED7A09}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CANMessageInjector", "CANMessageInjector\CANMessageInjector.csproj", "{1981848E-E474-491B-81D2-D11B8C1E0CBC}"

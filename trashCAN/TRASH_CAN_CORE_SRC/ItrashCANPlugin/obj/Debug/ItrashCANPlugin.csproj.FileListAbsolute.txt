@@ -43,3 +43,8 @@ D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\ItrashCANPlugin\bin\Debug\ItrashCAN.pdb
 D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\ItrashCANPlugin\obj\Debug\ItrashCAN.dll
 D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\ItrashCANPlugin\obj\Debug\ItrashCAN.pdb
 D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\ItrashCANPlugin\obj\Debug\ItrashCANPlugin.csprojResolveAssemblyReference.cache
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\ItrashCANPlugin\bin\Debug\ItrashCAN.dll
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\ItrashCANPlugin\bin\Debug\ItrashCAN.pdb
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\ItrashCANPlugin\obj\Debug\ItrashCAN.dll
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\ItrashCANPlugin\obj\Debug\ItrashCAN.pdb
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\ItrashCANPlugin\obj\Debug\ItrashCANPlugin.csprojResolveAssemblyReference.cache

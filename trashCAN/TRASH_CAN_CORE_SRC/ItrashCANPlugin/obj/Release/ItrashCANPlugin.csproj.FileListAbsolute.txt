@@ -1,0 +1,4 @@
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\ItrashCANPlugin\bin\Release\ItrashCAN.dll
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\ItrashCANPlugin\bin\Release\ItrashCAN.pdb
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\ItrashCANPlugin\obj\Release\ItrashCAN.dll
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\ItrashCANPlugin\obj\Release\ItrashCAN.pdb

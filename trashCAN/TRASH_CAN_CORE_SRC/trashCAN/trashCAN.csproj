@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>trashCAN</RootNamespace>
-    <AssemblyName>trashCAN</AssemblyName>
+    <AssemblyName>TrashCAN</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -101,6 +101,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="trashCAN.resx">
       <DependentUpon>trashCAN.cs</DependentUpon>
@@ -150,6 +151,7 @@
   <ItemGroup>
     <None Include="svn-commit.png" />
     <None Include="svn-update.png" />
+    <None Include="Resources\CROP_ARL_Logo_Blue_One_100_Pixel_High.png" />
     <Content Include="trashCAN.ico" />
     <None Include="trashCANHelp.txt" />
   </ItemGroup>
@@ -183,7 +185,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" "$(SolutionDir)..\BIN\$(TargetFileName)"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetPath)" "$(SolutionDir)..\..\BIN\$(TargetFileName)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

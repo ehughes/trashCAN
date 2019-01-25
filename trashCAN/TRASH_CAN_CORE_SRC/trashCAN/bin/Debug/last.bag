@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfPluginStateRecord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <PluginStateRecord>
-    <NameWithVersion>CAN Message Sniffer&gt;0.9</NameWithVersion>
-    <PluginInstanceID>1</PluginInstanceID>
-    <State>
-      <WindowSize>
-        <Width>478</Width>
-        <Height>316</Height>
-      </WindowSize>
-      <WindowLocation>
-        <X>820</X>
-        <Y>317</Y>
-      </WindowLocation>
-      <WindowState>Normal</WindowState>
-    </State>
-  </PluginStateRecord>
-</ArrayOfPluginStateRecord>
+<TrashCANStateRecord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PluginStates />
+  <MyState>
+    <WindowSize>
+      <Width>205</Width>
+      <Height>135</Height>
+    </WindowSize>
+    <WindowLocation>
+      <X>158</X>
+      <Y>162</Y>
+    </WindowLocation>
+    <WindowState>Normal</WindowState>
+  </MyState>
+</TrashCANStateRecord>

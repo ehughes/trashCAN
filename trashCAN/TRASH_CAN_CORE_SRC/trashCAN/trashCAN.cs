@@ -20,9 +20,14 @@ namespace trashCAN
 {
     public partial class trashCANHost : Form
     {
+        public Version ver = Assembly.GetExecutingAssembly().GetName().Version;
+        public string sTCVersion = "v" + Assembly.GetExecutingAssembly().GetName().Version.Major + "." + Assembly.GetExecutingAssembly().GetName().Version.Minor + "." + Assembly.GetExecutingAssembly().GetName().Version.Build;
+
         SysLog CANHostLog = new SysLog();
         SysLog PluginMessageLog = new SysLog();
-      
+
+        TrashCANStateRecord MyRecords;
+        System.Drawing.Point MyLocation;
 
         const string RootPluginPath = "PLUGINS";
         ArrayList AvailablePlugins = new ArrayList();
@@ -34,15 +39,20 @@ namespace trashCAN
         bool KillAllThreads = false;
         About MyAboutForm = new About();
         bool PausePluginProcessing;
+        bool PluginRequestExitTrashCAN = false;
+
         
         public trashCANHost(string[] args)
         {
+            
+            this.Text = sTCVersion;
+            
             InitializeComponent();
 
             CANHostLog.Text = "CAN Host Plugin Log";
             PluginMessageLog.Text = "Plugin Output Message Log";
 
-            CANHostLog.Write("Starting Host....");
+            CANHostLog.Write("Starting Host...." + sTCVersion);
             try
             {
                 HostInit(args);
@@ -152,6 +162,11 @@ namespace trashCAN
                 }
 
                 UpdateInstanceGrid();
+            }
+
+            if (PluginRequestExitTrashCAN == true)
+            {
+                this.Close();
             }
 
 
@@ -295,6 +310,8 @@ namespace trashCAN
 
         void PluginProcessLoop()
         {
+            bool isUnlocked;
+
             while (true)
             {
                 if (KillAllThreads == true)
@@ -320,16 +337,40 @@ namespace trashCAN
                                             {
                                                 CAN_t M = PSrc.Plugin.OutgoingCANMsgQueue.Dequeue();
 
-                                                foreach (PluginInstanceRecord PDest in ActivePlugins)
+                                                if(M != null)
                                                 {
-                                                    if (PSrc.PluginInstanceID != PDest.PluginInstanceID)
+                                                    foreach (PluginInstanceRecord PDest in ActivePlugins)
                                                     {
-                                                        if (PDest.Plugin.PluginInterfaceType == CAN_INTERFACE_TYPE.READ_WRITE ||
-                                                            PDest.Plugin.PluginInterfaceType == CAN_INTERFACE_TYPE.READ_ONLY)
+                                                        if (PSrc.PluginInstanceID != PDest.PluginInstanceID)
                                                         {
-                                                            PDest.Plugin.IncomingCANMsgQueue.Enqueue(M);
+                                                            if (PDest.Plugin.PluginInterfaceType == CAN_INTERFACE_TYPE.READ_WRITE ||
+                                                                PDest.Plugin.PluginInterfaceType == CAN_INTERFACE_TYPE.READ_ONLY)
+                                                            {
+                                                                isUnlocked = System.Threading.Monitor.TryEnter(PDest.Plugin.IncomingCANMsgQueue, 10);
+                                                                if (isUnlocked == true)
+                                                                {
+                                                                    try
+                                                                    {
+                                                                        PDest.Plugin.IncomingCANMsgQueue.Enqueue(M);
+
+                                                                    }
+                                                                    catch (Exception ex)
+                                                                    {
+                                                                        System.Diagnostics.Debug.WriteLine(ex.ToString());
+                                                                    }
+                                                                    finally
+                                                                    {
+                                                                        System.Threading.Monitor.Exit(PDest.Plugin.IncomingCANMsgQueue);
+                                                                    }
+                                                                }
+                                                                
+                                                            }
                                                         }
                                                     }
+                                                }
+                                                else
+                                                {
+                                                    CANHostLog.IncomingMessages.Enqueue("OutgoingCANMsgQueue.Dequeue() Returned NULL with count of " + PSrc.Plugin.OutgoingCANMsgQueue.Count);
                                                 }
                                             }
                                             catch (Exception Ex)
@@ -356,6 +397,11 @@ namespace trashCAN
                                         {
                                             String M = PSrc.Plugin.OutgoingPluginMessage.Dequeue();
 
+                                            if (M.Substring(0, 20) == "***EXIT_TRASH_CAN***")
+                                            {
+                                                PluginRequestExitTrashCAN = true;
+                                            }
+
                                             PluginMessageLog.Write("[" + PSrc.Plugin.PluginName + ":" + PSrc.PluginInstanceID + "] " + M);
 
                                             if (M.Substring(0, 1) == "@")
@@ -366,6 +412,7 @@ namespace trashCAN
                                                         PDest.Plugin.IncomingPluginMessage.Enqueue(M);
                                                 }
                                             }
+                                            
                                         }
                                         catch (Exception Ex)
                                         {
@@ -415,6 +462,7 @@ namespace trashCAN
             {
                 PluginInstanceRecord P = (PluginInstanceRecord)ActivePlugins[i];
                 //Check to see if 
+                
                 if (P.Plugin.RequestTermination == true)
                 {
                     CANHostLog.Write(P.Plugin.PluginName + " with Instance ID " + P.PluginInstanceID + " is requesting termination");
@@ -427,6 +475,7 @@ namespace trashCAN
                     ActivePlugins.RemoveAt(i);
                     PluginsRemoved = true;
                 }
+
             }
             if (PluginsRemoved == true)
                 UpdateInstanceGrid();
@@ -498,6 +547,12 @@ namespace trashCAN
                     if (ActivePlugins != null)
                     {
 
+                        TrashCANStateRecord testRecord = new TrashCANStateRecord();
+                        
+                        Array.Resize(ref testRecord.PluginStates, ActivePlugins.Count);
+                        testRecord.MyState = new TrashCanState();
+                        
+
                         PluginStateRecord [] MyStates = new PluginStateRecord[ActivePlugins.Count];
                         int i=0;
 
@@ -510,14 +565,27 @@ namespace trashCAN
                             PSR.PluginInstanceID = P.PluginInstanceID;
 
                             PSR.State = P.Plugin.State;
-                         
+
+                            testRecord.PluginStates[i] = PSR;
 
                             MyStates[i++] = PSR;
+
                         }
 
-                        XmlSerializer serializer = new XmlSerializer(MyStates.GetType());
+                        //TrashCanState myState = new TrashCanState();
+                        testRecord.MyState.WindowLocation = MyLocation;
+                        testRecord.MyState.WindowSize = this.Size;
+                        testRecord.MyState.WindowState = this.WindowState;
+
+
+                        //XmlSerializer serializer = new XmlSerializer(MyStates.GetType());
+                        //TextWriter writer = new StreamWriter(FileName);
+                        //serializer.Serialize(writer, MyStates);
+                        //writer.Close();
+
+                        XmlSerializer serializer = new XmlSerializer(testRecord.GetType());
                         TextWriter writer = new StreamWriter(FileName);
-                        serializer.Serialize(writer, MyStates);
+                        serializer.Serialize(writer, testRecord);
                         writer.Close();
 
 
@@ -563,17 +631,32 @@ namespace trashCAN
 
                             ActivePlugins = new ArrayList();
 
-                            PluginStateRecord[] MyStates;
+                            //PluginStateRecord[] MyStates;
 
-                            XmlSerializer serializer = new XmlSerializer(typeof(PluginStateRecord[]));
+                            
+                            XmlSerializer serializer = new XmlSerializer(typeof(TrashCANStateRecord));
                             TextReader reader = new StreamReader(FileName);
-                            MyStates = (PluginStateRecord[])serializer.Deserialize(reader);
+                            MyRecords = (TrashCANStateRecord)serializer.Deserialize(reader);
                             reader.Close();
 
-                    
+
+                            //XmlSerializer serializer = new XmlSerializer(typeof(PluginStateRecord[]));
+                            //TextReader reader = new StreamReader(FileName);
+                            //MyStates = (PluginStateRecord[])serializer.Deserialize(reader);
+                            //reader.Close();
+
+                    /*
                             if (MyStates != null)
                             {
                                 foreach (PluginStateRecord P in MyStates)
+                                {
+                                    AddPluginToPool(P.NameWithVersion, P.State);
+                                }
+                            }*/
+
+                            if (MyRecords.PluginStates != null)
+                            {
+                                foreach (PluginStateRecord P in MyRecords.PluginStates)
                                 {
                                     AddPluginToPool(P.NameWithVersion, P.State);
                                 }
@@ -598,9 +681,15 @@ namespace trashCAN
 
         private void CANHost_FormClosing(object sender, FormClosingEventArgs e)
         {
+            //CloseTrashCAN();
             Save_trashCAN_State(Path.Combine(Directory.GetCurrentDirectory(), "last.bag"));
-
             KillPluginHost();
+        }
+
+        private void CloseTrashCAN()
+        {
+            
+            
         }
 
         private void pluginMessageLogToolStripMenuItem_Click(object sender, EventArgs e)
@@ -610,7 +699,9 @@ namespace trashCAN
 
         private void trashCANHost_Load(object sender, EventArgs e)
         {
-
+            this.Location = MyRecords.MyState.WindowLocation;
+            this.Size = MyRecords.MyState.WindowSize;
+            this.WindowState = MyRecords.MyState.WindowState;
         }
 
         private void pluginInstanceMonitorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -651,6 +742,20 @@ namespace trashCAN
         }
 
 
+        private void trashCANHost_LocationChanged(object sender, EventArgs e)
+        {
+            if ( (this.Location.X >= 0) && (this.Location.Y >= 0) )
+            {
+                MyLocation = this.Location;
+            }
+        }
+
+        private void timerUpdateGUI_Tick(object sender, EventArgs e)
+        {
+            statusLabelActive.Text = "Active: " + ActivePlugins.Count;
+        }
+
+
     }
     
     #region Helper Classes
@@ -682,11 +787,28 @@ namespace trashCAN
     }
 
     [Serializable()]
+    public class TrashCANStateRecord
+    {
+        public PluginStateRecord[] PluginStates;
+        public TrashCanState MyState;
+
+    }
+
+    [Serializable()]
     public class PluginStateRecord
     {
         public string NameWithVersion;
         public int PluginInstanceID;
         public PluginState State;
+    }
+
+    [Serializable()]
+    public class TrashCanState
+    {
+        public Size WindowSize;
+        public Point WindowLocation;
+        public FormWindowState WindowState;
+
     }
 
 }

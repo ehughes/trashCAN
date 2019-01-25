@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using ItrashCAN;
@@ -19,13 +20,16 @@ namespace CANMessageInjector
     {
 
         CANMessageInjectorState InjectorState = new CANMessageInjectorState();
-
+        Point MyLocation;
+        Size MySize;
+        int msgLockedCount;
+        int msgOutCount;
 
         public CANMessageInjector()
         {
             InitializeComponent();
         }
-       
+
         #region Plugin Interface
 
         Queue<String> _OutgoingPluginMessage = new Queue<string>(64);
@@ -44,17 +48,27 @@ namespace CANMessageInjector
 
         public CAN_INTERFACE_TYPE PluginInterfaceType
         {
-            get { return CAN_INTERFACE_TYPE.WRITE_ONLY;}
+            get { return CAN_INTERFACE_TYPE.WRITE_ONLY; }
         }
 
         public String PluginName
         {
-            get { return "CAN Message Injector"; }
+            //get { return "CAN Message Injector"; }
+            get
+            {
+                return Assembly.GetExecutingAssembly().GetName().Name.ToString();
+            }
         }
 
         public String PluginVersion
         {
-            get { return "1.0"; }
+            //get { return "1.0"; }
+            get
+            {
+                Version ver = Assembly.GetExecutingAssembly().GetName().Version;
+                return ver.Major + "." + ver.Minor + "." + ver.Build;
+            }
+
         }
 
         public Image PluginImage
@@ -77,7 +91,7 @@ namespace CANMessageInjector
             _IncomingPluginMessage = new Queue<string>(1024);
             _OutgoingPluginMessage = new Queue<string>(1024);
             _OutgoingPluginMessage.Enqueue("CAN Message Injector Initialized....");
-       
+
             return "OK";
         }
 
@@ -90,10 +104,15 @@ namespace CANMessageInjector
             get
             {
                 SaveInjectorState();
-                
-                _State.WindowLocation = this.Location;
-                _State.WindowSize = this.Size;
+
+                _State.WindowLocation = MyLocation;
+                _State.WindowSize = MySize;
                 _State.WindowState = this.WindowState;
+
+
+                //_State.WindowLocation = this.Location;
+                //_State.WindowSize = this.Size;
+                //_State.WindowState = this.WindowState;
 
                 SaveInjectorState();
 
@@ -101,8 +120,6 @@ namespace CANMessageInjector
                 StringWriter textWriter = new StringWriter();
                 xmlSerializer.Serialize(textWriter, InjectorState);
                 _State.PluginData = textWriter.ToString();
-
-
 
                 return _State;
             }
@@ -119,14 +136,14 @@ namespace CANMessageInjector
                     XmlSerializer xmlSerializer = new XmlSerializer(InjectorState.GetType());
                     StringReader textReader = new StringReader(_State.PluginData);
                     InjectorState = (CANMessageInjectorState)xmlSerializer.Deserialize(textReader);
-                 
+
                     RestoreInjectorState();
-                    
-                   //  if (_State.PluginData != null && _State.PluginData.GetType() == typeof(CANMessageInjectorState))
-                   // {
-                   //     InjectorState = (CANMessageInjectorState)(_State.PluginData);
-                   //     RestoreInjectorState();
-                   // }
+
+                    //  if (_State.PluginData != null && _State.PluginData.GetType() == typeof(CANMessageInjectorState))
+                    // {
+                    //     InjectorState = (CANMessageInjectorState)(_State.PluginData);
+                    //     RestoreInjectorState();
+                    // }
                 }
             }
 
@@ -146,6 +163,8 @@ namespace CANMessageInjector
             this.Show();
             this.BringToFront();
             this.WindowState = FormWindowState.Normal;
+
+            this.Text = PluginName + " v" + PluginVersion;
         }
 
         public void HidePlugin()
@@ -229,18 +248,18 @@ namespace CANMessageInjector
                         UserEnteredCANMessage.Data = new byte[0];
                     else
                         UserEnteredCANMessage.Data = new byte[8];
-                break;
+                    break;
 
                 case 1:
-                      UserEnteredCANMessage.ID = MessageElements[0];
-                     UserEnteredCANMessage.Data = new byte[0];
-                break;
+                    UserEnteredCANMessage.ID = MessageElements[0];
+                    UserEnteredCANMessage.Data = new byte[0];
+                    break;
 
                 default:
                     int MsgLength = MessageElements.Length - 1;
                     UserEnteredCANMessage.ID = MessageElements[0];
 
-                    
+
                     if (RTRCheckBox.Checked == true)
                     {
                         UserEnteredCANMessage.Data = new byte[0];
@@ -255,20 +274,20 @@ namespace CANMessageInjector
                         for (int i = 0; i < MsgLength; i++)
                             UserEnteredCANMessage.Data[i] = (byte)MessageElements[i + 1];
                     }
-                break;
+                    break;
             }
 
             if (UserEnteredCANMessage.ExtendedID == true)
             {
-                if(UserEnteredCANMessage.ID >= (uint)(Math.Pow(2,29)))
-                    UserEnteredCANMessage.ID = (uint)(Math.Pow(2,29)-1);
+                if (UserEnteredCANMessage.ID >= (uint)(Math.Pow(2, 29)))
+                    UserEnteredCANMessage.ID = (uint)(Math.Pow(2, 29) - 1);
 
                 Cleanup = "0x" + UserEnteredCANMessage.ID.ToString("X8") + " : ";
             }
             else
             {
-                 if(UserEnteredCANMessage.ID >= (uint)(Math.Pow(2,11)))
-                    UserEnteredCANMessage.ID = (uint)(Math.Pow(2,11)-1);
+                if (UserEnteredCANMessage.ID >= (uint)(Math.Pow(2, 11)))
+                    UserEnteredCANMessage.ID = (uint)(Math.Pow(2, 11) - 1);
 
                 Cleanup = "0x" + UserEnteredCANMessage.ID.ToString("X3") + " : ";
             }
@@ -285,8 +304,34 @@ namespace CANMessageInjector
 
         void Transmit()
         {
+            bool isUnlocked;
+
             ValidateInput();
-            _OutgoingCANMsgQueue.Enqueue(ValidateInput());
+            //_OutgoingCANMsgQueue.Enqueue(ValidateInput());
+
+            isUnlocked = System.Threading.Monitor.TryEnter(_OutgoingCANMsgQueue, 10);
+            if (isUnlocked == true)
+            {
+                try
+                {
+                    _OutgoingCANMsgQueue.Enqueue(ValidateInput());
+                    msgOutCount++;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.ToString());
+                }
+                finally
+                {
+                    System.Threading.Monitor.Exit(_OutgoingCANMsgQueue);
+                }
+            }
+            else
+            {
+                msgLockedCount++;
+            }
+
+
         }
 
         // This method intercepts the Enter Key
@@ -325,11 +370,68 @@ namespace CANMessageInjector
             return base.ProcessCmdKey(ref m, k);
         }
 
+
+        private void ClearStatistics()
+        {
+            msgLockedCount = 0;
+            msgOutCount = 0;
+        }
+
         private void QueueClearTimer_Tick(object sender, EventArgs e)
         {
-                _IncomingCANMsgQueue.Clear();
-                _IncomingPluginMessage.Clear();
+            bool isUnlocked;
+
+            //_IncomingCANMsgQueue.Clear();
+            //_IncomingPluginMessage.Clear();
+
+            isUnlocked = System.Threading.Monitor.TryEnter(_IncomingCANMsgQueue, 10);
+            if (isUnlocked == true)
+            {
+                try
+                {
+                    _IncomingCANMsgQueue.Clear();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.ToString());
+                }
+                finally
+                {
+                    System.Threading.Monitor.Exit(_IncomingCANMsgQueue);
+                }
+            }
+            else
+            {
+                msgLockedCount++;
+            }
+
+            isUnlocked = System.Threading.Monitor.TryEnter(_IncomingPluginMessage, 10);
+            if (isUnlocked == true)
+            {
+                try
+                {
+                    _IncomingPluginMessage.Clear();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.ToString());
+                }
+                finally
+                {
+                    System.Threading.Monitor.Exit(_IncomingPluginMessage);
+                }
+            }
+            else
+            {
+                msgLockedCount++;
+            }
+
+
+            statusLabelOut.Text = "OUT:  " + msgOutCount.ToString("#,0");
+            statusLabelLocked.Text = "LOCK:  " + msgLockedCount.ToString("#,0");
+
         }
+
 
         private void CANMessageTextBox_MouseEnter(object sender, EventArgs e)
         {
@@ -339,9 +441,9 @@ namespace CANMessageInjector
         {
             MessageGeneratorToolTip.Show("Press TAB to validate/auto-complete and ENTER to send message.",
                                           this.CANMessageTextBox,
-                                          this.CANMessageTextBox.Location.X, 
+                                          this.CANMessageTextBox.Location.X,
                                           this.CANMessageTextBox.Location.Y + this.CANMessageTextBox.Height, 4000);
-      
+
         }
 
         private void CANMessageTextBox_MouseLeave(object sender, EventArgs e)
@@ -425,7 +527,33 @@ namespace CANMessageInjector
             Transmit();
         }
 
- 
+        private void CANMessageInjector_LocationChanged(object sender, EventArgs e)
+        {
+            if ((this.Location.X >= 0) && (this.Location.Y >= 0))
+            {
+                MyLocation = this.Location;
+            }
+        }
+
+        private void CANMessageInjector_Resize(object sender, EventArgs e)
+        {
+            if (this.Size.Width >= this.MinimumSize.Width && this.Size.Height >= this.MinimumSize.Height)
+            {
+                MySize = this.Size;
+            }
+        }
+
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ClearStatistics();
+        }
+
+        private void CANMessageTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
 
     }
 

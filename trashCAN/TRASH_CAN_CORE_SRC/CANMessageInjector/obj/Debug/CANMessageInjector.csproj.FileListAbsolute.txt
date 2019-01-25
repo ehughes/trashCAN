@@ -96,3 +96,13 @@ D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\CANMessageInjector\obj\Debug\CANMessageInject
 D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\CANMessageInjector\obj\Debug\CANMessageInjector.csproj.GenerateResource.Cache
 D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\CANMessageInjector\obj\Debug\CANMessageInjector.dll
 D:\ELI\trashCAN\TRASH_CAN_CORE_SRC\CANMessageInjector\obj\Debug\CANMessageInjector.pdb
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageInjector\bin\Debug\CANMessageInjector.dll
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageInjector\bin\Debug\CANMessageInjector.pdb
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageInjector\bin\Debug\ItrashCAN.dll
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageInjector\bin\Debug\ItrashCAN.pdb
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageInjector\obj\Debug\CANMessageInjector.csprojResolveAssemblyReference.cache
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageInjector\obj\Debug\CANMessageInjector.CANMessageInjector.resources
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageInjector\obj\Debug\CANMessageInjector.Properties.Resources.resources
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageInjector\obj\Debug\CANMessageInjector.csproj.GenerateResource.Cache
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageInjector\obj\Debug\CANMessageInjector.dll
+D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageInjector\obj\Debug\CANMessageInjector.pdb

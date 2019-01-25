@@ -18,6 +18,7 @@ namespace trashCAN
 
         private void About_Load(object sender, EventArgs e)
         {
+            trashCANLabel.Text = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
             VersionLabel.Text = "Build : " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 

@@ -121,12 +121,6 @@
   <data name="trashCAN" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\trashCAN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="PluginMenuHeader" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\PluginMenuHeader.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SyslogMenuIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\SyslogMenuIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="svn-update" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\svn-update.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -148,16 +142,25 @@
   <data name="find" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\find.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="SyslogMenuIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\SyslogMenuIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="svn-commit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\svn-commit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="docs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\docs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Gear" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Gear.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="PluginMenuHeader" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\PluginMenuHeader.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="help" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\help.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="svn-commit" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\svn-commit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CROP_ARL_Logo_Blue_One_100_Pixel_High" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CROP_ARL_Logo_Blue_One_100_Pixel_High.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

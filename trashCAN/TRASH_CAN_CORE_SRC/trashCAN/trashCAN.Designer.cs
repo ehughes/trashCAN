@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(trashCANHost));
             this.trashCANMainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,7 +43,11 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.statusLabelActive = new System.Windows.Forms.ToolStripStatusLabel();
+            this.timerUpdateGUI = new System.Windows.Forms.Timer(this.components);
             this.trashCANMainMenuStrip.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // trashCANMainMenuStrip
@@ -55,7 +60,7 @@
             this.trashCANMainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.trashCANMainMenuStrip.Name = "trashCANMainMenuStrip";
             this.trashCANMainMenuStrip.Padding = new System.Windows.Forms.Padding(6, 6, 0, 2);
-            this.trashCANMainMenuStrip.Size = new System.Drawing.Size(164, 75);
+            this.trashCANMainMenuStrip.Size = new System.Drawing.Size(189, 75);
             this.trashCANMainMenuStrip.TabIndex = 0;
             this.trashCANMainMenuStrip.Text = "menuStrip1";
             // 
@@ -158,21 +163,54 @@
             this.saveFileDialog1.FileName = "bag";
             this.saveFileDialog1.Filter = "Trash Bag|*.bag|All files|*.*";
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusLabelActive});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 75);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(189, 22);
+            this.statusStrip1.SizingGrip = false;
+            this.statusStrip1.TabIndex = 1;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // statusLabelActive
+            // 
+            this.statusLabelActive.AutoSize = false;
+            this.statusLabelActive.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.statusLabelActive.ForeColor = System.Drawing.SystemColors.ButtonShadow;
+            this.statusLabelActive.Margin = new System.Windows.Forms.Padding(2, 3, -13, 2);
+            this.statusLabelActive.Name = "statusLabelActive";
+            this.statusLabelActive.Size = new System.Drawing.Size(185, 17);
+            this.statusLabelActive.Spring = true;
+            this.statusLabelActive.Text = "Active: 0";
+            // 
+            // timerUpdateGUI
+            // 
+            this.timerUpdateGUI.Enabled = true;
+            this.timerUpdateGUI.Tick += new System.EventHandler(this.timerUpdateGUI_Tick);
+            // 
             // trashCANHost
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(164, 76);
+            this.ClientSize = new System.Drawing.Size(189, 97);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.trashCANMainMenuStrip);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.trashCANMainMenuStrip;
-            this.MaximumSize = new System.Drawing.Size(180, 114);
-            this.MinimumSize = new System.Drawing.Size(180, 114);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(205, 135);
+            this.MinimumSize = new System.Drawing.Size(205, 135);
             this.Name = "trashCANHost";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CANHost_FormClosing);
             this.Load += new System.EventHandler(this.trashCANHost_Load);
+            this.LocationChanged += new System.EventHandler(this.trashCANHost_LocationChanged);
             this.trashCANMainMenuStrip.ResumeLayout(false);
             this.trashCANMainMenuStrip.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -193,6 +231,9 @@
         private System.Windows.Forms.ToolStripMenuItem saveLayoutToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel statusLabelActive;
+        private System.Windows.Forms.Timer timerUpdateGUI;
     }
 }
 
