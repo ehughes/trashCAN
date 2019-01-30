@@ -1,0 +1,11 @@
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\bin\Debug\ElectrakHD.dll.config
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\bin\Debug\ElectrakHD.dll
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\bin\Debug\ElectrakHD.pdb
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\bin\Debug\ItrashCAN.dll
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\obj\Debug\ElectrakHD.Properties.Resources.resources
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\obj\Debug\ElectrakHD.csproj.GenerateResource.cache
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\obj\Debug\ElectrakHD.csproj.CoreCompileInputs.cache
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\obj\Debug\ElectrakHD.csproj.CopyComplete
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\obj\Debug\ElectrakHD.dll
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\obj\Debug\ElectrakHD.pdb
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\obj\Debug\ElectrakHD.ElectrakHD.resources

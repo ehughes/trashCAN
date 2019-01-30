@@ -17,3 +17,15 @@ D:\Projects\0-SOA_CURRENT\TRASH_CAN\USER_PLUGIN_SRC\J1939_AddressClaim\obj\Debug
 D:\Projects\0-SOA_CURRENT\TRASH_CAN\USER_PLUGIN_SRC\J1939_AddressClaim\obj\Debug\J1939_AddressClaim.csproj.GenerateResource.Cache
 D:\Projects\0-SOA_CURRENT\TRASH_CAN\USER_PLUGIN_SRC\J1939_AddressClaim\obj\Debug\J1939_AddressClaim.dll
 D:\Projects\0-SOA_CURRENT\TRASH_CAN\USER_PLUGIN_SRC\J1939_AddressClaim\obj\Debug\J1939_AddressClaim.pdb
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\J1939_AddressClaim\bin\Debug\J1939_AddressClaim.dll.config
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\J1939_AddressClaim\bin\Debug\J1939_AddressClaim.dll
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\J1939_AddressClaim\bin\Debug\J1939_AddressClaim.pdb
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\J1939_AddressClaim\bin\Debug\ItrashCAN.dll
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\J1939_AddressClaim\obj\Debug\J1939_AddressClaim.csprojAssemblyReference.cache
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\J1939_AddressClaim\obj\Debug\J1939_AddressClaim.J1939_AddressClaim.resources
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\J1939_AddressClaim\obj\Debug\J1939_AddressClaim.Properties.Resources.resources
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\J1939_AddressClaim\obj\Debug\J1939_AddressClaim.csproj.GenerateResource.cache
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\J1939_AddressClaim\obj\Debug\J1939_AddressClaim.csproj.CoreCompileInputs.cache
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\J1939_AddressClaim\obj\Debug\J1939_AddressClaim.csproj.CopyComplete
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\J1939_AddressClaim\obj\Debug\J1939_AddressClaim.dll
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\J1939_AddressClaim\obj\Debug\J1939_AddressClaim.pdb

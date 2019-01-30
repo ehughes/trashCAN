@@ -699,9 +699,14 @@ namespace trashCAN
 
         private void trashCANHost_Load(object sender, EventArgs e)
         {
-            this.Location = MyRecords.MyState.WindowLocation;
-            this.Size = MyRecords.MyState.WindowSize;
-            this.WindowState = MyRecords.MyState.WindowState;
+            if (MyRecords != null)
+            {
+
+
+                this.Location = MyRecords.MyState.WindowLocation;
+                this.Size = MyRecords.MyState.WindowSize;
+                this.WindowState = MyRecords.MyState.WindowState;
+            }
         }
 
         private void pluginInstanceMonitorToolStripMenuItem_Click(object sender, EventArgs e)

@@ -4,8 +4,7 @@
     <StartArguments>
     </StartArguments>
     <StartAction>Program</StartAction>
-    <StartProgram>C:\ELI\trashCAN\BIN\trashCAN.exe</StartProgram>
-    <StartWorkingDirectory>
-    </StartWorkingDirectory>
+    <StartProgram>C:\ELI\trashCAN\trashCAN\BIN\TrashCAN.exe</StartProgram>
+    <StartWorkingDirectory>C:\ELI\trashCAN\trashCAN\BIN\</StartWorkingDirectory>
   </PropertyGroup>
 </Project>

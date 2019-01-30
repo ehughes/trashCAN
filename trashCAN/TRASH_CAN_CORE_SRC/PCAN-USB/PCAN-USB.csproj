@@ -104,10 +104,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>mkdir "$(SolutionDir)..\..\BIN\Plugins\$(ProjectName)"
-del "$(SolutionDir)..\..\BIN\Plugins\$(ProjectName)\$(TargetFileName)
-copy "$(TargetPath)" "$(SolutionDir)..\..\BIN\Plugins\$(ProjectName)\$(TargetFileName)"
-copy "$(ProjectDir)$(OutDir)\PCANBasic.dll"  "$(SolutionDir)\trashCAN\bin\debug\Plugins\PCAB-USB\PCANBasic.dll"</PostBuildEvent>
+    <PostBuildEvent>mkdir "$(SolutionDir)..\BIN\Plugins\$(ProjectName)"
+del "$(SolutionDir)..\BIN\Plugins\$(ProjectName)\$(TargetFileName)
+copy "$(TargetPath)" "$(SolutionDir)..\BIN\Plugins\$(ProjectName)\$(TargetFileName)"
+copy "$(ProjectDir)$(OutDir)\PCANBasic.dll"  "$(SolutionDir)..\BIN\Plugins\$(ProjectName)\PCANBasic.dll"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

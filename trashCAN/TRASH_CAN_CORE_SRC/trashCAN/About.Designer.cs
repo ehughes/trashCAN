@@ -55,15 +55,7 @@
             this.VersionLabel.Size = new System.Drawing.Size(64, 23);
             this.VersionLabel.TabIndex = 2;
             this.VersionLabel.Text = "Build: ";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::trashCAN.Properties.Resources.CROP_ARL_Logo_Blue_One_100_Pixel_High;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 10);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(93, 101);
-            this.pictureBox1.TabIndex = 5;
-            this.pictureBox1.TabStop = false;
+
             // 
             // About
             // 

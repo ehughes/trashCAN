@@ -6,35 +6,14 @@
       <PluginInstanceID>0</PluginInstanceID>
       <State>
         <WindowSize>
-          <Width>490</Width>
-          <Height>269</Height>
+          <Width>459</Width>
+          <Height>256</Height>
         </WindowSize>
         <WindowLocation>
-          <X>3809</X>
-          <Y>842</Y>
+          <X>469</X>
+          <Y>84</Y>
         </WindowLocation>
         <WindowState>Normal</WindowState>
-      </State>
-    </PluginStateRecord>
-    <PluginStateRecord>
-      <NameWithVersion>CANMessageInjector&gt;1.1.0</NameWithVersion>
-      <PluginInstanceID>2</PluginInstanceID>
-      <State>
-        <WindowSize>
-          <Width>0</Width>
-          <Height>0</Height>
-        </WindowSize>
-        <WindowLocation>
-          <X>2640</X>
-          <Y>625</Y>
-        </WindowLocation>
-        <WindowState>Normal</WindowState>
-        <PluginData>&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;CANMessageInjectorState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;Extended_IDChecked&gt;true&lt;/Extended_IDChecked&gt;
-  &lt;RTR_Checked&gt;false&lt;/RTR_Checked&gt;
-  &lt;CANMessageTextBox&gt;0x18FF78B4 : 0x00 0x01 &lt;/CANMessageTextBox&gt;
-&lt;/CANMessageInjectorState&gt;</PluginData>
       </State>
     </PluginStateRecord>
   </PluginStates>
@@ -44,8 +23,8 @@
       <Height>135</Height>
     </WindowSize>
     <WindowLocation>
-      <X>2877</X>
-      <Y>293</Y>
+      <X>182</X>
+      <Y>182</Y>
     </WindowLocation>
     <WindowState>Normal</WindowState>
   </MyState>
