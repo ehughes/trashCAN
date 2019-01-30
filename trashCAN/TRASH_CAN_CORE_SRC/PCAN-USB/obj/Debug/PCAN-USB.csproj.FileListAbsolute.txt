@@ -117,13 +117,13 @@ D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\PCAN-USB\obj\Debug\PCAN_U
 D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\PCAN-USB\obj\Debug\PCAN-USB.csproj.GenerateResource.Cache
 D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\PCAN-USB\obj\Debug\PCAN-USB.dll
 D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\PCAN-USB\obj\Debug\PCAN-USB.pdb
-C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\PCAN-USB\obj\Debug\PCAN_USB.Properties.Resources.resources
 C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\PCAN-USB\bin\Debug\PCAN-USB.dll
 C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\PCAN-USB\bin\Debug\PCAN-USB.pdb
 C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\PCAN-USB\bin\Debug\ItrashCAN.dll
 C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\PCAN-USB\bin\Debug\ItrashCAN.pdb
 C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\PCAN-USB\obj\Debug\PCAN-USB.csprojAssemblyReference.cache
 C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\PCAN-USB\obj\Debug\PCAN_USB.PCAN_USB.resources
+C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\PCAN-USB\obj\Debug\PCAN_USB.Properties.Resources.resources
 C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\PCAN-USB\obj\Debug\PCAN-USB.csproj.GenerateResource.cache
 C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\PCAN-USB\obj\Debug\PCAN-USB.csproj.CoreCompileInputs.cache
 C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\PCAN-USB\obj\Debug\PCAN-USB.csproj.CopyComplete

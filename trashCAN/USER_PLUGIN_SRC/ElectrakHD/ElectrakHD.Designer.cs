@@ -62,7 +62,35 @@
             this.BackDriveLabel = new System.Windows.Forms.Label();
             this.FatalErrorLED = new Bulb.LedBulb();
             this.FatalErrorLabel = new System.Windows.Forms.Label();
+            this.PositionNUD = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.CurrentLimitNUD = new System.Windows.Forms.NumericUpDown();
+            this.label17 = new System.Windows.Forms.Label();
+            this.SpeedNUD = new System.Windows.Forms.NumericUpDown();
+            this.MotionEnableCB = new System.Windows.Forms.CheckBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.SendCommandButton = new System.Windows.Forms.Button();
+            this.StopButton = new System.Windows.Forms.Button();
+            this.CommandSourceAddressNUD = new System.Windows.Forms.NumericUpDown();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.CommandDestinationAddressNUD = new System.Windows.Forms.NumericUpDown();
+            this.MotorControlGroupBox = new System.Windows.Forms.GroupBox();
+            this.CommandPriorityNUD = new System.Windows.Forms.NumericUpDown();
+            this.label23 = new System.Windows.Forms.Label();
+            this.AcutatorFeedbackGroupBox = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.ActuatorAddress)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PositionNUD)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CurrentLimitNUD)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SpeedNUD)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CommandSourceAddressNUD)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CommandDestinationAddressNUD)).BeginInit();
+            this.MotorControlGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.CommandPriorityNUD)).BeginInit();
+            this.AcutatorFeedbackGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // MsgCheckTimer
@@ -80,7 +108,7 @@
             // AddressLabel
             // 
             this.AddressLabel.AutoSize = true;
-            this.AddressLabel.Location = new System.Drawing.Point(12, 21);
+            this.AddressLabel.Location = new System.Drawing.Point(20, 51);
             this.AddressLabel.Name = "AddressLabel";
             this.AddressLabel.Size = new System.Drawing.Size(188, 25);
             this.AddressLabel.TabIndex = 4;
@@ -88,7 +116,7 @@
             // 
             // ActuatorAddress
             // 
-            this.ActuatorAddress.Location = new System.Drawing.Point(206, 15);
+            this.ActuatorAddress.Location = new System.Drawing.Point(218, 49);
             this.ActuatorAddress.Maximum = new decimal(new int[] {
             26,
             0,
@@ -112,7 +140,7 @@
             // 
             // ActivityLED
             // 
-            this.ActivityLED.Location = new System.Drawing.Point(296, 64);
+            this.ActivityLED.Location = new System.Drawing.Point(1061, 30);
             this.ActivityLED.Name = "ActivityLED";
             this.ActivityLED.On = true;
             this.ActivityLED.Size = new System.Drawing.Size(49, 50);
@@ -123,7 +151,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 82);
+            this.label1.Location = new System.Drawing.Point(779, 40);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(258, 25);
             this.label1.TabIndex = 7;
@@ -131,8 +159,9 @@
             // 
             // MeasuredPositionTextBox
             // 
+            this.MeasuredPositionTextBox.Enabled = false;
             this.MeasuredPositionTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MeasuredPositionTextBox.Location = new System.Drawing.Point(206, 159);
+            this.MeasuredPositionTextBox.Location = new System.Drawing.Point(229, 134);
             this.MeasuredPositionTextBox.Name = "MeasuredPositionTextBox";
             this.MeasuredPositionTextBox.Size = new System.Drawing.Size(139, 38);
             this.MeasuredPositionTextBox.TabIndex = 8;
@@ -140,7 +169,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 168);
+            this.label2.Location = new System.Drawing.Point(107, 167);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(0, 25);
             this.label2.TabIndex = 9;
@@ -148,7 +177,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 168);
+            this.label3.Location = new System.Drawing.Point(32, 142);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(191, 25);
             this.label3.TabIndex = 10;
@@ -157,7 +186,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(368, 168);
+            this.label4.Location = new System.Drawing.Point(391, 142);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(46, 25);
             this.label4.TabIndex = 11;
@@ -166,7 +195,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(368, 230);
+            this.label5.Location = new System.Drawing.Point(391, 204);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(26, 25);
             this.label5.TabIndex = 14;
@@ -175,7 +204,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(9, 230);
+            this.label6.Location = new System.Drawing.Point(32, 204);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(185, 25);
             this.label6.TabIndex = 13;
@@ -183,8 +212,9 @@
             // 
             // MeasuredCurrentTextBox
             // 
+            this.MeasuredCurrentTextBox.Enabled = false;
             this.MeasuredCurrentTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MeasuredCurrentTextBox.Location = new System.Drawing.Point(206, 221);
+            this.MeasuredCurrentTextBox.Location = new System.Drawing.Point(229, 195);
             this.MeasuredCurrentTextBox.Name = "MeasuredCurrentTextBox";
             this.MeasuredCurrentTextBox.Size = new System.Drawing.Size(139, 38);
             this.MeasuredCurrentTextBox.TabIndex = 12;
@@ -192,7 +222,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(368, 293);
+            this.label8.Location = new System.Drawing.Point(391, 267);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(31, 25);
             this.label8.TabIndex = 18;
@@ -201,7 +231,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(9, 293);
+            this.label9.Location = new System.Drawing.Point(32, 267);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(160, 25);
             this.label9.TabIndex = 17;
@@ -209,24 +239,26 @@
             // 
             // RunningSpeedTextBox
             // 
+            this.RunningSpeedTextBox.Enabled = false;
             this.RunningSpeedTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RunningSpeedTextBox.Location = new System.Drawing.Point(206, 284);
+            this.RunningSpeedTextBox.Location = new System.Drawing.Point(229, 258);
             this.RunningSpeedTextBox.Name = "RunningSpeedTextBox";
             this.RunningSpeedTextBox.Size = new System.Drawing.Size(139, 38);
             this.RunningSpeedTextBox.TabIndex = 16;
             // 
             // VoltageErrorTextBox
             // 
-            this.VoltageErrorTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.VoltageErrorTextBox.Location = new System.Drawing.Point(206, 343);
+            this.VoltageErrorTextBox.Enabled = false;
+            this.VoltageErrorTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VoltageErrorTextBox.Location = new System.Drawing.Point(229, 376);
             this.VoltageErrorTextBox.Name = "VoltageErrorTextBox";
-            this.VoltageErrorTextBox.Size = new System.Drawing.Size(389, 38);
+            this.VoltageErrorTextBox.Size = new System.Drawing.Size(768, 38);
             this.VoltageErrorTextBox.TabIndex = 19;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(9, 352);
+            this.label10.Location = new System.Drawing.Point(32, 385);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(138, 25);
             this.label10.TabIndex = 20;
@@ -235,7 +267,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(9, 416);
+            this.label11.Location = new System.Drawing.Point(30, 442);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(187, 25);
             this.label11.TabIndex = 22;
@@ -243,16 +275,17 @@
             // 
             // TemperatureErrorTextBox
             // 
-            this.TemperatureErrorTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TemperatureErrorTextBox.Location = new System.Drawing.Point(206, 407);
+            this.TemperatureErrorTextBox.Enabled = false;
+            this.TemperatureErrorTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TemperatureErrorTextBox.Location = new System.Drawing.Point(229, 433);
             this.TemperatureErrorTextBox.Name = "TemperatureErrorTextBox";
-            this.TemperatureErrorTextBox.Size = new System.Drawing.Size(389, 38);
+            this.TemperatureErrorTextBox.Size = new System.Drawing.Size(768, 38);
             this.TemperatureErrorTextBox.TabIndex = 21;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(33, 488);
+            this.label12.Location = new System.Drawing.Point(674, 143);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(77, 25);
             this.label12.TabIndex = 23;
@@ -262,7 +295,7 @@
             // MotionLED
             // 
             this.MotionLED.Color = System.Drawing.Color.Lime;
-            this.MotionLED.Location = new System.Drawing.Point(120, 478);
+            this.MotionLED.Location = new System.Drawing.Point(761, 133);
             this.MotionLED.Name = "MotionLED";
             this.MotionLED.On = true;
             this.MotionLED.Size = new System.Drawing.Size(49, 50);
@@ -272,7 +305,7 @@
             // ParameterLED
             // 
             this.ParameterLED.Color = System.Drawing.Color.Yellow;
-            this.ParameterLED.Location = new System.Drawing.Point(120, 557);
+            this.ParameterLED.Location = new System.Drawing.Point(761, 212);
             this.ParameterLED.Name = "ParameterLED";
             this.ParameterLED.On = true;
             this.ParameterLED.Size = new System.Drawing.Size(49, 50);
@@ -283,7 +316,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(-3, 557);
+            this.label13.Location = new System.Drawing.Point(638, 212);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(111, 25);
             this.label13.TabIndex = 25;
@@ -293,7 +326,7 @@
             // SaturationLED
             // 
             this.SaturationLED.Color = System.Drawing.Color.Red;
-            this.SaturationLED.Location = new System.Drawing.Point(120, 629);
+            this.SaturationLED.Location = new System.Drawing.Point(761, 284);
             this.SaturationLED.Name = "SaturationLED";
             this.SaturationLED.On = true;
             this.SaturationLED.Size = new System.Drawing.Size(49, 50);
@@ -303,7 +336,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(-2, 645);
+            this.label14.Location = new System.Drawing.Point(639, 300);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(110, 25);
             this.label14.TabIndex = 27;
@@ -312,7 +345,7 @@
             // OverloadLED
             // 
             this.OverloadLED.Color = System.Drawing.Color.Red;
-            this.OverloadLED.Location = new System.Drawing.Point(420, 478);
+            this.OverloadLED.Location = new System.Drawing.Point(1061, 133);
             this.OverloadLED.Name = "OverloadLED";
             this.OverloadLED.On = true;
             this.OverloadLED.Size = new System.Drawing.Size(49, 50);
@@ -323,7 +356,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(306, 488);
+            this.label15.Location = new System.Drawing.Point(947, 143);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(99, 25);
             this.label15.TabIndex = 29;
@@ -333,7 +366,7 @@
             // BackDriveLED
             // 
             this.BackDriveLED.Color = System.Drawing.Color.Red;
-            this.BackDriveLED.Location = new System.Drawing.Point(420, 557);
+            this.BackDriveLED.Location = new System.Drawing.Point(1061, 212);
             this.BackDriveLED.Name = "BackDriveLED";
             this.BackDriveLED.On = true;
             this.BackDriveLED.Size = new System.Drawing.Size(49, 50);
@@ -343,7 +376,7 @@
             // BackDriveLabel
             // 
             this.BackDriveLabel.AutoSize = true;
-            this.BackDriveLabel.Location = new System.Drawing.Point(306, 573);
+            this.BackDriveLabel.Location = new System.Drawing.Point(947, 228);
             this.BackDriveLabel.Name = "BackDriveLabel";
             this.BackDriveLabel.Size = new System.Drawing.Size(107, 25);
             this.BackDriveLabel.TabIndex = 31;
@@ -352,7 +385,7 @@
             // FatalErrorLED
             // 
             this.FatalErrorLED.Color = System.Drawing.Color.Red;
-            this.FatalErrorLED.Location = new System.Drawing.Point(420, 629);
+            this.FatalErrorLED.Location = new System.Drawing.Point(1061, 284);
             this.FatalErrorLED.Name = "FatalErrorLED";
             this.FatalErrorLED.On = true;
             this.FatalErrorLED.Size = new System.Drawing.Size(49, 50);
@@ -362,57 +395,329 @@
             // FatalErrorLabel
             // 
             this.FatalErrorLabel.AutoSize = true;
-            this.FatalErrorLabel.Location = new System.Drawing.Point(266, 645);
+            this.FatalErrorLabel.Location = new System.Drawing.Point(907, 300);
             this.FatalErrorLabel.Name = "FatalErrorLabel";
             this.FatalErrorLabel.Size = new System.Drawing.Size(148, 25);
             this.FatalErrorLabel.TabIndex = 33;
             this.FatalErrorLabel.Text = "FatalErrorLED";
             // 
+            // PositionNUD
+            // 
+            this.PositionNUD.DecimalPlaces = 1;
+            this.PositionNUD.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.PositionNUD.Location = new System.Drawing.Point(194, 90);
+            this.PositionNUD.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.PositionNUD.Name = "PositionNUD";
+            this.PositionNUD.Size = new System.Drawing.Size(154, 31);
+            this.PositionNUD.TabIndex = 35;
+            this.PositionNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.PositionNUD.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(10, 92);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(89, 25);
+            this.label7.TabIndex = 36;
+            this.label7.Text = "Position";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(10, 148);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(128, 25);
+            this.label16.TabIndex = 38;
+            this.label16.Text = "CurrentLimit";
+            // 
+            // CurrentLimitNUD
+            // 
+            this.CurrentLimitNUD.DecimalPlaces = 1;
+            this.CurrentLimitNUD.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.CurrentLimitNUD.Location = new System.Drawing.Point(194, 148);
+            this.CurrentLimitNUD.Maximum = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
+            this.CurrentLimitNUD.Name = "CurrentLimitNUD";
+            this.CurrentLimitNUD.Size = new System.Drawing.Size(154, 31);
+            this.CurrentLimitNUD.TabIndex = 37;
+            this.CurrentLimitNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.CurrentLimitNUD.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(10, 200);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(74, 25);
+            this.label17.TabIndex = 40;
+            this.label17.Text = "Speed";
+            // 
+            // SpeedNUD
+            // 
+            this.SpeedNUD.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.SpeedNUD.Location = new System.Drawing.Point(194, 198);
+            this.SpeedNUD.Name = "SpeedNUD";
+            this.SpeedNUD.Size = new System.Drawing.Size(148, 31);
+            this.SpeedNUD.TabIndex = 39;
+            this.SpeedNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.SpeedNUD.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
+            // MotionEnableCB
+            // 
+            this.MotionEnableCB.AutoSize = true;
+            this.MotionEnableCB.Checked = true;
+            this.MotionEnableCB.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.MotionEnableCB.Location = new System.Drawing.Point(30, 43);
+            this.MotionEnableCB.Name = "MotionEnableCB";
+            this.MotionEnableCB.Size = new System.Drawing.Size(182, 29);
+            this.MotionEnableCB.TabIndex = 42;
+            this.MotionEnableCB.Text = "Motion Enable";
+            this.MotionEnableCB.UseVisualStyleBackColor = true;
+            this.MotionEnableCB.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(370, 200);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(31, 25);
+            this.label18.TabIndex = 45;
+            this.label18.Text = "%";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(370, 150);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(26, 25);
+            this.label19.TabIndex = 44;
+            this.label19.Text = "A";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(370, 96);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(46, 25);
+            this.label20.TabIndex = 43;
+            this.label20.Text = "mm";
+            // 
+            // SendCommandButton
+            // 
+            this.SendCommandButton.Location = new System.Drawing.Point(465, 119);
+            this.SendCommandButton.Name = "SendCommandButton";
+            this.SendCommandButton.Size = new System.Drawing.Size(199, 83);
+            this.SendCommandButton.TabIndex = 46;
+            this.SendCommandButton.Text = "Send Command";
+            this.SendCommandButton.UseVisualStyleBackColor = true;
+            this.SendCommandButton.Click += new System.EventHandler(this.SendCommandButton_Click);
+            // 
+            // StopButton
+            // 
+            this.StopButton.Location = new System.Drawing.Point(689, 119);
+            this.StopButton.Name = "StopButton";
+            this.StopButton.Size = new System.Drawing.Size(199, 83);
+            this.StopButton.TabIndex = 47;
+            this.StopButton.Text = "Stop";
+            this.StopButton.UseVisualStyleBackColor = true;
+            this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
+            // 
+            // CommandSourceAddressNUD
+            // 
+            this.CommandSourceAddressNUD.Location = new System.Drawing.Point(465, 256);
+            this.CommandSourceAddressNUD.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.CommandSourceAddressNUD.Name = "CommandSourceAddressNUD";
+            this.CommandSourceAddressNUD.Size = new System.Drawing.Size(120, 31);
+            this.CommandSourceAddressNUD.TabIndex = 49;
+            this.CommandSourceAddressNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(12, 256);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(365, 25);
+            this.label21.TabIndex = 48;
+            this.label21.Text = "Command Source Address (Decimal)";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(12, 296);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(405, 25);
+            this.label22.TabIndex = 50;
+            this.label22.Text = "Command Destination Address (Decimal)";
+            // 
+            // CommandDestinationAddressNUD
+            // 
+            this.CommandDestinationAddressNUD.Location = new System.Drawing.Point(465, 296);
+            this.CommandDestinationAddressNUD.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.CommandDestinationAddressNUD.Name = "CommandDestinationAddressNUD";
+            this.CommandDestinationAddressNUD.Size = new System.Drawing.Size(120, 31);
+            this.CommandDestinationAddressNUD.TabIndex = 51;
+            this.CommandDestinationAddressNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MotorControlGroupBox
+            // 
+            this.MotorControlGroupBox.Controls.Add(this.CommandPriorityNUD);
+            this.MotorControlGroupBox.Controls.Add(this.label23);
+            this.MotorControlGroupBox.Controls.Add(this.CommandDestinationAddressNUD);
+            this.MotorControlGroupBox.Controls.Add(this.label22);
+            this.MotorControlGroupBox.Controls.Add(this.CommandSourceAddressNUD);
+            this.MotorControlGroupBox.Controls.Add(this.label21);
+            this.MotorControlGroupBox.Controls.Add(this.StopButton);
+            this.MotorControlGroupBox.Controls.Add(this.SendCommandButton);
+            this.MotorControlGroupBox.Controls.Add(this.label18);
+            this.MotorControlGroupBox.Controls.Add(this.label19);
+            this.MotorControlGroupBox.Controls.Add(this.label20);
+            this.MotorControlGroupBox.Controls.Add(this.MotionEnableCB);
+            this.MotorControlGroupBox.Controls.Add(this.label17);
+            this.MotorControlGroupBox.Controls.Add(this.SpeedNUD);
+            this.MotorControlGroupBox.Controls.Add(this.label16);
+            this.MotorControlGroupBox.Controls.Add(this.CurrentLimitNUD);
+            this.MotorControlGroupBox.Controls.Add(this.label7);
+            this.MotorControlGroupBox.Controls.Add(this.PositionNUD);
+            this.MotorControlGroupBox.Location = new System.Drawing.Point(12, 565);
+            this.MotorControlGroupBox.Name = "MotorControlGroupBox";
+            this.MotorControlGroupBox.Size = new System.Drawing.Size(944, 375);
+            this.MotorControlGroupBox.TabIndex = 52;
+            this.MotorControlGroupBox.TabStop = false;
+            this.MotorControlGroupBox.Text = "Actuator Control";
+            // 
+            // CommandPriorityNUD
+            // 
+            this.CommandPriorityNUD.Location = new System.Drawing.Point(465, 334);
+            this.CommandPriorityNUD.Maximum = new decimal(new int[] {
+            6,
+            0,
+            0,
+            0});
+            this.CommandPriorityNUD.Name = "CommandPriorityNUD";
+            this.CommandPriorityNUD.Size = new System.Drawing.Size(120, 31);
+            this.CommandPriorityNUD.TabIndex = 53;
+            this.CommandPriorityNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.CommandPriorityNUD.Value = new decimal(new int[] {
+            6,
+            0,
+            0,
+            0});
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(12, 334);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(182, 25);
+            this.label23.TabIndex = 52;
+            this.label23.Text = "Command Priority";
+            // 
+            // AcutatorFeedbackGroupBox
+            // 
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.FatalErrorLED);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.FatalErrorLabel);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.BackDriveLED);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.BackDriveLabel);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.OverloadLED);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.label15);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.SaturationLED);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.label14);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.ParameterLED);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.label13);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.MotionLED);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.label12);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.label11);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.TemperatureErrorTextBox);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.label10);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.VoltageErrorTextBox);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.label8);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.label9);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.RunningSpeedTextBox);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.label5);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.label6);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.MeasuredCurrentTextBox);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.label4);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.label3);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.label2);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.MeasuredPositionTextBox);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.label1);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.ActivityLED);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.ActuatorAddress);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.AddressLabel);
+            this.AcutatorFeedbackGroupBox.Location = new System.Drawing.Point(12, 12);
+            this.AcutatorFeedbackGroupBox.Name = "AcutatorFeedbackGroupBox";
+            this.AcutatorFeedbackGroupBox.Size = new System.Drawing.Size(1155, 536);
+            this.AcutatorFeedbackGroupBox.TabIndex = 53;
+            this.AcutatorFeedbackGroupBox.TabStop = false;
+            this.AcutatorFeedbackGroupBox.Text = "Acutator Feedback";
+            // 
             // ElectrakHD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2048, 1402);
-            this.Controls.Add(this.FatalErrorLED);
-            this.Controls.Add(this.FatalErrorLabel);
-            this.Controls.Add(this.BackDriveLED);
-            this.Controls.Add(this.BackDriveLabel);
-            this.Controls.Add(this.OverloadLED);
-            this.Controls.Add(this.label15);
-            this.Controls.Add(this.SaturationLED);
-            this.Controls.Add(this.label14);
-            this.Controls.Add(this.ParameterLED);
-            this.Controls.Add(this.label13);
-            this.Controls.Add(this.MotionLED);
-            this.Controls.Add(this.label12);
-            this.Controls.Add(this.label11);
-            this.Controls.Add(this.TemperatureErrorTextBox);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.VoltageErrorTextBox);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.RunningSpeedTextBox);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.MeasuredCurrentTextBox);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.MeasuredPositionTextBox);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.ActivityLED);
-            this.Controls.Add(this.ActuatorAddress);
-            this.Controls.Add(this.AddressLabel);
+            this.ClientSize = new System.Drawing.Size(1205, 960);
+            this.Controls.Add(this.AcutatorFeedbackGroupBox);
+            this.Controls.Add(this.MotorControlGroupBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(6);
             this.MaximumSize = new System.Drawing.Size(2074, 1473);
-            this.MinimumSize = new System.Drawing.Size(1774, 1473);
+            this.MinimumSize = new System.Drawing.Size(800, 800);
             this.Name = "ElectrakHD";
             this.Text = "Electrak HD Controller";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ElectrakHD_FormClosing);
+            this.Load += new System.EventHandler(this.ElectrakHD_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ActuatorAddress)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PositionNUD)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CurrentLimitNUD)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SpeedNUD)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CommandSourceAddressNUD)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CommandDestinationAddressNUD)).EndInit();
+            this.MotorControlGroupBox.ResumeLayout(false);
+            this.MotorControlGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.CommandPriorityNUD)).EndInit();
+            this.AcutatorFeedbackGroupBox.ResumeLayout(false);
+            this.AcutatorFeedbackGroupBox.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -450,6 +755,26 @@
         private System.Windows.Forms.Label BackDriveLabel;
         private Bulb.LedBulb FatalErrorLED;
         private System.Windows.Forms.Label FatalErrorLabel;
+        private System.Windows.Forms.NumericUpDown PositionNUD;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.NumericUpDown CurrentLimitNUD;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.NumericUpDown SpeedNUD;
+        private System.Windows.Forms.CheckBox MotionEnableCB;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Button SendCommandButton;
+        private System.Windows.Forms.Button StopButton;
+        private System.Windows.Forms.NumericUpDown CommandSourceAddressNUD;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.NumericUpDown CommandDestinationAddressNUD;
+        private System.Windows.Forms.GroupBox MotorControlGroupBox;
+        private System.Windows.Forms.GroupBox AcutatorFeedbackGroupBox;
+        private System.Windows.Forms.NumericUpDown CommandPriorityNUD;
+        private System.Windows.Forms.Label label23;
     }
 }
 

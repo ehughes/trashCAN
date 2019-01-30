@@ -38,7 +38,7 @@ namespace trashCAN
         InstanceMonitor MyInstanceMonitor = new InstanceMonitor();
         bool KillAllThreads = false;
         About MyAboutForm = new About();
-        bool PausePluginProcessing;
+        bool PausePluginProcessing = false;
         bool PluginRequestExitTrashCAN = false;
 
         

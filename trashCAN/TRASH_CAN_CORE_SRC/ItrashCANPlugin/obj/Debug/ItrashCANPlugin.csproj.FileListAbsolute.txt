@@ -50,7 +50,7 @@ D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\ItrashCANPlugin\obj\Debug
 D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\ItrashCANPlugin\obj\Debug\ItrashCANPlugin.csprojResolveAssemblyReference.cache
 C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\ItrashCANPlugin\bin\Debug\ItrashCAN.dll
 C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\ItrashCANPlugin\bin\Debug\ItrashCAN.pdb
+C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\ItrashCANPlugin\obj\Debug\ItrashCANPlugin.csprojAssemblyReference.cache
 C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\ItrashCANPlugin\obj\Debug\ItrashCANPlugin.csproj.CoreCompileInputs.cache
 C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\ItrashCANPlugin\obj\Debug\ItrashCAN.dll
 C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\ItrashCANPlugin\obj\Debug\ItrashCAN.pdb
-C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\ItrashCANPlugin\obj\Debug\ItrashCANPlugin.csprojAssemblyReference.cache

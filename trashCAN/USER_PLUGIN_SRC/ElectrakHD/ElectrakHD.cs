@@ -19,7 +19,8 @@ namespace ElectrakHD
     public partial class ElectrakHD : Form , ItrashCANPlugin
     {
         uint ActivityTTL = 0;
-        ACM_Feedback MyFeedback = new ACM_Feedback();
+        AFM MyFeedback = new AFM();
+        ACM MyControlMessage = new ACM();
 
         const string _PluginNameString = "Elecktrak HD Controller";
 
@@ -159,7 +160,7 @@ namespace ElectrakHD
             InitializeComponent();
         }
 
-        const uint ProprietaryA2 = 126720;
+    
 
   
         private void MsgCheckTimer_Tick(object sender, EventArgs e)
@@ -176,8 +177,8 @@ namespace ElectrakHD
                             if (J1939.GetSourceAddress_FromPDU(Message.ID) == (uint)ActuatorAddress.Value)
                             {
                                 ActivityTTL = 20;
-                          
-                                if(J1939.GetPGN_FromPDU(Message.ID) == ProprietaryA2)
+                                uint PGN = J1939.GetPGN_FromPDU(Message.ID);
+                              //  if (PGN == AFM.ProprietaryA2)
                                 {
 
                                     MyFeedback.ProcessProprietaryA2(Message.Data);
@@ -275,6 +276,41 @@ namespace ElectrakHD
         {
 
         }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SendCommandButton_Click(object sender, EventArgs e)
+        {
+            MyControlMessage.Position = (float)PositionNUD.Value;
+            MyControlMessage.CurrentLimit = (float)CurrentLimitNUD.Value;
+            MyControlMessage.Speed = (float)SpeedNUD.Value;
+            MyControlMessage.MotionEnable = MotionEnableCB.Checked;
+            MyControlMessage.CommandSourceAddress = (byte)CommandSourceAddressNUD.Value;
+            MyControlMessage.CommandDstAddress = (byte)CommandDestinationAddressNUD.Value;
+            MyControlMessage.CommandPriority = (byte)CommandPriorityNUD.Value;
+
+            _OutgoingCANMsgQueue.Enqueue(MyControlMessage.MakeMessage());
+        }
+
+        private void ElectrakHD_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void StopButton_Click(object sender, EventArgs e)
+        {
+            MyControlMessage.MotionEnable = false;
+            MyControlMessage.Speed = 0;
+
+            MyControlMessage.CommandSourceAddress = (byte)CommandSourceAddressNUD.Value;
+            MyControlMessage.CommandDstAddress = (byte)CommandDestinationAddressNUD.Value;
+            MyControlMessage.CommandPriority = (byte)CommandPriorityNUD.Value;
+
+            _OutgoingCANMsgQueue.Enqueue(MyControlMessage.MakeMessage());
+        }
     }
 
 
@@ -325,11 +361,92 @@ namespace ElectrakHD
 
     }
 
-    public class ACM_Feedback
+
+    public class ACM
     {
+        public const uint ProprietaryA = 0x00EF00;
+
+        public float Position;
+        public float CurrentLimit;
+        public float Speed;
+   
+        public uint Raw_Position;
+        public uint Raw_CurrentLimit;
+        public uint Raw_Speed;
+        public bool MotionEnable;
+
+        CAN_t MessageOut;
+
+        public uint Address = 19;
+
+        public byte CommandSourceAddress = 0;
+        public byte CommandDstAddress = 0;
+        public byte CommandPriority;
+
+        public  ACM()
+        {
+            MessageOut = new CAN_t();
+            MessageOut.Data = new byte[8];
+            MessageOut.ID = ProprietaryA;
+            MessageOut.RTR = false;
+            MessageOut.ID = J1939.MakePDU(0, 0, 0xEF, CommandDstAddress, CommandSourceAddress);
 
 
-       public  uint Raw_MeasuredPosition;
+        }
+
+        void UpdateRaw()
+        {
+            if (Position > 1000.0f)
+                Position = 1000.0f;
+
+            Raw_Position = (uint)(Position * 10.0f);
+
+            if (CurrentLimit > 25.0f)
+                CurrentLimit = 25.0f;
+
+            Raw_CurrentLimit = (uint)(CurrentLimit * 10);
+
+            if (Speed > 100.0f)
+                Speed = 100.0f;
+
+            Raw_Speed = (uint)(Speed / 5.0);
+        }
+
+        public CAN_t MakeMessage()
+        {
+
+            UpdateRaw();
+
+            for (int i=0;i<8;i++)
+            {
+                MessageOut.Data[i] = 0;
+            }
+
+            MessageOut.Data[0] = (byte)(Raw_Position & 0xFF);
+            MessageOut.Data[1] |= (byte)((Raw_Position>>8) & 0x3F);
+
+            MessageOut.Data[1] |= (byte)((Raw_CurrentLimit & 0x3) << 6);
+
+            MessageOut.Data[2] |= (byte)(((Raw_CurrentLimit>>2) & 0x7F));
+
+            MessageOut.Data[2] |= (byte)(((Raw_Speed&0x01) << 7));
+
+            MessageOut.Data[3] |= (byte)( (Raw_Speed>>1)&0xF);
+
+            if (MotionEnable == true)
+                MessageOut.Data[3] |= (byte)(1 << 4);
+
+            MessageOut.ID = J1939.MakePDU(CommandPriority, 0, 0xEF, CommandDstAddress, CommandSourceAddress);
+
+            return MessageOut;
+        }
+
+    }
+    public class AFM
+    {
+        public const uint ProprietaryA2 = 126720;
+
+        public  uint Raw_MeasuredPosition;
         public uint Raw_MeasuredCurrent;
         public uint Raw_RunningSpeed;
         public uint Raw_VoltageError;
@@ -353,23 +470,6 @@ namespace ElectrakHD
         public  bool SaturationFlag;
         public bool FatalErrorFlag;
 
-        /*
-       Actuator Feedback Message Signal Information
-       Start position Length Parameter name
-       1.1 14 bits Measured position
-       2.7 9 bits Measured current
-       3.8 5 bits Running speed
-       4.5 2 bits Voltage error
-       4.7 2 bits Temperature error
-       5.1 1 bit Motion flag
-       5.2 1 bit Overload flag
-       5.3 1 bit Backdrive flag
-       5.4 1 bit Parameter flag
-       5.5 1 bit Saturation flag
-       5.6 1 bit Fatal error flag
-       5.7 18 bits Factory use
-       */
-        //The least significant bit of each message is indicated by the start position
         public string MakeVoltageErrorString (uint VoltageError)
         {
             if (VoltageError == 0)

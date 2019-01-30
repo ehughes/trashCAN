@@ -9,3 +9,4 @@ C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\obj\Debug\ElectrakHD.csproj.
 C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\obj\Debug\ElectrakHD.dll
 C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\obj\Debug\ElectrakHD.pdb
 C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\obj\Debug\ElectrakHD.ElectrakHD.resources
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\obj\Debug\ElectrakHD.csprojAssemblyReference.cache

@@ -57,11 +57,11 @@
             this.CANMsgTextBox.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CANMsgTextBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.CANMsgTextBox.Location = new System.Drawing.Point(0, 0);
-            this.CANMsgTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.CANMsgTextBox.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.CANMsgTextBox.Multiline = true;
             this.CANMsgTextBox.Name = "CANMsgTextBox";
             this.CANMsgTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.CANMsgTextBox.Size = new System.Drawing.Size(659, 306);
+            this.CANMsgTextBox.Size = new System.Drawing.Size(877, 382);
             this.CANMsgTextBox.TabIndex = 0;
             this.CANMsgTextBox.WordWrap = false;
             // 
@@ -73,10 +73,10 @@
             this.statusMessagesIn,
             this.statusLockCount,
             this.toolStripStatusLabel1});
-            this.statusStrip.Location = new System.Drawing.Point(0, 319);
+            this.statusStrip.Location = new System.Drawing.Point(0, 406);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Padding = new System.Windows.Forms.Padding(2, 0, 21, 0);
-            this.statusStrip.Size = new System.Drawing.Size(664, 28);
+            this.statusStrip.Padding = new System.Windows.Forms.Padding(3, 0, 28, 0);
+            this.statusStrip.Size = new System.Drawing.Size(885, 28);
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip1";
             // 
@@ -86,13 +86,13 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clearToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(212, 67);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(145, 40);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(211, 30);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(144, 36);
             this.clearToolStripMenuItem.Text = "Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
@@ -129,20 +129,20 @@
             | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.toolStripStatusLabel1.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(437, 23);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(650, 23);
             this.toolStripStatusLabel1.Spring = true;
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CANMessageSniffer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(664, 347);
+            this.ClientSize = new System.Drawing.Size(885, 434);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.CANMsgTextBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.MinimumSize = new System.Drawing.Size(664, 362);
+            this.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            this.MinimumSize = new System.Drawing.Size(877, 435);
             this.Name = "CANMessageSniffer";
             this.Text = "CAN Message Sniffer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CANMessageSniffer_FormClosing);

@@ -22,7 +22,9 @@ namespace J1939_Routines
         {
             string S;
 
-            S = "<PGN:" + GetPGN_FromPDU(C.ID).ToString("D6") + "> <Source Address: " + GetSourceAddress_FromPDU(C.ID).ToString("D2") + "> " + "<Destination Address: " + GetDestinationAddress_FromPDU(C.ID).ToString("D2") + "> ";
+            S= "<PRI:"+ GetPriority_FromPDU(C.ID) + "> " ;
+
+            S += "<PGN:" + GetPGN_FromPDU(C.ID).ToString("D6") + "> <Source Address: " + GetSourceAddress_FromPDU(C.ID).ToString("D2") + "> " + "<Destination Address: " + GetDestinationAddress_FromPDU(C.ID).ToString("D2") + "> ";
 
             for (int i = 0; i < C.Data.Length;i++ )
             {

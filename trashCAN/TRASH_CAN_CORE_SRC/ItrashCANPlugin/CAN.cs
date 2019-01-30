@@ -298,7 +298,7 @@ namespace ItrashCAN
                 Data = new Byte[0];
             }
 
-            public CAN_t(bool ExtID, UInt32 Id, Byte[] Data)
+            public CAN_t(bool ExtID, UInt32 Id, Byte[] DataIn)
             {
                 if (Data == null)
                 {
@@ -315,7 +315,8 @@ namespace ItrashCAN
                 }
                 ExtendedID = ExtID;
                 ID = Id;
-                Data = Data;
+                for(int i=0;i<8;i++)
+                 Data[i] = DataIn[i];
             }
 
             public override string ToString()
