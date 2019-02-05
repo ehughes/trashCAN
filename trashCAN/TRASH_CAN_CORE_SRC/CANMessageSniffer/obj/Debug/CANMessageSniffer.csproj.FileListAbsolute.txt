@@ -120,9 +120,7 @@ D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\obj\Deb
 D:\Projects\0-SOA_CURRENT\TRASH_CAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\obj\Debug\CANMessageSniffer.pdb
 C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\bin\Debug\CANMessageSniffer.dll
 C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\bin\Debug\CANMessageSniffer.pdb
-C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\bin\Debug\CANMessageInjector.dll
 C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\bin\Debug\ItrashCAN.dll
-C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\bin\Debug\CANMessageInjector.pdb
 C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\bin\Debug\ItrashCAN.pdb
 C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\obj\Debug\CANMessageSniffer.csprojAssemblyReference.cache
 C:\ELI\trashCAN\trashCAN\TRASH_CAN_CORE_SRC\CANMessageSniffer\obj\Debug\CANMessageSniffer.CANMessageSniffer.resources

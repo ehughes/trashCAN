@@ -172,17 +172,24 @@ namespace ElectrakHD
                     if (_IncomingCANMsgQueue.Count > 0)
                     {
                         CAN_t Message = _IncomingCANMsgQueue.Dequeue();
+                        
                         if (Message != null)
-                        { 
-                            if (J1939.GetSourceAddress_FromPDU(Message.ID) == (uint)ActuatorAddress.Value)
+                        {
+                            if (Message.ExtendedID == true && Message.Data != null)
                             {
-                                ActivityTTL = 20;
-                                uint PGN = J1939.GetPGN_FromPDU(Message.ID);
-                              //  if (PGN == AFM.ProprietaryA2)
+                                if (Message.Data.Length == 0)
                                 {
+                                    if (J1939.GetSourceAddress_FromPDU(Message.ID) == (uint)ActuatorAddress.Value)
+                                    {
+                                        ActivityTTL = 20;
+                                        uint PGN = J1939.GetPGN_FromPDU(Message.ID);
+                                        if (PGN == AFM.ProprietaryA2)
+                                        {
 
-                                    MyFeedback.ProcessProprietaryA2(Message.Data);
+                                            MyFeedback.ProcessProprietaryA2(Message.Data);
 
+                                        }
+                                    }
                                 }
                             }
                         }

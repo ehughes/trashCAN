@@ -3,15 +3,15 @@
   <PluginStates>
     <PluginStateRecord>
       <NameWithVersion>Elecktrak HD Controller&gt;0.1</NameWithVersion>
-      <PluginInstanceID>1</PluginInstanceID>
+      <PluginInstanceID>0</PluginInstanceID>
       <State>
         <WindowSize>
           <Width>618</Width>
           <Height>538</Height>
         </WindowSize>
         <WindowLocation>
-          <X>1231</X>
-          <Y>225</Y>
+          <X>52</X>
+          <Y>52</Y>
         </WindowLocation>
         <WindowState>Normal</WindowState>
       </State>
@@ -23,8 +23,8 @@
       <Height>135</Height>
     </WindowSize>
     <WindowLocation>
-      <X>182</X>
-      <Y>182</Y>
+      <X>26</X>
+      <Y>26</Y>
     </WindowLocation>
     <WindowState>Normal</WindowState>
   </MyState>
