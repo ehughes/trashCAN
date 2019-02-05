@@ -177,7 +177,7 @@ namespace ElectrakHD
                         {
                             if (Message.ExtendedID == true && Message.Data != null)
                             {
-                                if (Message.Data.Length != 0)
+                                if (Message.Data.Length == 8 )
                                 {
                                     if (J1939.GetSourceAddress_FromPDU(Message.ID) == (uint)ActuatorAddress.Value)
                                     {
