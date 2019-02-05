@@ -437,7 +437,7 @@ namespace ElectrakHD
                 MessageOut.Data[3] |= (byte)(1 << 4);
 
             MessageOut.ID = J1939.MakePDU(CommandPriority, 0, 0xEF, CommandDstAddress, CommandSourceAddress);
-
+            MessageOut.ExtendedID = true;
             return MessageOut;
         }
 

@@ -2,16 +2,16 @@
 <TrashCANStateRecord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <PluginStates>
     <PluginStateRecord>
-      <NameWithVersion>CANMessageSniffer&gt;1.1.1</NameWithVersion>
-      <PluginInstanceID>0</PluginInstanceID>
+      <NameWithVersion>Elecktrak HD Controller&gt;0.1</NameWithVersion>
+      <PluginInstanceID>1</PluginInstanceID>
       <State>
         <WindowSize>
-          <Width>459</Width>
-          <Height>256</Height>
+          <Width>618</Width>
+          <Height>538</Height>
         </WindowSize>
         <WindowLocation>
-          <X>469</X>
-          <Y>84</Y>
+          <X>1231</X>
+          <Y>225</Y>
         </WindowLocation>
         <WindowState>Normal</WindowState>
       </State>
