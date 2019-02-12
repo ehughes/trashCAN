@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ItrashCAN;
 using J1939_Routines;
+using OxyPlot;
+using OxyPlot.Series;
+using OxyPlot.Axes;
+using OxyPlot.Annotations;
 
 namespace ElectrakHD
 
@@ -26,6 +30,17 @@ namespace ElectrakHD
 
         const int MsgDisplayHistory = 64;
         Queue <String> MsgDisplayQueue = new Queue<string>();
+
+        SimplePlot MyCurrentPlot = new SimplePlot();
+        LineSeries CurrentLineSeries = new LineSeries();
+        LineSeries PositionLineSeries = new LineSeries();
+        LinearAxis DataPointAxis = new LinearAxis();
+
+        LinearAxis CurrentAxis = new LinearAxis();
+        LinearAxis PositionAxis = new LinearAxis();
+
+        Queue<double> CurrentQueue = new Queue<double>();
+        Queue<double> PositionQueue = new Queue<double>();
 
         #region Plugin Interface
 
@@ -158,11 +173,54 @@ namespace ElectrakHD
         public ElectrakHD()
         {
             InitializeComponent();
+
+
+
+
+
+            PositionAxis.Title = "Position (mm)";
+            PositionAxis.Position = AxisPosition.Left;
+            PositionAxis.Key = "Position";
+
+
+            CurrentAxis.Title = "Current (Amps)";
+            CurrentAxis.Position = AxisPosition.Right;
+            CurrentAxis.Key = "Current";
+
+
+            DataPointAxis.Title = "Data Point";
+            DataPointAxis.Position = AxisPosition.Bottom;
+            DataPointAxis.Key = "Time";
+
+
+            MyCurrentPlot.MainPlotModel.Axes.Add(DataPointAxis);
+            MyCurrentPlot.MainPlotModel.Axes.Add(CurrentAxis);
+            MyCurrentPlot.MainPlotModel.Axes.Add(PositionAxis);
+
+
+           
+     
+            MyCurrentPlot.MainPlotModel.Title = " Motor Current/Position";
+            MyCurrentPlot.Text = "Motor Plot";
+
+            
+            CurrentLineSeries.XAxisKey = "Time";
+           CurrentLineSeries.YAxisKey = "Current";
+
+           PositionLineSeries.XAxisKey = "Time";
+           PositionLineSeries.YAxisKey = "Position";
+
+            CurrentLineSeries.Color = OxyColor.FromRgb(255, 0, 0);
+            PositionLineSeries.Color = OxyColor.FromRgb(0, 0, 255);
+            MyCurrentPlot.MainPlotModel.Series.Add(CurrentLineSeries);
+            MyCurrentPlot.MainPlotModel.Series.Add(PositionLineSeries);
+
+
         }
 
-    
 
-  
+
+
         private void MsgCheckTimer_Tick(object sender, EventArgs e)
         {
             if (_IncomingCANMsgQueue != null)
@@ -187,7 +245,8 @@ namespace ElectrakHD
                                         {
 
                                             MyFeedback.ProcessProprietaryA2(Message.Data);
-
+                                            CurrentQueue.Enqueue((double)MyFeedback.MeasuredCurrent);
+                                            PositionQueue.Enqueue((double)MyFeedback.MeasuredPosition);
                                         }
                                     }
                                 }
@@ -199,6 +258,8 @@ namespace ElectrakHD
                 }
             }
         }
+
+        double Test = 0;
 
         private void FormUpdateTimer_Tick(object sender, EventArgs e)
         {
@@ -227,6 +288,68 @@ namespace ElectrakHD
             FatalErrorLED.On = MyFeedback.FatalErrorFlag;
             BackDriveLED.On = MyFeedback.BackdriveFlag;
 
+            if (TestGraphCB.Checked == true)
+            {
+                CurrentQueue.Enqueue(Math.Sin(Test));
+                PositionQueue.Enqueue(10*Math.Cos(Test));
+                Test = Test + .1;
+  
+            }
+
+
+            while(CurrentQueue.Count>10*60*5)
+            {
+                CurrentQueue.Dequeue();
+            }
+
+
+            while (PositionQueue.Count > 10 * 60 * 5)
+            {
+                PositionQueue.Dequeue();
+            }
+
+            if (MyCurrentPlot.Enabled == true)
+            {
+                CurrentLineSeries.Points.Clear();
+                if (PlotCurrentCB.Checked == true)
+                {
+                   
+                    double[] CurrentValues = (double[])CurrentQueue.ToArray();
+                                                                          
+                    for (int i = 0; i < CurrentValues.Length; i++)
+                    {
+                        CurrentLineSeries.Points.Add(new DataPoint(1.0 * i, CurrentValues[ i]));
+                    }
+                }
+
+                PositionLineSeries.Points.Clear();
+                if (PlotPositionCB.Checked == true)
+                {
+                    double[] PositionValues = (double[])PositionQueue.ToArray();
+
+                    for (int i = 0; i < PositionValues.Length; i++)
+                    {
+                        PositionLineSeries.Points.Add(new DataPoint(1.0 * i, PositionValues[i]));
+                    }
+                }
+
+                MyCurrentPlot.Dirty();
+
+            }
+
+            if(StreamCommandCB.Checked == true)
+            {
+                MyControlMessage.Position = (float)PositionNUD.Value;
+                MyControlMessage.CurrentLimit = (float)CurrentLimitNUD.Value;
+                MyControlMessage.Speed = (float)SpeedNUD.Value;
+                MyControlMessage.MotionEnable = MotionEnableCB.Checked;
+                MyControlMessage.CommandSourceAddress = (byte)CommandSourceAddressNUD.Value;
+                MyControlMessage.CommandDstAddress = (byte)CommandDestinationAddressNUD.Value;
+                MyControlMessage.CommandPriority = (byte)CommandPriorityNUD.Value;
+
+                _OutgoingCANMsgQueue.Enqueue(MyControlMessage.MakeMessage());
+
+            }
         }
 
 
@@ -291,15 +414,7 @@ namespace ElectrakHD
 
         private void SendCommandButton_Click(object sender, EventArgs e)
         {
-            MyControlMessage.Position = (float)PositionNUD.Value;
-            MyControlMessage.CurrentLimit = (float)CurrentLimitNUD.Value;
-            MyControlMessage.Speed = (float)SpeedNUD.Value;
-            MyControlMessage.MotionEnable = MotionEnableCB.Checked;
-            MyControlMessage.CommandSourceAddress = (byte)CommandSourceAddressNUD.Value;
-            MyControlMessage.CommandDstAddress = (byte)CommandDestinationAddressNUD.Value;
-            MyControlMessage.CommandPriority = (byte)CommandPriorityNUD.Value;
-
-            _OutgoingCANMsgQueue.Enqueue(MyControlMessage.MakeMessage());
+          
         }
 
         private void ElectrakHD_Load(object sender, EventArgs e)
@@ -317,6 +432,18 @@ namespace ElectrakHD
             MyControlMessage.CommandPriority = (byte)CommandPriorityNUD.Value;
 
             _OutgoingCANMsgQueue.Enqueue(MyControlMessage.MakeMessage());
+        }
+
+        private void PlotCurrentButton_Click(object sender, EventArgs e)
+        {
+            CurrentQueue.Clear();
+            PositionQueue.Clear();
+            MyCurrentPlot.Show();
+        }
+
+        private void StreamCommandCB_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 

@@ -34,7 +34,6 @@
             this.FormUpdateTimer = new System.Windows.Forms.Timer(this.components);
             this.AddressLabel = new System.Windows.Forms.Label();
             this.ActuatorAddress = new System.Windows.Forms.NumericUpDown();
-            this.ActivityLED = new Bulb.LedBulb();
             this.label1 = new System.Windows.Forms.Label();
             this.MeasuredPositionTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -51,16 +50,10 @@
             this.label11 = new System.Windows.Forms.Label();
             this.TemperatureErrorTextBox = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.MotionLED = new Bulb.LedBulb();
-            this.ParameterLED = new Bulb.LedBulb();
             this.label13 = new System.Windows.Forms.Label();
-            this.SaturationLED = new Bulb.LedBulb();
             this.label14 = new System.Windows.Forms.Label();
-            this.OverloadLED = new Bulb.LedBulb();
             this.label15 = new System.Windows.Forms.Label();
-            this.BackDriveLED = new Bulb.LedBulb();
             this.BackDriveLabel = new System.Windows.Forms.Label();
-            this.FatalErrorLED = new Bulb.LedBulb();
             this.FatalErrorLabel = new System.Windows.Forms.Label();
             this.PositionNUD = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
@@ -72,16 +65,26 @@
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
-            this.SendCommandButton = new System.Windows.Forms.Button();
-            this.StopButton = new System.Windows.Forms.Button();
             this.CommandSourceAddressNUD = new System.Windows.Forms.NumericUpDown();
             this.label21 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.CommandDestinationAddressNUD = new System.Windows.Forms.NumericUpDown();
             this.MotorControlGroupBox = new System.Windows.Forms.GroupBox();
+            this.StreamCommandCB = new System.Windows.Forms.CheckBox();
             this.CommandPriorityNUD = new System.Windows.Forms.NumericUpDown();
             this.label23 = new System.Windows.Forms.Label();
             this.AcutatorFeedbackGroupBox = new System.Windows.Forms.GroupBox();
+            this.TestGraphCB = new System.Windows.Forms.CheckBox();
+            this.PlotCurrentCB = new System.Windows.Forms.CheckBox();
+            this.PlotPositionCB = new System.Windows.Forms.CheckBox();
+            this.PlotButton = new System.Windows.Forms.Button();
+            this.FatalErrorLED = new Bulb.LedBulb();
+            this.BackDriveLED = new Bulb.LedBulb();
+            this.OverloadLED = new Bulb.LedBulb();
+            this.SaturationLED = new Bulb.LedBulb();
+            this.ParameterLED = new Bulb.LedBulb();
+            this.MotionLED = new Bulb.LedBulb();
+            this.ActivityLED = new Bulb.LedBulb();
             ((System.ComponentModel.ISupportInitialize)(this.ActuatorAddress)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PositionNUD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CurrentLimitNUD)).BeginInit();
@@ -108,7 +111,7 @@
             // AddressLabel
             // 
             this.AddressLabel.AutoSize = true;
-            this.AddressLabel.Location = new System.Drawing.Point(20, 51);
+            this.AddressLabel.Location = new System.Drawing.Point(44, 49);
             this.AddressLabel.Name = "AddressLabel";
             this.AddressLabel.Size = new System.Drawing.Size(188, 25);
             this.AddressLabel.TabIndex = 4;
@@ -116,7 +119,7 @@
             // 
             // ActuatorAddress
             // 
-            this.ActuatorAddress.Location = new System.Drawing.Point(218, 49);
+            this.ActuatorAddress.Location = new System.Drawing.Point(238, 49);
             this.ActuatorAddress.Maximum = new decimal(new int[] {
             26,
             0,
@@ -138,16 +141,6 @@
             0});
             this.ActuatorAddress.ValueChanged += new System.EventHandler(this.ActuatorAddress_ValueChanged);
             // 
-            // ActivityLED
-            // 
-            this.ActivityLED.Location = new System.Drawing.Point(1061, 30);
-            this.ActivityLED.Name = "ActivityLED";
-            this.ActivityLED.On = true;
-            this.ActivityLED.Size = new System.Drawing.Size(49, 50);
-            this.ActivityLED.TabIndex = 6;
-            this.ActivityLED.Text = "ledBulb1";
-            this.ActivityLED.Click += new System.EventHandler(this.ledBulb1_Click);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -161,7 +154,7 @@
             // 
             this.MeasuredPositionTextBox.Enabled = false;
             this.MeasuredPositionTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MeasuredPositionTextBox.Location = new System.Drawing.Point(229, 134);
+            this.MeasuredPositionTextBox.Location = new System.Drawing.Point(229, 184);
             this.MeasuredPositionTextBox.Name = "MeasuredPositionTextBox";
             this.MeasuredPositionTextBox.Size = new System.Drawing.Size(139, 38);
             this.MeasuredPositionTextBox.TabIndex = 8;
@@ -177,7 +170,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(32, 142);
+            this.label3.Location = new System.Drawing.Point(32, 192);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(191, 25);
             this.label3.TabIndex = 10;
@@ -186,7 +179,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(391, 142);
+            this.label4.Location = new System.Drawing.Point(391, 192);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(46, 25);
             this.label4.TabIndex = 11;
@@ -195,7 +188,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(391, 204);
+            this.label5.Location = new System.Drawing.Point(396, 255);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(26, 25);
             this.label5.TabIndex = 14;
@@ -204,7 +197,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(32, 204);
+            this.label6.Location = new System.Drawing.Point(30, 246);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(185, 25);
             this.label6.TabIndex = 13;
@@ -214,7 +207,7 @@
             // 
             this.MeasuredCurrentTextBox.Enabled = false;
             this.MeasuredCurrentTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MeasuredCurrentTextBox.Location = new System.Drawing.Point(229, 195);
+            this.MeasuredCurrentTextBox.Location = new System.Drawing.Point(229, 246);
             this.MeasuredCurrentTextBox.Name = "MeasuredCurrentTextBox";
             this.MeasuredCurrentTextBox.Size = new System.Drawing.Size(139, 38);
             this.MeasuredCurrentTextBox.TabIndex = 12;
@@ -222,7 +215,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(391, 267);
+            this.label8.Location = new System.Drawing.Point(391, 309);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(31, 25);
             this.label8.TabIndex = 18;
@@ -231,7 +224,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(32, 267);
+            this.label9.Location = new System.Drawing.Point(34, 309);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(160, 25);
             this.label9.TabIndex = 17;
@@ -241,7 +234,7 @@
             // 
             this.RunningSpeedTextBox.Enabled = false;
             this.RunningSpeedTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RunningSpeedTextBox.Location = new System.Drawing.Point(229, 258);
+            this.RunningSpeedTextBox.Location = new System.Drawing.Point(229, 300);
             this.RunningSpeedTextBox.Name = "RunningSpeedTextBox";
             this.RunningSpeedTextBox.Size = new System.Drawing.Size(139, 38);
             this.RunningSpeedTextBox.TabIndex = 16;
@@ -292,27 +285,6 @@
             this.label12.Text = "Motion";
             this.label12.Click += new System.EventHandler(this.label12_Click);
             // 
-            // MotionLED
-            // 
-            this.MotionLED.Color = System.Drawing.Color.Lime;
-            this.MotionLED.Location = new System.Drawing.Point(761, 133);
-            this.MotionLED.Name = "MotionLED";
-            this.MotionLED.On = true;
-            this.MotionLED.Size = new System.Drawing.Size(49, 50);
-            this.MotionLED.TabIndex = 24;
-            this.MotionLED.Text = "MotionLED";
-            // 
-            // ParameterLED
-            // 
-            this.ParameterLED.Color = System.Drawing.Color.Yellow;
-            this.ParameterLED.Location = new System.Drawing.Point(761, 212);
-            this.ParameterLED.Name = "ParameterLED";
-            this.ParameterLED.On = true;
-            this.ParameterLED.Size = new System.Drawing.Size(49, 50);
-            this.ParameterLED.TabIndex = 26;
-            this.ParameterLED.Text = "ParameterLED";
-            this.ParameterLED.Click += new System.EventHandler(this.ledBulb2_Click);
-            // 
             // label13
             // 
             this.label13.AutoSize = true;
@@ -323,16 +295,6 @@
             this.label13.Text = "Parameter";
             this.label13.Click += new System.EventHandler(this.label13_Click);
             // 
-            // SaturationLED
-            // 
-            this.SaturationLED.Color = System.Drawing.Color.Red;
-            this.SaturationLED.Location = new System.Drawing.Point(761, 284);
-            this.SaturationLED.Name = "SaturationLED";
-            this.SaturationLED.On = true;
-            this.SaturationLED.Size = new System.Drawing.Size(49, 50);
-            this.SaturationLED.TabIndex = 28;
-            this.SaturationLED.Text = "SaturationLED";
-            // 
             // label14
             // 
             this.label14.AutoSize = true;
@@ -341,17 +303,6 @@
             this.label14.Size = new System.Drawing.Size(110, 25);
             this.label14.TabIndex = 27;
             this.label14.Text = "Saturation";
-            // 
-            // OverloadLED
-            // 
-            this.OverloadLED.Color = System.Drawing.Color.Red;
-            this.OverloadLED.Location = new System.Drawing.Point(1061, 133);
-            this.OverloadLED.Name = "OverloadLED";
-            this.OverloadLED.On = true;
-            this.OverloadLED.Size = new System.Drawing.Size(49, 50);
-            this.OverloadLED.TabIndex = 30;
-            this.OverloadLED.Text = "OverloadLED";
-            this.OverloadLED.Click += new System.EventHandler(this.ledBulb3_Click);
             // 
             // label15
             // 
@@ -363,16 +314,6 @@
             this.label15.Text = "Overload";
             this.label15.Click += new System.EventHandler(this.label15_Click);
             // 
-            // BackDriveLED
-            // 
-            this.BackDriveLED.Color = System.Drawing.Color.Red;
-            this.BackDriveLED.Location = new System.Drawing.Point(1061, 212);
-            this.BackDriveLED.Name = "BackDriveLED";
-            this.BackDriveLED.On = true;
-            this.BackDriveLED.Size = new System.Drawing.Size(49, 50);
-            this.BackDriveLED.TabIndex = 32;
-            this.BackDriveLED.Text = "BackDriveLED";
-            // 
             // BackDriveLabel
             // 
             this.BackDriveLabel.AutoSize = true;
@@ -381,16 +322,6 @@
             this.BackDriveLabel.Size = new System.Drawing.Size(107, 25);
             this.BackDriveLabel.TabIndex = 31;
             this.BackDriveLabel.Text = "Backdrive";
-            // 
-            // FatalErrorLED
-            // 
-            this.FatalErrorLED.Color = System.Drawing.Color.Red;
-            this.FatalErrorLED.Location = new System.Drawing.Point(1061, 284);
-            this.FatalErrorLED.Name = "FatalErrorLED";
-            this.FatalErrorLED.On = true;
-            this.FatalErrorLED.Size = new System.Drawing.Size(49, 50);
-            this.FatalErrorLED.TabIndex = 34;
-            this.FatalErrorLED.Text = "FatalErrorLED";
             // 
             // FatalErrorLabel
             // 
@@ -497,9 +428,7 @@
             // MotionEnableCB
             // 
             this.MotionEnableCB.AutoSize = true;
-            this.MotionEnableCB.Checked = true;
-            this.MotionEnableCB.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.MotionEnableCB.Location = new System.Drawing.Point(30, 43);
+            this.MotionEnableCB.Location = new System.Drawing.Point(255, 39);
             this.MotionEnableCB.Name = "MotionEnableCB";
             this.MotionEnableCB.Size = new System.Drawing.Size(182, 29);
             this.MotionEnableCB.TabIndex = 42;
@@ -533,26 +462,6 @@
             this.label20.Size = new System.Drawing.Size(46, 25);
             this.label20.TabIndex = 43;
             this.label20.Text = "mm";
-            // 
-            // SendCommandButton
-            // 
-            this.SendCommandButton.Location = new System.Drawing.Point(465, 119);
-            this.SendCommandButton.Name = "SendCommandButton";
-            this.SendCommandButton.Size = new System.Drawing.Size(199, 83);
-            this.SendCommandButton.TabIndex = 46;
-            this.SendCommandButton.Text = "Send Command";
-            this.SendCommandButton.UseVisualStyleBackColor = true;
-            this.SendCommandButton.Click += new System.EventHandler(this.SendCommandButton_Click);
-            // 
-            // StopButton
-            // 
-            this.StopButton.Location = new System.Drawing.Point(689, 119);
-            this.StopButton.Name = "StopButton";
-            this.StopButton.Size = new System.Drawing.Size(199, 83);
-            this.StopButton.TabIndex = 47;
-            this.StopButton.Text = "Stop";
-            this.StopButton.UseVisualStyleBackColor = true;
-            this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
             // 
             // CommandSourceAddressNUD
             // 
@@ -600,14 +509,13 @@
             // 
             // MotorControlGroupBox
             // 
+            this.MotorControlGroupBox.Controls.Add(this.StreamCommandCB);
             this.MotorControlGroupBox.Controls.Add(this.CommandPriorityNUD);
             this.MotorControlGroupBox.Controls.Add(this.label23);
             this.MotorControlGroupBox.Controls.Add(this.CommandDestinationAddressNUD);
             this.MotorControlGroupBox.Controls.Add(this.label22);
             this.MotorControlGroupBox.Controls.Add(this.CommandSourceAddressNUD);
             this.MotorControlGroupBox.Controls.Add(this.label21);
-            this.MotorControlGroupBox.Controls.Add(this.StopButton);
-            this.MotorControlGroupBox.Controls.Add(this.SendCommandButton);
             this.MotorControlGroupBox.Controls.Add(this.label18);
             this.MotorControlGroupBox.Controls.Add(this.label19);
             this.MotorControlGroupBox.Controls.Add(this.label20);
@@ -620,10 +528,21 @@
             this.MotorControlGroupBox.Controls.Add(this.PositionNUD);
             this.MotorControlGroupBox.Location = new System.Drawing.Point(12, 565);
             this.MotorControlGroupBox.Name = "MotorControlGroupBox";
-            this.MotorControlGroupBox.Size = new System.Drawing.Size(944, 375);
+            this.MotorControlGroupBox.Size = new System.Drawing.Size(1160, 375);
             this.MotorControlGroupBox.TabIndex = 52;
             this.MotorControlGroupBox.TabStop = false;
             this.MotorControlGroupBox.Text = "Actuator Control";
+            // 
+            // StreamCommandCB
+            // 
+            this.StreamCommandCB.AutoSize = true;
+            this.StreamCommandCB.Location = new System.Drawing.Point(17, 39);
+            this.StreamCommandCB.Name = "StreamCommandCB";
+            this.StreamCommandCB.Size = new System.Drawing.Size(215, 29);
+            this.StreamCommandCB.TabIndex = 54;
+            this.StreamCommandCB.Text = "Stream Command";
+            this.StreamCommandCB.UseVisualStyleBackColor = true;
+            this.StreamCommandCB.CheckedChanged += new System.EventHandler(this.StreamCommandCB_CheckedChanged);
             // 
             // CommandPriorityNUD
             // 
@@ -654,6 +573,10 @@
             // 
             // AcutatorFeedbackGroupBox
             // 
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.TestGraphCB);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.PlotCurrentCB);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.PlotPositionCB);
+            this.AcutatorFeedbackGroupBox.Controls.Add(this.PlotButton);
             this.AcutatorFeedbackGroupBox.Controls.Add(this.FatalErrorLED);
             this.AcutatorFeedbackGroupBox.Controls.Add(this.FatalErrorLabel);
             this.AcutatorFeedbackGroupBox.Controls.Add(this.BackDriveLED);
@@ -686,16 +609,134 @@
             this.AcutatorFeedbackGroupBox.Controls.Add(this.AddressLabel);
             this.AcutatorFeedbackGroupBox.Location = new System.Drawing.Point(12, 12);
             this.AcutatorFeedbackGroupBox.Name = "AcutatorFeedbackGroupBox";
-            this.AcutatorFeedbackGroupBox.Size = new System.Drawing.Size(1155, 536);
+            this.AcutatorFeedbackGroupBox.Size = new System.Drawing.Size(1160, 536);
             this.AcutatorFeedbackGroupBox.TabIndex = 53;
             this.AcutatorFeedbackGroupBox.TabStop = false;
             this.AcutatorFeedbackGroupBox.Text = "Acutator Feedback";
+            // 
+            // TestGraphCB
+            // 
+            this.TestGraphCB.AutoSize = true;
+            this.TestGraphCB.Location = new System.Drawing.Point(43, 489);
+            this.TestGraphCB.Name = "TestGraphCB";
+            this.TestGraphCB.Size = new System.Drawing.Size(151, 29);
+            this.TestGraphCB.TabIndex = 50;
+            this.TestGraphCB.Text = "Test Graph";
+            this.TestGraphCB.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.TestGraphCB.UseVisualStyleBackColor = true;
+            // 
+            // PlotCurrentCB
+            // 
+            this.PlotCurrentCB.AutoSize = true;
+            this.PlotCurrentCB.Checked = true;
+            this.PlotCurrentCB.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.PlotCurrentCB.Location = new System.Drawing.Point(519, 246);
+            this.PlotCurrentCB.Name = "PlotCurrentCB";
+            this.PlotCurrentCB.Size = new System.Drawing.Size(28, 27);
+            this.PlotCurrentCB.TabIndex = 49;
+            this.PlotCurrentCB.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.PlotCurrentCB.UseVisualStyleBackColor = true;
+            // 
+            // PlotPositionCB
+            // 
+            this.PlotPositionCB.AutoSize = true;
+            this.PlotPositionCB.Checked = true;
+            this.PlotPositionCB.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.PlotPositionCB.Location = new System.Drawing.Point(519, 191);
+            this.PlotPositionCB.Name = "PlotPositionCB";
+            this.PlotPositionCB.Size = new System.Drawing.Size(28, 27);
+            this.PlotPositionCB.TabIndex = 48;
+            this.PlotPositionCB.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.PlotPositionCB.UseVisualStyleBackColor = true;
+            // 
+            // PlotButton
+            // 
+            this.PlotButton.BackgroundImage = global::ElectrakHD.Properties.Resources.PLot;
+            this.PlotButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PlotButton.Location = new System.Drawing.Point(465, 30);
+            this.PlotButton.Name = "PlotButton";
+            this.PlotButton.Size = new System.Drawing.Size(146, 138);
+            this.PlotButton.TabIndex = 47;
+            this.PlotButton.UseVisualStyleBackColor = true;
+            this.PlotButton.Click += new System.EventHandler(this.PlotCurrentButton_Click);
+            // 
+            // FatalErrorLED
+            // 
+            this.FatalErrorLED.Color = System.Drawing.Color.Red;
+            this.FatalErrorLED.Location = new System.Drawing.Point(1061, 284);
+            this.FatalErrorLED.Name = "FatalErrorLED";
+            this.FatalErrorLED.On = true;
+            this.FatalErrorLED.Size = new System.Drawing.Size(49, 50);
+            this.FatalErrorLED.TabIndex = 34;
+            this.FatalErrorLED.Text = "FatalErrorLED";
+            // 
+            // BackDriveLED
+            // 
+            this.BackDriveLED.Color = System.Drawing.Color.Red;
+            this.BackDriveLED.Location = new System.Drawing.Point(1061, 212);
+            this.BackDriveLED.Name = "BackDriveLED";
+            this.BackDriveLED.On = true;
+            this.BackDriveLED.Size = new System.Drawing.Size(49, 50);
+            this.BackDriveLED.TabIndex = 32;
+            this.BackDriveLED.Text = "BackDriveLED";
+            // 
+            // OverloadLED
+            // 
+            this.OverloadLED.Color = System.Drawing.Color.Red;
+            this.OverloadLED.Location = new System.Drawing.Point(1061, 133);
+            this.OverloadLED.Name = "OverloadLED";
+            this.OverloadLED.On = true;
+            this.OverloadLED.Size = new System.Drawing.Size(49, 50);
+            this.OverloadLED.TabIndex = 30;
+            this.OverloadLED.Text = "OverloadLED";
+            this.OverloadLED.Click += new System.EventHandler(this.ledBulb3_Click);
+            // 
+            // SaturationLED
+            // 
+            this.SaturationLED.Color = System.Drawing.Color.Red;
+            this.SaturationLED.Location = new System.Drawing.Point(761, 284);
+            this.SaturationLED.Name = "SaturationLED";
+            this.SaturationLED.On = true;
+            this.SaturationLED.Size = new System.Drawing.Size(49, 50);
+            this.SaturationLED.TabIndex = 28;
+            this.SaturationLED.Text = "SaturationLED";
+            // 
+            // ParameterLED
+            // 
+            this.ParameterLED.Color = System.Drawing.Color.Yellow;
+            this.ParameterLED.Location = new System.Drawing.Point(761, 212);
+            this.ParameterLED.Name = "ParameterLED";
+            this.ParameterLED.On = true;
+            this.ParameterLED.Size = new System.Drawing.Size(49, 50);
+            this.ParameterLED.TabIndex = 26;
+            this.ParameterLED.Text = "ParameterLED";
+            this.ParameterLED.Click += new System.EventHandler(this.ledBulb2_Click);
+            // 
+            // MotionLED
+            // 
+            this.MotionLED.Color = System.Drawing.Color.Lime;
+            this.MotionLED.Location = new System.Drawing.Point(761, 133);
+            this.MotionLED.Name = "MotionLED";
+            this.MotionLED.On = true;
+            this.MotionLED.Size = new System.Drawing.Size(49, 50);
+            this.MotionLED.TabIndex = 24;
+            this.MotionLED.Text = "MotionLED";
+            // 
+            // ActivityLED
+            // 
+            this.ActivityLED.Location = new System.Drawing.Point(1061, 30);
+            this.ActivityLED.Name = "ActivityLED";
+            this.ActivityLED.On = true;
+            this.ActivityLED.Size = new System.Drawing.Size(49, 50);
+            this.ActivityLED.TabIndex = 6;
+            this.ActivityLED.Text = "ledBulb1";
+            this.ActivityLED.Click += new System.EventHandler(this.ledBulb1_Click);
             // 
             // ElectrakHD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1205, 960);
+            this.ClientSize = new System.Drawing.Size(1200, 960);
             this.Controls.Add(this.AcutatorFeedbackGroupBox);
             this.Controls.Add(this.MotorControlGroupBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -765,8 +806,6 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Button SendCommandButton;
-        private System.Windows.Forms.Button StopButton;
         private System.Windows.Forms.NumericUpDown CommandSourceAddressNUD;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label22;
@@ -775,6 +814,11 @@
         private System.Windows.Forms.GroupBox AcutatorFeedbackGroupBox;
         private System.Windows.Forms.NumericUpDown CommandPriorityNUD;
         private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Button PlotButton;
+        private System.Windows.Forms.CheckBox StreamCommandCB;
+        private System.Windows.Forms.CheckBox PlotCurrentCB;
+        private System.Windows.Forms.CheckBox PlotPositionCB;
+        private System.Windows.Forms.CheckBox TestGraphCB;
     }
 }
 

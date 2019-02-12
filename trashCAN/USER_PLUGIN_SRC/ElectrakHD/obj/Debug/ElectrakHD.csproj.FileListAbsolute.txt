@@ -9,3 +9,11 @@ C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\obj\Debug\ElectrakHD.csproj.
 C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\obj\Debug\ElectrakHD.csproj.CopyComplete
 C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\obj\Debug\ElectrakHD.dll
 C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\obj\Debug\ElectrakHD.pdb
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\obj\Debug\ElectrakHD.SimplePlot.resources
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\bin\Debug\OxyPlot.dll
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\bin\Debug\OxyPlot.WindowsForms.dll
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\bin\Debug\OxyPlot.pdb
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\bin\Debug\OxyPlot.xml
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\bin\Debug\OxyPlot.WindowsForms.pdb
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\bin\Debug\OxyPlot.WindowsForms.xml
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHD\obj\Debug\ElectrakHD.csprojAssemblyReference.cache
