@@ -117,6 +117,7 @@ namespace trashCAN
 
             CANHostLog.Write("Starting PluginProcessThread.....");
 
+            
             PluginProcessThread.Start();
 
             PluginHousekeepingTimer.Tick += new EventHandler(PluginHousekeepingTimer_Tick);
@@ -316,7 +317,8 @@ namespace trashCAN
             {
                 if (KillAllThreads == true)
                     return;
-                Thread.Sleep(5);
+
+                Thread.Sleep(1);
 
                
                     if (PausePluginProcessing == false)

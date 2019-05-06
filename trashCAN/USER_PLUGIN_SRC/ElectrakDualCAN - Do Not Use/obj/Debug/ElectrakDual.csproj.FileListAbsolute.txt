@@ -1,0 +1,10 @@
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakDual\bin\Debug\ElectrakDual.dll
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakDual\bin\Debug\ElectrakDual.pdb
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakDual\bin\Debug\ItrashCAN.dll
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakDual\obj\Debug\ElectrakDual.ElectrakDual.resources
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakDual\obj\Debug\ElectrakDual.Properties.Resources.resources
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakDual\obj\Debug\ElectrakDual.csproj.GenerateResource.cache
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakDual\obj\Debug\ElectrakDual.csproj.CoreCompileInputs.cache
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakDual\obj\Debug\ElectrakDual.csproj.CopyComplete
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakDual\obj\Debug\ElectrakDual.dll
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakDual\obj\Debug\ElectrakDual.pdb

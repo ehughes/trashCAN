@@ -65,16 +65,9 @@
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
-            this.CommandSourceAddressNUD = new System.Windows.Forms.NumericUpDown();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.CommandDestinationAddressNUD = new System.Windows.Forms.NumericUpDown();
             this.MotorControlGroupBox = new System.Windows.Forms.GroupBox();
             this.StreamCommandCB = new System.Windows.Forms.CheckBox();
-            this.CommandPriorityNUD = new System.Windows.Forms.NumericUpDown();
-            this.label23 = new System.Windows.Forms.Label();
             this.AcutatorFeedbackGroupBox = new System.Windows.Forms.GroupBox();
-            this.TestGraphCB = new System.Windows.Forms.CheckBox();
             this.PlotCurrentCB = new System.Windows.Forms.CheckBox();
             this.PlotPositionCB = new System.Windows.Forms.CheckBox();
             this.PlotButton = new System.Windows.Forms.Button();
@@ -89,10 +82,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PositionNUD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CurrentLimitNUD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SpeedNUD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CommandSourceAddressNUD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CommandDestinationAddressNUD)).BeginInit();
             this.MotorControlGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CommandPriorityNUD)).BeginInit();
             this.AcutatorFeedbackGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -351,7 +341,7 @@
             this.PositionNUD.TabIndex = 35;
             this.PositionNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.PositionNUD.Value = new decimal(new int[] {
-            1000,
+            450,
             0,
             0,
             0});
@@ -393,7 +383,7 @@
             this.CurrentLimitNUD.TabIndex = 37;
             this.CurrentLimitNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.CurrentLimitNUD.Value = new decimal(new int[] {
-            20,
+            25,
             0,
             0,
             0});
@@ -420,7 +410,7 @@
             this.SpeedNUD.TabIndex = 39;
             this.SpeedNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.SpeedNUD.Value = new decimal(new int[] {
-            50,
+            100,
             0,
             0,
             0});
@@ -463,59 +453,9 @@
             this.label20.TabIndex = 43;
             this.label20.Text = "mm";
             // 
-            // CommandSourceAddressNUD
-            // 
-            this.CommandSourceAddressNUD.Location = new System.Drawing.Point(465, 256);
-            this.CommandSourceAddressNUD.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.CommandSourceAddressNUD.Name = "CommandSourceAddressNUD";
-            this.CommandSourceAddressNUD.Size = new System.Drawing.Size(120, 31);
-            this.CommandSourceAddressNUD.TabIndex = 49;
-            this.CommandSourceAddressNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(12, 256);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(365, 25);
-            this.label21.TabIndex = 48;
-            this.label21.Text = "Command Source Address (Decimal)";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(12, 296);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(405, 25);
-            this.label22.TabIndex = 50;
-            this.label22.Text = "Command Destination Address (Decimal)";
-            // 
-            // CommandDestinationAddressNUD
-            // 
-            this.CommandDestinationAddressNUD.Location = new System.Drawing.Point(465, 296);
-            this.CommandDestinationAddressNUD.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.CommandDestinationAddressNUD.Name = "CommandDestinationAddressNUD";
-            this.CommandDestinationAddressNUD.Size = new System.Drawing.Size(120, 31);
-            this.CommandDestinationAddressNUD.TabIndex = 51;
-            this.CommandDestinationAddressNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // MotorControlGroupBox
             // 
             this.MotorControlGroupBox.Controls.Add(this.StreamCommandCB);
-            this.MotorControlGroupBox.Controls.Add(this.CommandPriorityNUD);
-            this.MotorControlGroupBox.Controls.Add(this.label23);
-            this.MotorControlGroupBox.Controls.Add(this.CommandDestinationAddressNUD);
-            this.MotorControlGroupBox.Controls.Add(this.label22);
-            this.MotorControlGroupBox.Controls.Add(this.CommandSourceAddressNUD);
-            this.MotorControlGroupBox.Controls.Add(this.label21);
             this.MotorControlGroupBox.Controls.Add(this.label18);
             this.MotorControlGroupBox.Controls.Add(this.label19);
             this.MotorControlGroupBox.Controls.Add(this.label20);
@@ -544,36 +484,8 @@
             this.StreamCommandCB.UseVisualStyleBackColor = true;
             this.StreamCommandCB.CheckedChanged += new System.EventHandler(this.StreamCommandCB_CheckedChanged);
             // 
-            // CommandPriorityNUD
-            // 
-            this.CommandPriorityNUD.Location = new System.Drawing.Point(465, 334);
-            this.CommandPriorityNUD.Maximum = new decimal(new int[] {
-            6,
-            0,
-            0,
-            0});
-            this.CommandPriorityNUD.Name = "CommandPriorityNUD";
-            this.CommandPriorityNUD.Size = new System.Drawing.Size(120, 31);
-            this.CommandPriorityNUD.TabIndex = 53;
-            this.CommandPriorityNUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.CommandPriorityNUD.Value = new decimal(new int[] {
-            6,
-            0,
-            0,
-            0});
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(12, 334);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(182, 25);
-            this.label23.TabIndex = 52;
-            this.label23.Text = "Command Priority";
-            // 
             // AcutatorFeedbackGroupBox
             // 
-            this.AcutatorFeedbackGroupBox.Controls.Add(this.TestGraphCB);
             this.AcutatorFeedbackGroupBox.Controls.Add(this.PlotCurrentCB);
             this.AcutatorFeedbackGroupBox.Controls.Add(this.PlotPositionCB);
             this.AcutatorFeedbackGroupBox.Controls.Add(this.PlotButton);
@@ -613,17 +525,6 @@
             this.AcutatorFeedbackGroupBox.TabIndex = 53;
             this.AcutatorFeedbackGroupBox.TabStop = false;
             this.AcutatorFeedbackGroupBox.Text = "Acutator Feedback";
-            // 
-            // TestGraphCB
-            // 
-            this.TestGraphCB.AutoSize = true;
-            this.TestGraphCB.Location = new System.Drawing.Point(43, 489);
-            this.TestGraphCB.Name = "TestGraphCB";
-            this.TestGraphCB.Size = new System.Drawing.Size(151, 29);
-            this.TestGraphCB.TabIndex = 50;
-            this.TestGraphCB.Text = "Test Graph";
-            this.TestGraphCB.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.TestGraphCB.UseVisualStyleBackColor = true;
             // 
             // PlotCurrentCB
             // 
@@ -751,11 +652,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.PositionNUD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CurrentLimitNUD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SpeedNUD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CommandSourceAddressNUD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CommandDestinationAddressNUD)).EndInit();
             this.MotorControlGroupBox.ResumeLayout(false);
             this.MotorControlGroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CommandPriorityNUD)).EndInit();
             this.AcutatorFeedbackGroupBox.ResumeLayout(false);
             this.AcutatorFeedbackGroupBox.PerformLayout();
             this.ResumeLayout(false);
@@ -806,19 +704,12 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.NumericUpDown CommandSourceAddressNUD;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.NumericUpDown CommandDestinationAddressNUD;
         private System.Windows.Forms.GroupBox MotorControlGroupBox;
         private System.Windows.Forms.GroupBox AcutatorFeedbackGroupBox;
-        private System.Windows.Forms.NumericUpDown CommandPriorityNUD;
-        private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Button PlotButton;
         private System.Windows.Forms.CheckBox StreamCommandCB;
         private System.Windows.Forms.CheckBox PlotCurrentCB;
         private System.Windows.Forms.CheckBox PlotPositionCB;
-        private System.Windows.Forms.CheckBox TestGraphCB;
     }
 }
 

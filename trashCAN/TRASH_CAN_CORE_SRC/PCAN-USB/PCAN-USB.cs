@@ -233,7 +233,7 @@ namespace PCAN_USB
         {
                 BAUDRateCB.Items.Clear();
                 BAUDRateCB.Items.AddRange((string[])Enum.GetNames(typeof(TPCANBaudrate)));
-                BAUDRateCB.SelectedIndex = 2;
+                BAUDRateCB.SelectedIndex = 3;
         }
 
         void CheckForAvailableChannels()
@@ -463,7 +463,7 @@ namespace PCAN_USB
             TPCANTimestamp TS = new TPCANTimestamp();
             TPCANStatus tPCANStatus;
 
-            Thread.Sleep(10);
+            Thread.Sleep(1);
             while (KillAllThreads == false)
             {
                 

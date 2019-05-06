@@ -227,7 +227,7 @@ namespace ElectrakHD
             {
                 lock (_IncomingCANMsgQueue)
                 {
-                    if (_IncomingCANMsgQueue.Count > 0)
+                    while (_IncomingCANMsgQueue.Count > 0)
                     {
                         CAN_t Message = _IncomingCANMsgQueue.Dequeue();
                         
@@ -288,20 +288,10 @@ namespace ElectrakHD
             FatalErrorLED.On = MyFeedback.FatalErrorFlag;
             BackDriveLED.On = MyFeedback.BackdriveFlag;
 
-            if (TestGraphCB.Checked == true)
-            {
-                CurrentQueue.Enqueue(Math.Sin(Test));
-                PositionQueue.Enqueue(10*Math.Cos(Test));
-                Test = Test + .1;
-  
-            }
-
-
             while(CurrentQueue.Count>10*60*5)
             {
                 CurrentQueue.Dequeue();
             }
-
 
             while (PositionQueue.Count > 10 * 60 * 5)
             {
@@ -343,9 +333,9 @@ namespace ElectrakHD
                 MyControlMessage.CurrentLimit = (float)CurrentLimitNUD.Value;
                 MyControlMessage.Speed = (float)SpeedNUD.Value;
                 MyControlMessage.MotionEnable = MotionEnableCB.Checked;
-                MyControlMessage.CommandSourceAddress = (byte)CommandSourceAddressNUD.Value;
-                MyControlMessage.CommandDstAddress = (byte)CommandDestinationAddressNUD.Value;
-                MyControlMessage.CommandPriority = (byte)CommandPriorityNUD.Value;
+                MyControlMessage.CommandSourceAddress = 0;
+                MyControlMessage.CommandDstAddress = (byte)ActuatorAddress.Value;
+                MyControlMessage.CommandPriority = (byte)6;
 
                 _OutgoingCANMsgQueue.Enqueue(MyControlMessage.MakeMessage());
 
@@ -427,9 +417,9 @@ namespace ElectrakHD
             MyControlMessage.MotionEnable = false;
             MyControlMessage.Speed = 0;
 
-            MyControlMessage.CommandSourceAddress = (byte)CommandSourceAddressNUD.Value;
-            MyControlMessage.CommandDstAddress = (byte)CommandDestinationAddressNUD.Value;
-            MyControlMessage.CommandPriority = (byte)CommandPriorityNUD.Value;
+            MyControlMessage.CommandSourceAddress = (byte)0;
+            MyControlMessage.CommandDstAddress = (byte)ActuatorAddress.Value;
+            MyControlMessage.CommandPriority = (byte)6;
 
             _OutgoingCANMsgQueue.Enqueue(MyControlMessage.MakeMessage());
         }

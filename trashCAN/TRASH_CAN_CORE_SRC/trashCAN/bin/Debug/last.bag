@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TrashCANStateRecord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PluginStates />
+  <MyState>
+    <WindowSize>
+      <Width>205</Width>
+      <Height>135</Height>
+    </WindowSize>
+    <WindowLocation>
+      <X>182</X>
+      <Y>182</Y>
+    </WindowLocation>
+    <WindowState>Normal</WindowState>
+  </MyState>
+</TrashCANStateRecord>

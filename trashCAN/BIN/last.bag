@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TrashCANStateRecord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <PluginStates />
+  <PluginStates>
+    <PluginStateRecord>
+      <NameWithVersion>Elecktrak HD x2 Controller&gt;0.1</NameWithVersion>
+      <PluginInstanceID>1</PluginInstanceID>
+      <State>
+        <WindowSize>
+          <Width>616</Width>
+          <Height>538</Height>
+        </WindowSize>
+        <WindowLocation>
+          <X>465</X>
+          <Y>137</Y>
+        </WindowLocation>
+        <WindowState>Normal</WindowState>
+      </State>
+    </PluginStateRecord>
+  </PluginStates>
   <MyState>
     <WindowSize>
       <Width>205</Width>
