@@ -47,23 +47,28 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.MotorControlGroupBox = new System.Windows.Forms.GroupBox();
-            this.AdjustPositionInPlotsW_OffsetCheckBox = new System.Windows.Forms.CheckBox();
-            this.EnableCurrentPlotCheckBox = new System.Windows.Forms.CheckBox();
-            this.AppliedOffsetBTextBox = new System.Windows.Forms.TextBox();
+            this.ChangeSetPointButton = new System.Windows.Forms.Button();
+            this.OffsetGroupBox = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.AppliedOffsetATextBox = new System.Windows.Forms.TextBox();
+            this.LowerOffsetA_NUD = new System.Windows.Forms.NumericUpDown();
+            this.LowerOffsetB_NUD = new System.Windows.Forms.NumericUpDown();
+            this.AppliedOffsetBTextBox = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.RaiseOffsetA_NUD = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
+            this.RaiseOffsetB_NUD = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.RaiseOffsetB_NUD = new System.Windows.Forms.NumericUpDown();
-            this.RaiseOffsetA_NUD = new System.Windows.Forms.NumericUpDown();
+            this.AdjustPositionInPlotsW_OffsetCheckBox = new System.Windows.Forms.CheckBox();
+            this.EnableCurrentPlotCheckBox = new System.Windows.Forms.CheckBox();
             this.EnablePositionPlotCB = new System.Windows.Forms.CheckBox();
             this.ShowPlotsButton = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.P_NUD = new System.Windows.Forms.NumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
             this.PositionSetpointLabel = new System.Windows.Forms.Label();
-            this.LowerOffsetB_NUD = new System.Windows.Forms.NumericUpDown();
-            this.LowerOffsetA_NUD = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.RaisePlatformButton = new System.Windows.Forms.Button();
@@ -76,25 +81,31 @@
             this.ControlStateTextBox = new System.Windows.Forms.TextBox();
             this.ActuatorAddressB = new System.Windows.Forms.NumericUpDown();
             this.AddressB_Label = new System.Windows.Forms.Label();
-            this.OffsetGroupBox = new System.Windows.Forms.GroupBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
+            this.MotionLED_A = new Bulb.LedBulb();
+            this.label12 = new System.Windows.Forms.Label();
+            this.MotionLED_B = new Bulb.LedBulb();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.OverloadLED_A = new Bulb.LedBulb();
+            this.OverloadLED_B = new Bulb.LedBulb();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ActuatorAddressA)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PositionNUD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CurrentLimitNUD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SpeedNUD)).BeginInit();
             this.MotorControlGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.RaiseOffsetB_NUD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.RaiseOffsetA_NUD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.P_NUD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.LowerOffsetB_NUD)).BeginInit();
+            this.OffsetGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LowerOffsetA_NUD)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LowerOffsetB_NUD)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RaiseOffsetA_NUD)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RaiseOffsetB_NUD)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.P_NUD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.LowerNUD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RaiseNUD)).BeginInit();
             this.AcutatorFeedbackGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ActuatorAddressB)).BeginInit();
-            this.OffsetGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // MsgCheckTimer
@@ -106,7 +117,7 @@
             // FormUpdateTimer
             // 
             this.FormUpdateTimer.Enabled = true;
-            this.FormUpdateTimer.Interval = 50;
+            this.FormUpdateTimer.Interval = 200;
             this.FormUpdateTimer.Tick += new System.EventHandler(this.FormUpdateTimer_Tick);
             // 
             // AddressA_Label
@@ -177,7 +188,7 @@
             0,
             0,
             65536});
-            this.PositionNUD.Location = new System.Drawing.Point(348, 446);
+            this.PositionNUD.Location = new System.Drawing.Point(318, 448);
             this.PositionNUD.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -293,7 +304,7 @@
             // 
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(522, 446);
+            this.label20.Location = new System.Drawing.Point(478, 446);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(71, 37);
             this.label20.TabIndex = 43;
@@ -301,6 +312,17 @@
             // 
             // MotorControlGroupBox
             // 
+            this.MotorControlGroupBox.Controls.Add(this.label21);
+            this.MotorControlGroupBox.Controls.Add(this.label17);
+            this.MotorControlGroupBox.Controls.Add(this.OverloadLED_B);
+            this.MotorControlGroupBox.Controls.Add(this.OverloadLED_A);
+            this.MotorControlGroupBox.Controls.Add(this.label15);
+            this.MotorControlGroupBox.Controls.Add(this.label14);
+            this.MotorControlGroupBox.Controls.Add(this.label13);
+            this.MotorControlGroupBox.Controls.Add(this.MotionLED_B);
+            this.MotorControlGroupBox.Controls.Add(this.label12);
+            this.MotorControlGroupBox.Controls.Add(this.MotionLED_A);
+            this.MotorControlGroupBox.Controls.Add(this.ChangeSetPointButton);
             this.MotorControlGroupBox.Controls.Add(this.OffsetGroupBox);
             this.MotorControlGroupBox.Controls.Add(this.AdjustPositionInPlotsW_OffsetCheckBox);
             this.MotorControlGroupBox.Controls.Add(this.EnableCurrentPlotCheckBox);
@@ -333,6 +355,207 @@
             this.MotorControlGroupBox.TabStop = false;
             this.MotorControlGroupBox.Text = "Actuator Control x2";
             // 
+            // ChangeSetPointButton
+            // 
+            this.ChangeSetPointButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ChangeSetPointButton.Location = new System.Drawing.Point(555, 441);
+            this.ChangeSetPointButton.Name = "ChangeSetPointButton";
+            this.ChangeSetPointButton.Size = new System.Drawing.Size(126, 67);
+            this.ChangeSetPointButton.TabIndex = 73;
+            this.ChangeSetPointButton.Text = "Go";
+            this.ChangeSetPointButton.UseVisualStyleBackColor = true;
+            this.ChangeSetPointButton.Click += new System.EventHandler(this.ChangeSetPointButton_Click);
+            // 
+            // OffsetGroupBox
+            // 
+            this.OffsetGroupBox.Controls.Add(this.label11);
+            this.OffsetGroupBox.Controls.Add(this.label10);
+            this.OffsetGroupBox.Controls.Add(this.label9);
+            this.OffsetGroupBox.Controls.Add(this.AppliedOffsetATextBox);
+            this.OffsetGroupBox.Controls.Add(this.LowerOffsetA_NUD);
+            this.OffsetGroupBox.Controls.Add(this.LowerOffsetB_NUD);
+            this.OffsetGroupBox.Controls.Add(this.AppliedOffsetBTextBox);
+            this.OffsetGroupBox.Controls.Add(this.label5);
+            this.OffsetGroupBox.Controls.Add(this.RaiseOffsetA_NUD);
+            this.OffsetGroupBox.Controls.Add(this.label8);
+            this.OffsetGroupBox.Controls.Add(this.RaiseOffsetB_NUD);
+            this.OffsetGroupBox.Controls.Add(this.label7);
+            this.OffsetGroupBox.Controls.Add(this.label6);
+            this.OffsetGroupBox.Location = new System.Drawing.Point(7, 205);
+            this.OffsetGroupBox.Name = "OffsetGroupBox";
+            this.OffsetGroupBox.Size = new System.Drawing.Size(674, 208);
+            this.OffsetGroupBox.TabIndex = 72;
+            this.OffsetGroupBox.TabStop = false;
+            this.OffsetGroupBox.Text = "Offset";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(481, 27);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(88, 31);
+            this.label11.TabIndex = 74;
+            this.label11.Text = "Upper";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(82, 27);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(88, 31);
+            this.label10.TabIndex = 74;
+            this.label10.Text = "Lower";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(277, 27);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(105, 31);
+            this.label9.TabIndex = 73;
+            this.label9.Text = "Current";
+            // 
+            // AppliedOffsetATextBox
+            // 
+            this.AppliedOffsetATextBox.Enabled = false;
+            this.AppliedOffsetATextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AppliedOffsetATextBox.Location = new System.Drawing.Point(264, 88);
+            this.AppliedOffsetATextBox.Name = "AppliedOffsetATextBox";
+            this.AppliedOffsetATextBox.Size = new System.Drawing.Size(132, 31);
+            this.AppliedOffsetATextBox.TabIndex = 68;
+            // 
+            // LowerOffsetA_NUD
+            // 
+            this.LowerOffsetA_NUD.DecimalPlaces = 1;
+            this.LowerOffsetA_NUD.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LowerOffsetA_NUD.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.LowerOffsetA_NUD.Location = new System.Drawing.Point(52, 82);
+            this.LowerOffsetA_NUD.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.LowerOffsetA_NUD.Name = "LowerOffsetA_NUD";
+            this.LowerOffsetA_NUD.Size = new System.Drawing.Size(154, 38);
+            this.LowerOffsetA_NUD.TabIndex = 55;
+            this.LowerOffsetA_NUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // LowerOffsetB_NUD
+            // 
+            this.LowerOffsetB_NUD.DecimalPlaces = 1;
+            this.LowerOffsetB_NUD.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LowerOffsetB_NUD.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.LowerOffsetB_NUD.Location = new System.Drawing.Point(52, 138);
+            this.LowerOffsetB_NUD.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.LowerOffsetB_NUD.Name = "LowerOffsetB_NUD";
+            this.LowerOffsetB_NUD.Size = new System.Drawing.Size(154, 38);
+            this.LowerOffsetB_NUD.TabIndex = 56;
+            this.LowerOffsetB_NUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // AppliedOffsetBTextBox
+            // 
+            this.AppliedOffsetBTextBox.Enabled = false;
+            this.AppliedOffsetBTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AppliedOffsetBTextBox.Location = new System.Drawing.Point(264, 147);
+            this.AppliedOffsetBTextBox.Name = "AppliedOffsetBTextBox";
+            this.AppliedOffsetBTextBox.Size = new System.Drawing.Size(132, 31);
+            this.AppliedOffsetBTextBox.TabIndex = 69;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(14, 140);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(32, 31);
+            this.label5.TabIndex = 58;
+            this.label5.Text = "B";
+            // 
+            // RaiseOffsetA_NUD
+            // 
+            this.RaiseOffsetA_NUD.DecimalPlaces = 1;
+            this.RaiseOffsetA_NUD.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RaiseOffsetA_NUD.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.RaiseOffsetA_NUD.Location = new System.Drawing.Point(447, 88);
+            this.RaiseOffsetA_NUD.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.RaiseOffsetA_NUD.Name = "RaiseOffsetA_NUD";
+            this.RaiseOffsetA_NUD.Size = new System.Drawing.Size(154, 38);
+            this.RaiseOffsetA_NUD.TabIndex = 63;
+            this.RaiseOffsetA_NUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(14, 84);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(32, 31);
+            this.label8.TabIndex = 67;
+            this.label8.Text = "A";
+            // 
+            // RaiseOffsetB_NUD
+            // 
+            this.RaiseOffsetB_NUD.DecimalPlaces = 1;
+            this.RaiseOffsetB_NUD.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RaiseOffsetB_NUD.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.RaiseOffsetB_NUD.Location = new System.Drawing.Point(447, 145);
+            this.RaiseOffsetB_NUD.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.RaiseOffsetB_NUD.Name = "RaiseOffsetB_NUD";
+            this.RaiseOffsetB_NUD.Size = new System.Drawing.Size(154, 38);
+            this.RaiseOffsetB_NUD.TabIndex = 64;
+            this.RaiseOffsetB_NUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(607, 82);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(32, 31);
+            this.label7.TabIndex = 66;
+            this.label7.Text = "A";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(607, 147);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(32, 31);
+            this.label6.TabIndex = 65;
+            this.label6.Text = "B";
+            // 
             // AdjustPositionInPlotsW_OffsetCheckBox
             // 
             this.AdjustPositionInPlotsW_OffsetCheckBox.AutoSize = true;
@@ -356,94 +579,6 @@
             this.EnableCurrentPlotCheckBox.TabIndex = 70;
             this.EnableCurrentPlotCheckBox.Text = "Enable Current Plot";
             this.EnableCurrentPlotCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // AppliedOffsetBTextBox
-            // 
-            this.AppliedOffsetBTextBox.Enabled = false;
-            this.AppliedOffsetBTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AppliedOffsetBTextBox.Location = new System.Drawing.Point(264, 147);
-            this.AppliedOffsetBTextBox.Name = "AppliedOffsetBTextBox";
-            this.AppliedOffsetBTextBox.Size = new System.Drawing.Size(132, 31);
-            this.AppliedOffsetBTextBox.TabIndex = 69;
-            // 
-            // AppliedOffsetATextBox
-            // 
-            this.AppliedOffsetATextBox.Enabled = false;
-            this.AppliedOffsetATextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AppliedOffsetATextBox.Location = new System.Drawing.Point(264, 88);
-            this.AppliedOffsetATextBox.Name = "AppliedOffsetATextBox";
-            this.AppliedOffsetATextBox.Size = new System.Drawing.Size(132, 31);
-            this.AppliedOffsetATextBox.TabIndex = 68;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(14, 84);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(32, 31);
-            this.label8.TabIndex = 67;
-            this.label8.Text = "A";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(607, 82);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(32, 31);
-            this.label7.TabIndex = 66;
-            this.label7.Text = "A";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(607, 147);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(32, 31);
-            this.label6.TabIndex = 65;
-            this.label6.Text = "B";
-            // 
-            // RaiseOffsetB_NUD
-            // 
-            this.RaiseOffsetB_NUD.DecimalPlaces = 1;
-            this.RaiseOffsetB_NUD.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RaiseOffsetB_NUD.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.RaiseOffsetB_NUD.Location = new System.Drawing.Point(447, 145);
-            this.RaiseOffsetB_NUD.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
-            this.RaiseOffsetB_NUD.Name = "RaiseOffsetB_NUD";
-            this.RaiseOffsetB_NUD.Size = new System.Drawing.Size(154, 38);
-            this.RaiseOffsetB_NUD.TabIndex = 64;
-            this.RaiseOffsetB_NUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // RaiseOffsetA_NUD
-            // 
-            this.RaiseOffsetA_NUD.DecimalPlaces = 1;
-            this.RaiseOffsetA_NUD.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RaiseOffsetA_NUD.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.RaiseOffsetA_NUD.Location = new System.Drawing.Point(447, 88);
-            this.RaiseOffsetA_NUD.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
-            this.RaiseOffsetA_NUD.Name = "RaiseOffsetA_NUD";
-            this.RaiseOffsetA_NUD.Size = new System.Drawing.Size(154, 38);
-            this.RaiseOffsetA_NUD.TabIndex = 63;
-            this.RaiseOffsetA_NUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // EnablePositionPlotCB
             // 
@@ -472,11 +607,11 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(701, 261);
+            this.label4.Location = new System.Drawing.Point(701, 465);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(260, 31);
+            this.label4.Size = new System.Drawing.Size(245, 31);
             this.label4.TabIndex = 60;
-            this.label4.Text = "Proporational Factor";
+            this.label4.Text = "Proportional Factor";
             // 
             // P_NUD
             // 
@@ -487,7 +622,7 @@
             0,
             0,
             65536});
-            this.P_NUD.Location = new System.Drawing.Point(967, 259);
+            this.P_NUD.Location = new System.Drawing.Point(967, 465);
             this.P_NUD.Maximum = new decimal(new int[] {
             25,
             0,
@@ -503,65 +638,15 @@
             0,
             0});
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(14, 140);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(32, 31);
-            this.label5.TabIndex = 58;
-            this.label5.Text = "B";
-            // 
             // PositionSetpointLabel
             // 
             this.PositionSetpointLabel.AutoSize = true;
             this.PositionSetpointLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PositionSetpointLabel.Location = new System.Drawing.Point(8, 439);
+            this.PositionSetpointLabel.Location = new System.Drawing.Point(0, 441);
             this.PositionSetpointLabel.Name = "PositionSetpointLabel";
             this.PositionSetpointLabel.Size = new System.Drawing.Size(312, 42);
             this.PositionSetpointLabel.TabIndex = 57;
             this.PositionSetpointLabel.Text = "Position Set Point";
-            // 
-            // LowerOffsetB_NUD
-            // 
-            this.LowerOffsetB_NUD.DecimalPlaces = 1;
-            this.LowerOffsetB_NUD.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LowerOffsetB_NUD.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.LowerOffsetB_NUD.Location = new System.Drawing.Point(52, 138);
-            this.LowerOffsetB_NUD.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
-            this.LowerOffsetB_NUD.Name = "LowerOffsetB_NUD";
-            this.LowerOffsetB_NUD.Size = new System.Drawing.Size(154, 38);
-            this.LowerOffsetB_NUD.TabIndex = 56;
-            this.LowerOffsetB_NUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // LowerOffsetA_NUD
-            // 
-            this.LowerOffsetA_NUD.DecimalPlaces = 1;
-            this.LowerOffsetA_NUD.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LowerOffsetA_NUD.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.LowerOffsetA_NUD.Location = new System.Drawing.Point(52, 82);
-            this.LowerOffsetA_NUD.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
-            this.LowerOffsetA_NUD.Name = "LowerOffsetA_NUD";
-            this.LowerOffsetA_NUD.Size = new System.Drawing.Size(154, 38);
-            this.LowerOffsetA_NUD.TabIndex = 55;
-            this.LowerOffsetA_NUD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label3
             // 
@@ -661,7 +746,7 @@
             this.EnableSyncCheckBox.Checked = true;
             this.EnableSyncCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.EnableSyncCheckBox.Font = new System.Drawing.Font("Consolas", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EnableSyncCheckBox.Location = new System.Drawing.Point(707, 192);
+            this.EnableSyncCheckBox.Location = new System.Drawing.Point(715, 412);
             this.EnableSyncCheckBox.Name = "EnableSyncCheckBox";
             this.EnableSyncCheckBox.Size = new System.Drawing.Size(271, 47);
             this.EnableSyncCheckBox.TabIndex = 47;
@@ -737,57 +822,103 @@
             this.AddressB_Label.TabIndex = 50;
             this.AddressB_Label.Text = "Address B (Decimal)";
             // 
-            // OffsetGroupBox
+            // MotionLED_A
             // 
-            this.OffsetGroupBox.Controls.Add(this.label11);
-            this.OffsetGroupBox.Controls.Add(this.label10);
-            this.OffsetGroupBox.Controls.Add(this.label9);
-            this.OffsetGroupBox.Controls.Add(this.AppliedOffsetATextBox);
-            this.OffsetGroupBox.Controls.Add(this.LowerOffsetA_NUD);
-            this.OffsetGroupBox.Controls.Add(this.LowerOffsetB_NUD);
-            this.OffsetGroupBox.Controls.Add(this.AppliedOffsetBTextBox);
-            this.OffsetGroupBox.Controls.Add(this.label5);
-            this.OffsetGroupBox.Controls.Add(this.RaiseOffsetA_NUD);
-            this.OffsetGroupBox.Controls.Add(this.label8);
-            this.OffsetGroupBox.Controls.Add(this.RaiseOffsetB_NUD);
-            this.OffsetGroupBox.Controls.Add(this.label7);
-            this.OffsetGroupBox.Controls.Add(this.label6);
-            this.OffsetGroupBox.Location = new System.Drawing.Point(7, 205);
-            this.OffsetGroupBox.Name = "OffsetGroupBox";
-            this.OffsetGroupBox.Size = new System.Drawing.Size(674, 208);
-            this.OffsetGroupBox.TabIndex = 72;
-            this.OffsetGroupBox.TabStop = false;
-            this.OffsetGroupBox.Text = "Offset";
+            this.MotionLED_A.Location = new System.Drawing.Point(781, 251);
+            this.MotionLED_A.Name = "MotionLED_A";
+            this.MotionLED_A.On = true;
+            this.MotionLED_A.Size = new System.Drawing.Size(68, 55);
+            this.MotionLED_A.TabIndex = 74;
+            this.MotionLED_A.Text = "MotionLED_A";
             // 
-            // label9
+            // label12
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(277, 27);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(105, 31);
-            this.label9.TabIndex = 73;
-            this.label9.Text = "Current";
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(768, 205);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(102, 31);
+            this.label12.TabIndex = 75;
+            this.label12.Text = "Motion ";
             // 
-            // label10
+            // MotionLED_B
             // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(82, 27);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(88, 31);
-            this.label10.TabIndex = 74;
-            this.label10.Text = "Lower";
+            this.MotionLED_B.Location = new System.Drawing.Point(781, 319);
+            this.MotionLED_B.Name = "MotionLED_B";
+            this.MotionLED_B.On = true;
+            this.MotionLED_B.Size = new System.Drawing.Size(68, 55);
+            this.MotionLED_B.TabIndex = 76;
+            this.MotionLED_B.Text = "ledBulb1";
             // 
-            // label11
+            // label13
             // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(481, 27);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(88, 31);
-            this.label11.TabIndex = 74;
-            this.label11.Text = "Upper";
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(936, 205);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(124, 31);
+            this.label13.TabIndex = 77;
+            this.label13.Text = "Overload";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(743, 262);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(32, 31);
+            this.label14.TabIndex = 78;
+            this.label14.Text = "A";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(743, 331);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(32, 31);
+            this.label15.TabIndex = 79;
+            this.label15.Text = "B";
+            // 
+            // OverloadLED_A
+            // 
+            this.OverloadLED_A.Color = System.Drawing.Color.Red;
+            this.OverloadLED_A.Location = new System.Drawing.Point(974, 249);
+            this.OverloadLED_A.Name = "OverloadLED_A";
+            this.OverloadLED_A.On = true;
+            this.OverloadLED_A.Size = new System.Drawing.Size(68, 55);
+            this.OverloadLED_A.TabIndex = 80;
+            this.OverloadLED_A.Text = "ledBulb2";
+            // 
+            // OverloadLED_B
+            // 
+            this.OverloadLED_B.Color = System.Drawing.Color.Red;
+            this.OverloadLED_B.Location = new System.Drawing.Point(974, 319);
+            this.OverloadLED_B.Name = "OverloadLED_B";
+            this.OverloadLED_B.On = true;
+            this.OverloadLED_B.Size = new System.Drawing.Size(68, 55);
+            this.OverloadLED_B.TabIndex = 81;
+            this.OverloadLED_B.Text = "ledBulb3";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(1035, 262);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(32, 31);
+            this.label17.TabIndex = 82;
+            this.label17.Text = "A";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Location = new System.Drawing.Point(1035, 331);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(32, 31);
+            this.label21.TabIndex = 83;
+            this.label21.Text = "B";
             // 
             // ElectrakHDx2
             // 
@@ -810,18 +941,18 @@
             ((System.ComponentModel.ISupportInitialize)(this.SpeedNUD)).EndInit();
             this.MotorControlGroupBox.ResumeLayout(false);
             this.MotorControlGroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.RaiseOffsetB_NUD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.RaiseOffsetA_NUD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.P_NUD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.LowerOffsetB_NUD)).EndInit();
+            this.OffsetGroupBox.ResumeLayout(false);
+            this.OffsetGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LowerOffsetA_NUD)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LowerOffsetB_NUD)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RaiseOffsetA_NUD)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RaiseOffsetB_NUD)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.P_NUD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.LowerNUD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RaiseNUD)).EndInit();
             this.AcutatorFeedbackGroupBox.ResumeLayout(false);
             this.AcutatorFeedbackGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ActuatorAddressB)).EndInit();
-            this.OffsetGroupBox.ResumeLayout(false);
-            this.OffsetGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -881,6 +1012,17 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button ChangeSetPointButton;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label17;
+        private Bulb.LedBulb OverloadLED_B;
+        private Bulb.LedBulb OverloadLED_A;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label13;
+        private Bulb.LedBulb MotionLED_B;
+        private System.Windows.Forms.Label label12;
+        private Bulb.LedBulb MotionLED_A;
     }
 }
 

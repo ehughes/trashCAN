@@ -131,6 +131,12 @@ namespace ElectrakHDx2
         double ComputedOffsetA = 0;
         double ComputedOffsetB = 0;
 
+        bool OverloadA = false;
+        bool OverloadB = false;
+
+
+        Decimal CurrentPositionSetpoint = 90;
+
         #region Plugin Interface
 
         Queue<String> _OutgoingPluginMessage = new Queue<string>(64);
@@ -341,13 +347,13 @@ namespace ElectrakHDx2
 
         float GetAdjustedPositionA()
         {
-            return (float)(PositionNUD.Value) + (float)ComputedOffsetA;
+            return (float)(GetPositionSetPoint()) + (float)ComputedOffsetA;
 
         }
 
         float GetAdjustedPositionB()
         {
-            return (float)(PositionNUD.Value) + (float)ComputedOffsetB;
+            return (float)(GetPositionSetPoint()) + (float)ComputedOffsetB;
    
         }
 
@@ -407,28 +413,36 @@ namespace ElectrakHDx2
 
                                             DistanceToTargetA = Math.Abs((float)GetAdjustedPositionA() - MyFeedbackA.MeasuredPosition);
 
-
-                                            if (EnablePositionPlotCB.Checked == true)
+                                            if (MyFeedbackA.OverloadFlag == true)
                                             {
-                                                double Pos;
-                                                if (AdjustPositionInPlotsW_OffsetCheckBox.Checked == false)
-                                                    Pos = MyFeedbackA.MeasuredPosition;
-                                                else
-                                                    Pos = MyFeedbackA.MeasuredPosition - ComputedOffsetA;
+                                                OverloadA = true;
+                                                KillTheMotorDude();
 
-                                                DataPoint PosA = new DataPoint(TimeSinceProgramStart.ElapsedMilliseconds / 1000.0, Pos);
-
-                                                PositionQueueA.Enqueue(PosA);
+                                                
                                             }
+                                        
+                                                if (EnablePositionPlotCB.Checked == true)
+                                                {
+                                                    double Pos;
+                                                    if (AdjustPositionInPlotsW_OffsetCheckBox.Checked == false)
+                                                        Pos = MyFeedbackA.MeasuredPosition;
+                                                    else
+                                                        Pos = MyFeedbackA.MeasuredPosition - ComputedOffsetA;
 
-                                            if (EnableCurrentPlotCheckBox.Checked == true)
-                                            {
-                                                DataPoint CurrentA = new DataPoint(TimeSinceProgramStart.ElapsedMilliseconds / 1000.0, MyFeedbackA.MeasuredCurrent);
+                                                    DataPoint PosA = new DataPoint(TimeSinceProgramStart.ElapsedMilliseconds / 1000.0, Pos);
 
-                                                CurrentQueueA.Enqueue(CurrentA);
-                                            }
+                                                    PositionQueueA.Enqueue(PosA);
+                                                }
 
-                                            RxA = true;
+                                                if (EnableCurrentPlotCheckBox.Checked == true)
+                                                {
+                                                    DataPoint CurrentA = new DataPoint(TimeSinceProgramStart.ElapsedMilliseconds / 1000.0, MyFeedbackA.MeasuredCurrent);
+
+                                                    CurrentQueueA.Enqueue(CurrentA);
+                                                }
+
+                                                RxA = true;
+                                            
                                         }
                                     }
                                     else if (J1939.GetSourceAddress_FromPDU(Message.ID) == (uint)ActuatorAddressB.Value)
@@ -440,7 +454,14 @@ namespace ElectrakHDx2
                                             MyFeedbackB.ProcessProprietaryA2(Message.Data);
                                             ComputeOffsetB();
                                             DistanceToTargetB = Math.Abs((float)GetAdjustedPositionB() - MyFeedbackB.MeasuredPosition);
-                                           
+
+                                            if (MyFeedbackB.OverloadFlag == true)
+                                            {
+                                                OverloadB = true;
+                                                KillTheMotorDude();
+                                            }
+                                    
+
                                             if (EnablePositionPlotCB.Checked == true)
                                             {
                                                 double Pos;
@@ -705,6 +726,12 @@ namespace ElectrakHDx2
                 MyCurrentPlot.Dirty();
             }
 
+            MotionLED_A.On = MyFeedbackA.MotionFlag;
+            MotionLED_B.On = MyFeedbackB.MotionFlag;
+
+            OverloadLED_A.On = OverloadA;
+            OverloadLED_B.On = OverloadB;
+
         }
 
         private void ElectrakHD_FormClosing(object sender, FormClosingEventArgs e)
@@ -740,37 +767,56 @@ namespace ElectrakHDx2
 
         }
 
-        private void KILL_Click(object sender, EventArgs e)
+        
+        Decimal GetPositionSetPoint()
+        {
+            return CurrentPositionSetpoint;
+        }
+
+        void SetPositionSetPoint(Decimal SetPoint)
+        {
+            CurrentPositionSetpoint = SetPoint;
+            OverloadB = false;
+            OverloadA = false;
+        }
+
+        void KillTheMotorDude()
         {
             MotionEnableCB.Checked = false;
 
-            MyControlMessageA.Position = (float)PositionNUD.Value;
+            MyControlMessageA.Position = (float)GetPositionSetPoint();
             MyControlMessageA.CurrentLimit = (float)CurrentLimitNUD.Value;
             MyControlMessageA.Speed = (float)SpeedNUD.Value;
-            MyControlMessageA.MotionEnable = true;
+            MyControlMessageA.MotionEnable = false;
             MyControlMessageA.CommandSourceAddress = 0;
             MyControlMessageA.CommandDstAddress = (byte)ActuatorAddressA.Value;
             MyControlMessageA.CommandPriority = (byte)6;
+            _OutgoingCANMsgQueue.Enqueue(MyControlMessageA.MakeMessage());
 
-
-            MyControlMessageB.Position = (float)PositionNUD.Value;
+            MyControlMessageB.Position = (float)GetPositionSetPoint();
             MyControlMessageB.CurrentLimit = (float)CurrentLimitNUD.Value;
             MyControlMessageB.Speed = (float)SpeedNUD.Value;
-            MyControlMessageB.MotionEnable = true;
+            MyControlMessageB.MotionEnable = false;
             MyControlMessageB.CommandSourceAddress = 0;
             MyControlMessageB.CommandDstAddress = (byte)ActuatorAddressB.Value;
             MyControlMessageB.CommandPriority = (byte)6;
+            _OutgoingCANMsgQueue.Enqueue(MyControlMessageB.MakeMessage());
+        }
+
+        private void KILL_Click(object sender, EventArgs e)
+        {
+            KillTheMotorDude();
         }
 
         private void ExtendButton_Click(object sender, EventArgs e)
         {
-            PositionNUD.Value = LowerNUD.Value;
+            SetPositionSetPoint(LowerNUD.Value);
             MotionEnableCB.Checked = true;
         }
 
         private void RetractButton_Click(object sender, EventArgs e)
         {
-            PositionNUD.Value = RaiseNUD.Value;
+            SetPositionSetPoint(RaiseNUD.Value);
             MotionEnableCB.Checked = true;
         }
 
@@ -787,6 +833,12 @@ namespace ElectrakHDx2
         private void EnablePositionPlotCB_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void ChangeSetPointButton_Click(object sender, EventArgs e)
+        {
+            SetPositionSetPoint(PositionNUD.Value);
+            MotionEnableCB.Checked = true;
         }
     }
 
