@@ -18,3 +18,4 @@ C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHDx2\obj\Debug\ElectrakHDx2.dll
 C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHDx2\obj\Debug\ElectrakHDx2.pdb
 C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHDx2\bin\Debug\Newtonsoft.Json.dll
 C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHDx2\bin\Debug\Newtonsoft.Json.xml
+C:\ELI\trashCAN\trashCAN\USER_PLUGIN_SRC\ElectrakHDx2\obj\Debug\ElectrakHDx2.csprojAssemblyReference.cache

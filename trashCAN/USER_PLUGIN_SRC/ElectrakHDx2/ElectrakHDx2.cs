@@ -108,6 +108,7 @@ namespace ElectrakHDx2
 
         Queue<DataPoint> PositionQueueA = new Queue<DataPoint>();
         Queue<DataPoint> PositionQueueB = new Queue<DataPoint>();
+        Queue<DataPoint> PositionDeltaQ = new Queue<DataPoint>();
 
         Queue<DataPoint> CurrentQueueA = new Queue<DataPoint>();
         Queue<DataPoint> CurrentQueueB = new Queue<DataPoint>();
@@ -117,6 +118,7 @@ namespace ElectrakHDx2
         SimplePlot MyPositionPlot = new SimplePlot();
         LineSeries PositionLineSeriesA = new LineSeries();
         LineSeries PositionLineSeriesB = new LineSeries();
+        LineSeries PositionDeltaSeries = new LineSeries();
 
         SimplePlot MyCurrentPlot = new SimplePlot();
         LineSeries CurrentLineSeriesA = new LineSeries();
@@ -126,6 +128,8 @@ namespace ElectrakHDx2
         LinearAxis Time2Axis = new LinearAxis();
 
         LinearAxis PositionAxis = new LinearAxis();
+        LinearAxis PositionDifferenceAxis = new LinearAxis();
+
         LinearAxis CurrentAxis = new LinearAxis();
 
         double ComputedOffsetA = 0;
@@ -285,8 +289,14 @@ namespace ElectrakHDx2
             PositionAxis.Position = AxisPosition.Left;
             PositionAxis.Key = "Position";
 
+            PositionDifferenceAxis.Title = "Position Difference (mm)";
+            PositionDifferenceAxis.Position = AxisPosition.Right;
+            PositionDifferenceAxis.Key = "Position Difference";
+
             MyPositionPlot.MainPlotModel.Axes.Add(TimeAxis);
             MyPositionPlot.MainPlotModel.Axes.Add(PositionAxis);
+            MyPositionPlot.MainPlotModel.Axes.Add(PositionDifferenceAxis);
+
 
             MyPositionPlot.MainPlotModel.Title = "Actuator Position (mm)";
             MyPositionPlot.Text = "Actuator Position Plot";
@@ -299,10 +309,17 @@ namespace ElectrakHDx2
             PositionLineSeriesB.YAxisKey = "Position";
             PositionLineSeriesB.Title = "Actuator B";
 
+            PositionDeltaSeries.XAxisKey = "Time";
+            PositionDeltaSeries.YAxisKey = "Position Difference";
+            PositionDeltaSeries.Title = "Actuator Position Difference (mm)";
+
             PositionLineSeriesA.Color = OxyColor.FromRgb(255, 0, 0);
             PositionLineSeriesB.Color = OxyColor.FromRgb(0, 0, 255);
+
             MyPositionPlot.MainPlotModel.Series.Add(PositionLineSeriesA);
             MyPositionPlot.MainPlotModel.Series.Add(PositionLineSeriesB);
+            MyPositionPlot.MainPlotModel.Series.Add(PositionDeltaSeries);
+
             MyPositionPlot.MainPlotModel.LegendFontSize = 10;
             MyPositionPlot.MainPlotModel.LegendPosition = LegendPosition.TopRight;
 
@@ -488,7 +505,10 @@ namespace ElectrakHDx2
                                     }
 
 
-                                    AB_Error = Math.Abs(DistanceToTargetA - DistanceToTargetB);
+                                  
+
+
+                   
 
                                     if (MotionEnableCB.Checked == true)
                                     {
@@ -497,6 +517,7 @@ namespace ElectrakHDx2
                                             RxA = false;
                                             RxB = false;
 
+                                            AB_Error = Math.Abs(DistanceToTargetA - DistanceToTargetB);
 
                                             if (EnableSyncCheckBox.Checked == true)
                                             {
@@ -578,6 +599,9 @@ namespace ElectrakHDx2
                                     }
                                     else
                                     {
+
+                                        AB_Error = Math.Abs(DistanceToTargetA - DistanceToTargetB);
+
                                         if (RxA == true)
                                         {
                                             RxA = false;
@@ -608,6 +632,11 @@ namespace ElectrakHDx2
 
                                     }
 
+
+
+                                    DataPoint DeltaP = new DataPoint(TimeSinceProgramStart.ElapsedMilliseconds / 1000.0, AB_Error);
+
+                                    PositionDeltaQ.Enqueue(DeltaP);
                                 }
                             }
                         }
@@ -698,6 +727,14 @@ namespace ElectrakHDx2
                 for (int i = 0; i < PositionB_Values.Length; i++)
                 {
                     PositionLineSeriesB.Points.Add(PositionB_Values[i]);
+                }
+
+                DataPoint[] PositionDeltaValues = (DataPoint[])PositionDeltaQ.ToArray();
+                PositionDeltaQ.Clear();
+
+                for (int i = 0; i < PositionDeltaValues.Length; i++)
+                {
+                    PositionDeltaSeries.Points.Add(PositionDeltaValues[i]);
                 }
 
                 MyPositionPlot.Dirty();
