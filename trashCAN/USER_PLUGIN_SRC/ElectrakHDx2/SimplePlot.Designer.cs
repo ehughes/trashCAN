@@ -28,11 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimplePlot));
-            this.RightClickMenu = new System.Windows.Forms.ContextMenuStrip();
+            this.RightClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.autoScaleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.PlotUpdateTimer = new System.Windows.Forms.Timer();
+            this.PlotUpdateTimer = new System.Windows.Forms.Timer(this.components);
             this.PlotView = new OxyPlot.WindowsForms.PlotView();
+            this.clearAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RightClickMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -40,15 +42,16 @@
             // 
             this.RightClickMenu.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.RightClickMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.autoScaleToolStripMenuItem});
+            this.autoScaleToolStripMenuItem,
+            this.clearAllToolStripMenuItem});
             this.RightClickMenu.Name = "RightClickMenu";
-            this.RightClickMenu.Size = new System.Drawing.Size(197, 40);
+            this.RightClickMenu.Size = new System.Drawing.Size(301, 120);
             this.RightClickMenu.Opening += new System.ComponentModel.CancelEventHandler(this.RightClickMenu_Opening);
             // 
             // autoScaleToolStripMenuItem
             // 
             this.autoScaleToolStripMenuItem.Name = "autoScaleToolStripMenuItem";
-            this.autoScaleToolStripMenuItem.Size = new System.Drawing.Size(196, 36);
+            this.autoScaleToolStripMenuItem.Size = new System.Drawing.Size(300, 36);
             this.autoScaleToolStripMenuItem.Text = "AutoScale";
             this.autoScaleToolStripMenuItem.Click += new System.EventHandler(this.autoScaleToolStripMenuItem_Click);
             // 
@@ -71,6 +74,13 @@
             this.PlotView.ZoomRectangleCursor = System.Windows.Forms.Cursors.SizeNWSE;
             this.PlotView.ZoomVerticalCursor = System.Windows.Forms.Cursors.SizeNS;
             this.PlotView.Click += new System.EventHandler(this.PlotView_Click);
+            // 
+            // clearAllToolStripMenuItem
+            // 
+            this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
+            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(300, 36);
+            this.clearAllToolStripMenuItem.Text = "Clear All";
+            this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.clearAllToolStripMenuItem_Click);
             // 
             // SimplePlot
             // 
@@ -95,5 +105,6 @@
         private System.Windows.Forms.ToolStripMenuItem autoScaleToolStripMenuItem;
         private System.Windows.Forms.Timer PlotUpdateTimer;
         private OxyPlot.WindowsForms.PlotView PlotView;
+        private System.Windows.Forms.ToolStripMenuItem clearAllToolStripMenuItem;
     }
 }

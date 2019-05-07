@@ -3,17 +3,18 @@
   <PluginStates>
     <PluginStateRecord>
       <NameWithVersion>Elecktrak HD x2 Controller&gt;0.1</NameWithVersion>
-      <PluginInstanceID>1</PluginInstanceID>
+      <PluginInstanceID>0</PluginInstanceID>
       <State>
         <WindowSize>
-          <Width>616</Width>
-          <Height>538</Height>
+          <Width>588</Width>
+          <Height>726</Height>
         </WindowSize>
         <WindowLocation>
-          <X>465</X>
-          <Y>137</Y>
+          <X>602</X>
+          <Y>129</Y>
         </WindowLocation>
         <WindowState>Normal</WindowState>
+        <PluginData>{"LowerPlatformStop":90.0,"RaisePlatformStop":458.0,"LowerPlatformOffsetA":0.0,"LowerPlatformOffsetB":-7.2,"RaisePlatformOffsetA":0.0,"RaisePlatformOffsetB":0.0,"CurrentLimit":25.0,"MaxSpeed":100.0,"EnableSync":true,"P_Value":7.0,"EnablePositionPlot":true,"EnableCurrentPlot":true,"AddressA":19.0,"AddressB":20.0,"AdjustPositionPlotW_Offset":true}</PluginData>
       </State>
     </PluginStateRecord>
   </PluginStates>
@@ -23,8 +24,8 @@
       <Height>135</Height>
     </WindowSize>
     <WindowLocation>
-      <X>26</X>
-      <Y>26</Y>
+      <X>127</X>
+      <Y>60</Y>
     </WindowLocation>
     <WindowState>Normal</WindowState>
   </MyState>

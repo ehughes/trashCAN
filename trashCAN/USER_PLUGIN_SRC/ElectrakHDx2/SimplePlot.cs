@@ -95,5 +95,10 @@ namespace ElectrakHDx2
         {
 
         }
+
+        private void clearAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ResetPlot();
+        }
     }
 }
