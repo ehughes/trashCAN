@@ -47,6 +47,16 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.MotorControlGroupBox = new System.Windows.Forms.GroupBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.OverloadLED_B = new Bulb.LedBulb();
+            this.OverloadLED_A = new Bulb.LedBulb();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.MotionLED_B = new Bulb.LedBulb();
+            this.label12 = new System.Windows.Forms.Label();
+            this.MotionLED_A = new Bulb.LedBulb();
             this.ChangeSetPointButton = new System.Windows.Forms.Button();
             this.OffsetGroupBox = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -81,16 +91,7 @@
             this.ControlStateTextBox = new System.Windows.Forms.TextBox();
             this.ActuatorAddressB = new System.Windows.Forms.NumericUpDown();
             this.AddressB_Label = new System.Windows.Forms.Label();
-            this.MotionLED_A = new Bulb.LedBulb();
-            this.label12 = new System.Windows.Forms.Label();
-            this.MotionLED_B = new Bulb.LedBulb();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.OverloadLED_A = new Bulb.LedBulb();
-            this.OverloadLED_B = new Bulb.LedBulb();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
+            this.EnablePositionDeltaPlotCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.ActuatorAddressA)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PositionNUD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CurrentLimitNUD)).BeginInit();
@@ -312,6 +313,7 @@
             // 
             // MotorControlGroupBox
             // 
+            this.MotorControlGroupBox.Controls.Add(this.EnablePositionDeltaPlotCheckBox);
             this.MotorControlGroupBox.Controls.Add(this.label21);
             this.MotorControlGroupBox.Controls.Add(this.label17);
             this.MotorControlGroupBox.Controls.Add(this.OverloadLED_B);
@@ -354,6 +356,104 @@
             this.MotorControlGroupBox.TabIndex = 52;
             this.MotorControlGroupBox.TabStop = false;
             this.MotorControlGroupBox.Text = "Actuator Control x2";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Location = new System.Drawing.Point(1035, 331);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(32, 31);
+            this.label21.TabIndex = 83;
+            this.label21.Text = "B";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(1035, 262);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(32, 31);
+            this.label17.TabIndex = 82;
+            this.label17.Text = "A";
+            // 
+            // OverloadLED_B
+            // 
+            this.OverloadLED_B.Color = System.Drawing.Color.Red;
+            this.OverloadLED_B.Location = new System.Drawing.Point(974, 319);
+            this.OverloadLED_B.Name = "OverloadLED_B";
+            this.OverloadLED_B.On = true;
+            this.OverloadLED_B.Size = new System.Drawing.Size(68, 55);
+            this.OverloadLED_B.TabIndex = 81;
+            this.OverloadLED_B.Text = "ledBulb3";
+            // 
+            // OverloadLED_A
+            // 
+            this.OverloadLED_A.Color = System.Drawing.Color.Red;
+            this.OverloadLED_A.Location = new System.Drawing.Point(974, 249);
+            this.OverloadLED_A.Name = "OverloadLED_A";
+            this.OverloadLED_A.On = true;
+            this.OverloadLED_A.Size = new System.Drawing.Size(68, 55);
+            this.OverloadLED_A.TabIndex = 80;
+            this.OverloadLED_A.Text = "ledBulb2";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(743, 331);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(32, 31);
+            this.label15.TabIndex = 79;
+            this.label15.Text = "B";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(743, 262);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(32, 31);
+            this.label14.TabIndex = 78;
+            this.label14.Text = "A";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(936, 205);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(124, 31);
+            this.label13.TabIndex = 77;
+            this.label13.Text = "Overload";
+            // 
+            // MotionLED_B
+            // 
+            this.MotionLED_B.Location = new System.Drawing.Point(781, 319);
+            this.MotionLED_B.Name = "MotionLED_B";
+            this.MotionLED_B.On = true;
+            this.MotionLED_B.Size = new System.Drawing.Size(68, 55);
+            this.MotionLED_B.TabIndex = 76;
+            this.MotionLED_B.Text = "ledBulb1";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(768, 205);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(102, 31);
+            this.label12.TabIndex = 75;
+            this.label12.Text = "Motion ";
+            // 
+            // MotionLED_A
+            // 
+            this.MotionLED_A.Location = new System.Drawing.Point(781, 251);
+            this.MotionLED_A.Name = "MotionLED_A";
+            this.MotionLED_A.On = true;
+            this.MotionLED_A.Size = new System.Drawing.Size(68, 55);
+            this.MotionLED_A.TabIndex = 74;
+            this.MotionLED_A.Text = "MotionLED_A";
             // 
             // ChangeSetPointButton
             // 
@@ -561,10 +661,10 @@
             this.AdjustPositionInPlotsW_OffsetCheckBox.AutoSize = true;
             this.AdjustPositionInPlotsW_OffsetCheckBox.Checked = true;
             this.AdjustPositionInPlotsW_OffsetCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.AdjustPositionInPlotsW_OffsetCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AdjustPositionInPlotsW_OffsetCheckBox.Location = new System.Drawing.Point(658, 627);
+            this.AdjustPositionInPlotsW_OffsetCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AdjustPositionInPlotsW_OffsetCheckBox.Location = new System.Drawing.Point(658, 647);
             this.AdjustPositionInPlotsW_OffsetCheckBox.Name = "AdjustPositionInPlotsW_OffsetCheckBox";
-            this.AdjustPositionInPlotsW_OffsetCheckBox.Size = new System.Drawing.Size(371, 41);
+            this.AdjustPositionInPlotsW_OffsetCheckBox.Size = new System.Drawing.Size(320, 35);
             this.AdjustPositionInPlotsW_OffsetCheckBox.TabIndex = 71;
             this.AdjustPositionInPlotsW_OffsetCheckBox.Text = " Plot Position w/ Offset";
             this.AdjustPositionInPlotsW_OffsetCheckBox.UseVisualStyleBackColor = true;
@@ -572,10 +672,10 @@
             // EnableCurrentPlotCheckBox
             // 
             this.EnableCurrentPlotCheckBox.AutoSize = true;
-            this.EnableCurrentPlotCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EnableCurrentPlotCheckBox.Location = new System.Drawing.Point(658, 580);
+            this.EnableCurrentPlotCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EnableCurrentPlotCheckBox.Location = new System.Drawing.Point(658, 527);
             this.EnableCurrentPlotCheckBox.Name = "EnableCurrentPlotCheckBox";
-            this.EnableCurrentPlotCheckBox.Size = new System.Drawing.Size(328, 41);
+            this.EnableCurrentPlotCheckBox.Size = new System.Drawing.Size(282, 35);
             this.EnableCurrentPlotCheckBox.TabIndex = 70;
             this.EnableCurrentPlotCheckBox.Text = "Enable Current Plot";
             this.EnableCurrentPlotCheckBox.UseVisualStyleBackColor = true;
@@ -583,10 +683,10 @@
             // EnablePositionPlotCB
             // 
             this.EnablePositionPlotCB.AutoSize = true;
-            this.EnablePositionPlotCB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EnablePositionPlotCB.Location = new System.Drawing.Point(658, 533);
+            this.EnablePositionPlotCB.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EnablePositionPlotCB.Location = new System.Drawing.Point(658, 568);
             this.EnablePositionPlotCB.Name = "EnablePositionPlotCB";
-            this.EnablePositionPlotCB.Size = new System.Drawing.Size(335, 41);
+            this.EnablePositionPlotCB.Size = new System.Drawing.Size(288, 35);
             this.EnablePositionPlotCB.TabIndex = 62;
             this.EnablePositionPlotCB.Text = "Enable Position Plot";
             this.EnablePositionPlotCB.UseVisualStyleBackColor = true;
@@ -822,103 +922,16 @@
             this.AddressB_Label.TabIndex = 50;
             this.AddressB_Label.Text = "Address B (Decimal)";
             // 
-            // MotionLED_A
+            // EnablePositionDeltaPlotCheckBox
             // 
-            this.MotionLED_A.Location = new System.Drawing.Point(781, 251);
-            this.MotionLED_A.Name = "MotionLED_A";
-            this.MotionLED_A.On = true;
-            this.MotionLED_A.Size = new System.Drawing.Size(68, 55);
-            this.MotionLED_A.TabIndex = 74;
-            this.MotionLED_A.Text = "MotionLED_A";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(768, 205);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(102, 31);
-            this.label12.TabIndex = 75;
-            this.label12.Text = "Motion ";
-            // 
-            // MotionLED_B
-            // 
-            this.MotionLED_B.Location = new System.Drawing.Point(781, 319);
-            this.MotionLED_B.Name = "MotionLED_B";
-            this.MotionLED_B.On = true;
-            this.MotionLED_B.Size = new System.Drawing.Size(68, 55);
-            this.MotionLED_B.TabIndex = 76;
-            this.MotionLED_B.Text = "ledBulb1";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(936, 205);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(124, 31);
-            this.label13.TabIndex = 77;
-            this.label13.Text = "Overload";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(743, 262);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(32, 31);
-            this.label14.TabIndex = 78;
-            this.label14.Text = "A";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(743, 331);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(32, 31);
-            this.label15.TabIndex = 79;
-            this.label15.Text = "B";
-            // 
-            // OverloadLED_A
-            // 
-            this.OverloadLED_A.Color = System.Drawing.Color.Red;
-            this.OverloadLED_A.Location = new System.Drawing.Point(974, 249);
-            this.OverloadLED_A.Name = "OverloadLED_A";
-            this.OverloadLED_A.On = true;
-            this.OverloadLED_A.Size = new System.Drawing.Size(68, 55);
-            this.OverloadLED_A.TabIndex = 80;
-            this.OverloadLED_A.Text = "ledBulb2";
-            // 
-            // OverloadLED_B
-            // 
-            this.OverloadLED_B.Color = System.Drawing.Color.Red;
-            this.OverloadLED_B.Location = new System.Drawing.Point(974, 319);
-            this.OverloadLED_B.Name = "OverloadLED_B";
-            this.OverloadLED_B.On = true;
-            this.OverloadLED_B.Size = new System.Drawing.Size(68, 55);
-            this.OverloadLED_B.TabIndex = 81;
-            this.OverloadLED_B.Text = "ledBulb3";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(1035, 262);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(32, 31);
-            this.label17.TabIndex = 82;
-            this.label17.Text = "A";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(1035, 331);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(32, 31);
-            this.label21.TabIndex = 83;
-            this.label21.Text = "B";
+            this.EnablePositionDeltaPlotCheckBox.AutoSize = true;
+            this.EnablePositionDeltaPlotCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EnablePositionDeltaPlotCheckBox.Location = new System.Drawing.Point(658, 609);
+            this.EnablePositionDeltaPlotCheckBox.Name = "EnablePositionDeltaPlotCheckBox";
+            this.EnablePositionDeltaPlotCheckBox.Size = new System.Drawing.Size(359, 35);
+            this.EnablePositionDeltaPlotCheckBox.TabIndex = 84;
+            this.EnablePositionDeltaPlotCheckBox.Text = "Enable Position Delta Plot";
+            this.EnablePositionDeltaPlotCheckBox.UseVisualStyleBackColor = true;
             // 
             // ElectrakHDx2
             // 
@@ -1023,6 +1036,7 @@
         private Bulb.LedBulb MotionLED_B;
         private System.Windows.Forms.Label label12;
         private Bulb.LedBulb MotionLED_A;
+        private System.Windows.Forms.CheckBox EnablePositionDeltaPlotCheckBox;
     }
 }
 

@@ -633,10 +633,15 @@ namespace ElectrakHDx2
                                     }
 
 
+                                    if (EnablePositionDeltaPlotCheckBox.Checked == true)
+                                    {
+                                        if (AB_Error < 100)
+                                        {
+                                            DataPoint DeltaP = new DataPoint(TimeSinceProgramStart.ElapsedMilliseconds / 1000.0, AB_Error);
 
-                                    DataPoint DeltaP = new DataPoint(TimeSinceProgramStart.ElapsedMilliseconds / 1000.0, AB_Error);
-
-                                    PositionDeltaQ.Enqueue(DeltaP);
+                                            PositionDeltaQ.Enqueue(DeltaP);
+                                        }
+                                    }
                                 }
                             }
                         }
