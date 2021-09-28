@@ -2,24 +2,54 @@
 <TrashCANStateRecord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <PluginStates>
     <PluginStateRecord>
-      <NameWithVersion>PCAN-USB&gt;1.1.1</NameWithVersion>
+      <NameWithVersion>J1939 Sniffer&gt;0.1</NameWithVersion>
+      <PluginInstanceID>0</PluginInstanceID>
+      <State>
+        <WindowSize>
+          <Width>1050</Width>
+          <Height>800</Height>
+        </WindowSize>
+        <WindowLocation>
+          <X>318</X>
+          <Y>500</Y>
+        </WindowLocation>
+        <WindowState>Normal</WindowState>
+      </State>
+    </PluginStateRecord>
+    <PluginStateRecord>
+      <NameWithVersion>CANMessageInjector&gt;1.1.0</NameWithVersion>
       <PluginInstanceID>1</PluginInstanceID>
       <State>
         <WindowSize>
-          <Width>249</Width>
-          <Height>258</Height>
+          <Width>475</Width>
+          <Height>132</Height>
         </WindowSize>
         <WindowLocation>
-          <X>208</X>
-          <Y>208</Y>
+          <X>505</X>
+          <Y>531</Y>
         </WindowLocation>
         <WindowState>Normal</WindowState>
         <PluginData>&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;PCAN_USB_State xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;SelectedBaudRate&gt;3&lt;/SelectedBaudRate&gt;
-  &lt;SelectedChannel&gt;1&lt;/SelectedChannel&gt;
-  &lt;ConnectionActive&gt;true&lt;/ConnectionActive&gt;
-&lt;/PCAN_USB_State&gt;</PluginData>
+&lt;CANMessageInjectorState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;Extended_IDChecked&gt;true&lt;/Extended_IDChecked&gt;
+  &lt;RTR_Checked&gt;false&lt;/RTR_Checked&gt;
+  &lt;CANMessageTextBox /&gt;
+&lt;/CANMessageInjectorState&gt;</PluginData>
+      </State>
+    </PluginStateRecord>
+    <PluginStateRecord>
+      <NameWithVersion>Elecktrak HD Controller&gt;0.1</NameWithVersion>
+      <PluginInstanceID>2</PluginInstanceID>
+      <State>
+        <WindowSize>
+          <Width>616</Width>
+          <Height>538</Height>
+        </WindowSize>
+        <WindowLocation>
+          <X>182</X>
+          <Y>182</Y>
+        </WindowLocation>
+        <WindowState>Normal</WindowState>
       </State>
     </PluginStateRecord>
   </PluginStates>

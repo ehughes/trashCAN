@@ -353,6 +353,7 @@ namespace ElectrakHD
 
         private void ActuatorAddress_ValueChanged(object sender, EventArgs e)
         {
+            /*
             if(ActuatorAddress.Value == 23)
             {
                 ActuatorAddress.Value = 26;
@@ -364,7 +365,7 @@ namespace ElectrakHD
             if (ActuatorAddress.Value == 25)
             {
                 ActuatorAddress.Value = 21;
-            }
+            }*/
         }
 
         private void ledBulb1_Click(object sender, EventArgs e)
