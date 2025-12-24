@@ -1,0 +1,35 @@
+[project]
+name = "pytrashcan"
+version = "1.0.0"
+description = "Python CAN Bus Development and Testing Tool"
+authors = [{name = "Eli Hughes"}]
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = [
+    "dearpygui>=1.11.0",
+    "python-can>=4.3.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=7.4.0",
+    "black>=23.0.0",
+    "mypy>=1.5.0",
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
